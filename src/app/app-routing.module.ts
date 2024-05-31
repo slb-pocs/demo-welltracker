@@ -4,8 +4,8 @@ import { WellViewComponent } from './well-view/well-view.component';
 import { TrackrecordViewComponent } from './trackrecord-view/trackrecord-view.component';
 
 const routes: Routes = [
-  {path:'',component:WellViewComponent},
-  {path:'home', component:WellViewComponent},
+  {path:'',component:TrackrecordViewComponent},
+  {path:'home', component:TrackrecordViewComponent},
   {path:'create-well', component:WellViewComponent},
   {path:'track-record/:id', component:TrackrecordViewComponent}
 

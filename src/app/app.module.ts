@@ -79,7 +79,9 @@ import {MatTableModule} from '@angular/material/table';
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    provideNativeDateAdapter(),
+    FormBuilder
   ],
   bootstrap: [AppComponent]
 })
