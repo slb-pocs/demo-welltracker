@@ -1,1 +1,23 @@
-<p>trackrecord-view works!</p>
+<div style="margin-left: 2%;">
+    <mat-label>
+        {{message}}
+    </mat-label>
+</div>
+<mat-horizontal-stepper>
+    <mat-step label="Well Information">
+        <app-well-view></app-well-view>
+    </mat-step>
+    <mat-step label="Equipment">
+        <app-surface-equipment-view></app-surface-equipment-view>
+        <app-equipment-installed-view></app-equipment-installed-view>
+    </mat-step>
+        <mat-step label="Key Componntes">
+            <p>Key components</p>
+        </mat-step>
+        <mat-step label="Attachments">
+            <p>Attachments</p>
+        </mat-step>
+        <mat-step label="Questionary">
+            <p>Questionary</p>
+        </mat-step>
+</mat-horizontal-stepper>
