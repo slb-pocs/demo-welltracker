@@ -16,7 +16,8 @@
                 <mat-label>Catalog Node</mat-label>
                 <input matInput [matAutocomplete]="node" [formControl]="catalogNodeFormControl" />
                 <mat-autocomplete autoActiveFirstOption #node>
-                    <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name">
+                    <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name"
+                    (onSelectionChange)="OnCatalogChange($event, item)">
                         {{item.name}}
                     </mat-option>
                 </mat-autocomplete>
@@ -111,7 +112,7 @@
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
                 <td style="width: 150px;" mat-cell *matCellDef="let element">
-                    <button mat-icon-button (click)="EditEquipment(element.serial)">
+                    <button mat-icon-button (click)="EditEquipment(element.productNumber)">
                         <mat-icon color="primary">edit</mat-icon>
                     </button>
                     <button mat-icon-button>

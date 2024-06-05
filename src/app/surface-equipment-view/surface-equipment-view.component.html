@@ -18,7 +18,8 @@
                 <mat-label>Catalog Node</mat-label>
                 <input matInput [matAutocomplete]="node" [formControl]="surfaceCatalogNodeFormControl" />
                 <mat-autocomplete autoActiveFirstOption #node>
-                    <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name">
+                    <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name"
+                    (onSelectionChange)="OnCatalogChangeEvent($event, item)">
                         {{item.name}}
                     </mat-option>
                 </mat-autocomplete>
