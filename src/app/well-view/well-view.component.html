@@ -117,11 +117,72 @@
           
         </div>
       </mat-expansion-panel>
-      <!----------------------------------WELL DETAILED DATA-------------------------------------->
-      <mat-expansion-panel hideToggle="true" [expanded]="step === 1" (opened)="setStep(1)">
+       <!----------------------------------MANAGEMENT INFO-------------------------------------->
+       <mat-expansion-panel hideToggle="true" [expanded]="step === 1" (opened)="setStep(1)">
   
         <mat-expansion-panel-header>
-          <mat-panel-title>2. Well Data</mat-panel-title>
+          <mat-panel-title>2. Management Info</mat-panel-title>
+          <div *ngIf="isManagementInfoFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isManagementInfoFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+  
+        <mat-form-field appearance="outline"  class="mat-form-field">
+          <mat-label>Supervisor User</mat-label>
+          <input matInput [formControl]="supervisorFormControl">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"  class="mat-form-field">
+          <mat-label>Validator User</mat-label>
+          <input matInput [formControl]="validatorUserFormControl">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"  class="mat-form-field">
+          <mat-label>Data Entered By</mat-label>
+          <input matInput [formControl]="dataEntryUserFormControl">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"  class="mat-form-field">
+          <mat-label>Assigned To</mat-label>
+          <input matInput [formControl]="assignedUserFormControl">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"  class="mat-form-field"  style="width: 212px;">
+          <mat-label>Installation Start Date</mat-label>
+          <input matInput [matDatepicker]="startDate">     
+          <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"  class="mat-form-field" style="width: 212px;">
+          <mat-label>Installation End Date</mat-label>
+          <input matInput [matDatepicker]="endDate">       
+          <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+          <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline"  class="mat-form-field" style="width: 212px;">
+          <mat-label>Validation Date</mat-label>
+          <input matInput [matDatepicker]="validationDate">        
+          <mat-datepicker-toggle matIconSuffix [for]="validationDate"></mat-datepicker-toggle>
+          <mat-datepicker #validationDate></mat-datepicker>
+        </mat-form-field> 
+  
+  
+        <div>
+          <button (click)="SaveManagementData()" mat-stroked-button class="save-button">Save</button>
+          <button mat-stroked-button class="cancel-button">Cancel</button>
+        </div>
+      </mat-expansion-panel>
+
+      <!----------------------------------WELL DETAILED DATA-------------------------------------->
+      <mat-expansion-panel hideToggle="true" [expanded]="step === 2" (opened)="setStep(2)">
+  
+        <mat-expansion-panel-header>
+          <mat-panel-title>3. Well Data</mat-panel-title>
           <div *ngIf="isWellFinished">
             <mat-icon class="check-icon">check_circle</mat-icon>
           </div>
@@ -241,10 +302,10 @@
         </div>
       </mat-expansion-panel>
       <!----------------------------------WELL STEM DATA-------------------------------------->
-      <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
   
         <mat-expansion-panel-header>
-          <mat-panel-title>3. Well Stem Data</mat-panel-title>       
+          <mat-panel-title>4. Well Stem Data</mat-panel-title>       
           <div *ngIf="isWellStemFinished">
             <mat-icon class="check-icon">check_circle</mat-icon>
           </div>
@@ -315,10 +376,10 @@
       </mat-expansion-panel>
   
       <!----------------------------------COMPLETION HISTORY-------------------------------------->
-      <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle="true">
+      <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle="true">
   
         <mat-expansion-panel-header>
-          <mat-panel-title>4. Completion History</mat-panel-title>       
+          <mat-panel-title>5. Completion History</mat-panel-title>       
           <div *ngIf="isCompletionFinished">
             <mat-icon class="check-icon">check_circle</mat-icon>
           </div>
@@ -377,10 +438,10 @@
       </mat-expansion-panel>
   
       <!----------------------------------COMPLETION DATA-------------------------------------->
-      <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle="true">
+      <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle="true">
   
         <mat-expansion-panel-header>
-          <mat-panel-title>4. Completion Data</mat-panel-title>  
+          <mat-panel-title>6. Completion Data</mat-panel-title>  
           <div *ngIf="isCompletionFinished">
             <mat-icon class="check-icon">check_circle</mat-icon>
           </div>
@@ -479,10 +540,10 @@
         <!----------------------------------COMPLETION DATA- SAND CONTROL AND PUMPING-------------------------------------->
       <div *ngIf="sandControlFlag">
   
-        <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle="true">
+        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle="true">
   
           <mat-expansion-panel-header>
-            <mat-panel-title>5. Completion </mat-panel-title>
+            <mat-panel-title>7. Completion </mat-panel-title>
             <mat-panel-description>Sand Control and pumping</mat-panel-description>
             <div *ngIf="isSandFinished">
               <mat-icon class="check-icon">check_circle</mat-icon>
@@ -539,10 +600,10 @@
           </div>
         </mat-expansion-panel>
         <!----------------------------------COMPLETION DATA- TOOLS AND SCREENS-------------------------------------->
-        <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle="true">
+        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle="true">
   
           <mat-expansion-panel-header>
-            <mat-panel-title>6.Completion</mat-panel-title>
+            <mat-panel-title>8.Completion</mat-panel-title>
             <mat-panel-description>Tools and screens</mat-panel-description>
             <div *ngIf="isToolsFinished">
               <mat-icon class="check-icon">check_circle</mat-icon>
@@ -591,10 +652,10 @@
           </div>
         </mat-expansion-panel>
         <!----------------------------------COMPLETION DATA: ICD, APS AND WELLBORE FLUID-------------------------------------->
-        <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle="true">
+        <mat-expansion-panel [expanded]="step === 8" (opened)="setStep(8)" hideToggle="true">
   
           <mat-expansion-panel-header>
-            <mat-panel-title>7.Completion</mat-panel-title>
+            <mat-panel-title>9.Completion</mat-panel-title>
             <mat-panel-description>ICD, APS and fluids</mat-panel-description>
             <div *ngIf="isICDFinished">
               <mat-icon class="check-icon">check_circle</mat-icon>

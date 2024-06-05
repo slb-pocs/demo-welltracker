@@ -1,15 +1,17 @@
 import { Well } from "./well";
 
 export class TrackRecord {
-    id:string;
-    startDate:Date;
-    endDate:Date;
-    well:Well;
+    id:string='';
+    supervisorUser:string='';
+    validatorUser:string='';
+    dataEntryUser:string='';
+    assignedUser:string='';
+    installationStartDate:Date=new Date();
+    installationEndDate:Date=new Date();
+    validationDate:Date=new Date();
+    well:Well=new Well(0,'');
 
     public constructor(){
-        this.id=Date.now().toString();
-        this.startDate=new Date(Date.now());
-        this.endDate=new Date();
-        this.well=new Well(0,'');
+       
     }
 }

@@ -198,7 +198,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
       surfaceEquipment.quantity=parseInt(this.surfaceQuantityFormControl.value??'',0);
   
       this.surfaceEquipmentList.push(surfaceEquipment);      
-      this.SendPopupNotification('The Well stem data has been added to the record: '                             );        
+      this.SendPopupNotification('The equipment has been added to the record');                             
       
     }
     this.isSurfaceEquipmentFinished=true;   
