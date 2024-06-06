@@ -1,6 +1,5 @@
 <!----------------------------------CUSTOMER DATA-------------------------------------->
 
-
 <div class="container">
     <mat-accordion class="example-headers-align" multi>
   
@@ -151,14 +150,14 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline"  class="mat-form-field"  style="width: 212px;">
-          <mat-label>Installation Start Date</mat-label>
+          <mat-label>Install Start Date</mat-label>
           <input matInput [matDatepicker]="startDate">     
           <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
           <mat-datepicker #startDate></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field appearance="outline"  class="mat-form-field" style="width: 212px;">
-          <mat-label>Installation End Date</mat-label>
+          <mat-label>Install End Date</mat-label>
           <input matInput [matDatepicker]="endDate">       
           <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
           <mat-datepicker #endDate></mat-datepicker>
@@ -169,8 +168,7 @@
           <input matInput [matDatepicker]="validationDate">        
           <mat-datepicker-toggle matIconSuffix [for]="validationDate"></mat-datepicker-toggle>
           <mat-datepicker #validationDate></mat-datepicker>
-        </mat-form-field> 
-  
+        </mat-form-field>   
   
         <div>
           <button (click)="SaveManagementData()" mat-stroked-button class="save-button">Save</button>
@@ -193,7 +191,7 @@
   
         <mat-form-field appearance="outline"  class="mat-form-field">
           <mat-label>Water Depth</mat-label>
-          <input matInput [formControl]="waterDepthFormControl">
+          <input matInput [formControl]="waterDepthFormControl" type="number">
         </mat-form-field>
   
         <mat-form-field appearance="outline"  class="mat-form-field" style="width: 435px;">
@@ -205,36 +203,49 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <section>
+          <mat-form-field appearance="outline"  class="mat-form-field">
+            <mat-label>MD Meassured From</mat-label>
+            <mat-select [formControl]="mdMeasuredFormControl">
+              <mat-option *ngFor="let item of meassuredFromList" [value]="item.name"
+              (onSelectionChange)="OnChangeMDMeassuredFrom($event,item)">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
   
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>MD Measured from</mat-label>
-          <input matInput [formControl]="mdMeasuredFormControl">
-        </mat-form-field>
+          <mat-form-field appearance="outline"  class="mat-form-field">
+            <mat-label>MD distance</mat-label>
+            <input matInput [formControl]="mdDistanceFormControl">
+          </mat-form-field>
   
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>TVD Measured from</mat-label>
-          <input matInput [formControl]="tvdMeasuredFormControl">
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>MD distance</mat-label>
-          <input matInput [formControl]="mdDistanceFormControl">
-        </mat-form-field>
-  
+          <mat-form-field appearance="outline"  class="mat-form-field">
+            <mat-label>MD units</mat-label>
+            <mat-select [formControl]="mdUnitsFormControl">
+              <mat-option *ngFor="let mdUnitItem of mdUnitList" [value]="mdUnitItem.name"
+              (onSelectionChange)="OnChangeMDUnitEvent($event,mdUnitItem)">
+                {{mdUnitItem.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+
+        <section>
+          <mat-form-field appearance="outline"  class="mat-form-field" >
+            <mat-label>TVD Meassured From</mat-label>
+            <mat-select [formControl]="tvdMeasuredFormControl">
+              <mat-option *ngFor="let item of meassuredFromList" [value]="item.name"
+              (onSelectionChange)="OnChangeTVDMeassuredFrom($event,item)">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
+          
         <mat-form-field appearance="outline"  class="mat-form-field">
           <mat-label>TVD distance</mat-label>
           <input matInput [formControl]="tvdDistanceFormControl">
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>MD units</mat-label>
-          <mat-select [formControl]="mdUnitsFormControl">
-            <mat-option *ngFor="let mdUnitItem of mdUnitList" [value]="mdUnitItem.name"
-            (onSelectionChange)="OnChangeMDUnitEvent($event,mdUnitItem)">
-              {{mdUnitItem.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        </mat-form-field>        
   
         <mat-form-field appearance="outline"  class="mat-form-field">
           <mat-label>TVD units</mat-label>
@@ -245,36 +256,39 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-  
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>Upper Completion</mat-label>
-          <mat-select [formControl]="upperCompletionFormControl">
-            <mat-option *ngFor="let upperItem of upperCompletionList" [value]="upperItem.name"
-            (onSelectionChange)="OnChangeUpperCompletionEvent($event,upperItem)">
-              {{upperItem.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>Artificial Lift</mat-label>
-          <mat-select [formControl]="artificalLiftFormControl">
-            <mat-option *ngFor="let liftItem of artificialLiftList" [value]="liftItem.name"
-            (onSelectionChange)="OnChangeArtificialLiftEvent($event,liftItem)">
-              {{liftItem.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline"  class="mat-form-field">
-          <mat-label>Multi-Lateral</mat-label>
-          <mat-select [formControl]="multiLateralFormControl">
-            <mat-option *ngFor="let lateralItem of multiLateralList" [value]="lateralItem.name"
-            (onSelectionChange)="OnChangeMultiLateralEvent($event,lateralItem)">
-              {{lateralItem.name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        </section>
+
+        <section>
+          <mat-form-field appearance="outline"  class="mat-form-field">
+            <mat-label>Upper Completion</mat-label>
+            <mat-select [formControl]="upperCompletionFormControl">
+              <mat-option *ngFor="let upperItem of upperCompletionList" [value]="upperItem.name"
+              (onSelectionChange)="OnChangeUpperCompletionEvent($event,upperItem)">
+                {{upperItem.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline"  class="mat-form-field">
+            <mat-label>Artificial Lift</mat-label>
+            <mat-select [formControl]="artificalLiftFormControl">
+              <mat-option *ngFor="let liftItem of artificialLiftList" [value]="liftItem.name"
+              (onSelectionChange)="OnChangeArtificialLiftEvent($event,liftItem)">
+                {{liftItem.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline"  class="mat-form-field">
+            <mat-label>Multi-Lateral</mat-label>
+            <mat-select [formControl]="multiLateralFormControl">
+              <mat-option *ngFor="let lateralItem of multiLateralList" [value]="lateralItem.name"
+              (onSelectionChange)="OnChangeMultiLateralEvent($event,lateralItem)">
+                {{lateralItem.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>      
   
         <mat-form-field appearance="outline"  class="mat-form-field">
           <mat-label>Liner Hanger System</mat-label>
@@ -327,17 +341,31 @@
               {{stringTypeItem.name}}
             </mat-option>
           </mat-select>
-        </mat-form-field>
-  
-        <mat-form-field appearance="outline"  class="mat-form-field">
+        </mat-form-field>   
+
+        <mat-form-field appearance="outline"  class="mat-form-field" style="width: 430px;">
           <mat-label>Size</mat-label>
-          <input matInput [formControl]="stemSizeFormControl">
+          <mat-select [formControl]="stemSizeFormControl">
+            <mat-option *ngFor="let item of sizeList" [value]="item.name"
+            (onSelectionChange)="OnChangeSizeEvent($event,item)">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+          <mat-hint style="font-size: smaller; margin-left: 0%;">
+            Fraction-in | Decimal-in | Decimal-mm
+          </mat-hint>
         </mat-form-field>
-  
+
         <mat-form-field appearance="outline"  class="mat-form-field">
           <mat-label>Weight</mat-label>
-          <input matInput [formControl]="stemWeightFormControl">
-        </mat-form-field>
+          <mat-select [formControl]="stemWeightFormControl">
+            <mat-option *ngFor="let item of weightList" [value]="item.name"
+            (onSelectionChange)="OnChangeSizeEvent($event,item)">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+          <mat-hint style="font-size: smaller;">lb/ft | kg/m </mat-hint>
+        </mat-form-field>      
   
         <mat-form-field appearance="outline"  class="mat-form-field">
           <mat-label>Threads</mat-label>

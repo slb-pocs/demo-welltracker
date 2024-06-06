@@ -9,12 +9,15 @@ import { GeoUnit } from "./geo-unit";
 import { LinerhangerSystem } from "./linerhanger-system";
 import { MaxDeviation } from "./max-deviation";
 import { MdUnit } from "./md-unit";
+import { MeassuredFrom } from "./meassured-from";
 import { Multilateral } from "./multilateral";
 import { MultistageSimulation } from "./multistage-simulation";
 import { SalesAccount } from "./sales-account";
+import { Size } from "./size";
 import { Stem } from "./stem";
 import { TvdUnit } from "./tvd-unit";
 import { UppercompletionType } from "./uppercompletion-type";
+import { Weight } from "./weight";
 import { WellType } from "./well-type";
 
 export class Well {
@@ -31,8 +34,8 @@ export class Well {
 
     public waterDepth:number=0;
     public maxDeviation:MaxDeviation=new MaxDeviation(0,'');
-    public mdMeasuredFrom:number=0;
-    public tvdMeasuredFrom:number=0;
+    public mdMeasuredFrom:MeassuredFrom=new MeassuredFrom();
+    public tvdMeasuredFrom:MeassuredFrom=new MeassuredFrom();;
     public mdDistance:number=0;
     public tvdDistance:number=0;
     public mdUnits:MdUnit=new MdUnit(0,'');
@@ -42,6 +45,8 @@ export class Well {
     public multiLateral:Multilateral=new Multilateral(0,'');
     public linerHanger:LinerhangerSystem=new LinerhangerSystem(0,'');
     public multiStage:MultistageSimulation=new MultistageSimulation(0,'');
+    public size:Size=new Size();
+    public weight:Weight=new Weight();
 
     public stem:Stem=new Stem();
     public completion:Completion=new Completion(); 
