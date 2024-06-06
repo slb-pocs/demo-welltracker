@@ -44,11 +44,9 @@ export class Well {
     public artificialLift:ArtificialliftType=new ArtificialliftType(0,'');
     public multiLateral:Multilateral=new Multilateral(0,'');
     public linerHanger:LinerhangerSystem=new LinerhangerSystem(0,'');
-    public multiStage:MultistageSimulation=new MultistageSimulation(0,'');
-    public size:Size=new Size();
-    public weight:Weight=new Weight();
+    public multiStage:MultistageSimulation=new MultistageSimulation(0,'');  
 
-    public stem:Stem=new Stem();
+    public stemList:Stem[]=[];
     public completion:Completion=new Completion(); 
 
     public constructor(id:number, name:string){

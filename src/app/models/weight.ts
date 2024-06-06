@@ -1,6 +1,6 @@
 export class Weight {
-    id:number=0;
-    name:string='';
+    public id:number=0;
+    public name:string='';
 
     constructor(){}
 }

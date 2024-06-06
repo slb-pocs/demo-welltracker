@@ -47,6 +47,8 @@ import { CdkStepper } from '@angular/cdk/stepper';
 import { MeassuredFrom } from '../models/meassured-from';
 import { Size } from '../models/size';
 import { Weight } from '../models/weight';
+import { Stem } from '../models/stem';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-well-view',
@@ -56,6 +58,9 @@ import { Weight } from '../models/weight';
 export class WellViewComponent {
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
+
+  @ViewChild(MatTable)
+  table!: MatTable<Stem>; 
 
   checked = false;
   indeterminate = false;
@@ -73,7 +78,9 @@ export class WellViewComponent {
 
   trackRecord: TrackRecord;
   well: Well;
+  stem:Stem;
 
+  stemList:Stem[]=[];
   customerList: Customer[] = [];
   wellList: Well[] = [];
   salesAccountList: SalesAccount[] = [];
@@ -87,6 +94,7 @@ export class WellViewComponent {
   public constructor(private router: Router, private dialogRef: MatDialog) {
     this.well = new Well(0, '');
     this.trackRecord = new TrackRecord();
+    this.stem=new Stem();
 
     this.customerList = [
       { id: 1, name: "ALLEDER, INC." },
@@ -1246,8 +1254,9 @@ export class WellViewComponent {
   corrosiveCCO2FormControl = new FormControl('');
   corrosiveH25FormControl = new FormControl('');
 
-  columns:string[]=["String Number","String Type","Size",
-        "Weight","Thread","Material","MD Top","MD Bottom"]
+  columns:string[]=["String-Number","String-Type","Size",
+        "Weight","Thread","Material","MD-Top","MD-Bottom",
+        "Action"];
 
 
   ngOnInit(): void {
@@ -1310,6 +1319,11 @@ export class WellViewComponent {
   public ClearCustomerData() {
     this.well = new Well(0, "");
     this.PopulateCustomerData();
+  }
+
+  public ClearStemData(){
+    this.stem=new Stem();
+    this.PopulateStemData(this.stem);
   }
 
   private PopulateWellData() {
@@ -1426,16 +1440,38 @@ export class WellViewComponent {
   }
 
   public SaveWellStemData() {
-    this.well.stem.stringNumber = parseInt(this.stringNumberFormControl.value ?? '', 0);
-    this.well.stem.size = parseInt(this.stemSizeFormControl.value ?? '', 0);
-    this.well.stem.weight = parseInt(this.stemWeightFormControl.value ?? '', 0);
-    this.well.stem.mdTop = parseInt(this.stemMDTopFormControl.value ?? '');
-    this.well.stem.mdBottom = parseInt(this.stemMDBottomFormControl.value ?? '');
+    let stemIndex:number=this.stemList.findIndex(
+        p=>p.stringNumber===parseInt(this.stringNumberFormControl.value?? ''));
 
-    this.SendPopupNotification('The Well stem data has been added to the record: '
-      + this.trackRecord.id);
+    if(stemIndex==-1){
+      this.stem.stringNumber = parseInt(this.stringNumberFormControl.value ?? '', 0); 
+      this.stem.mdTop = parseInt(this.stemMDTopFormControl.value ?? '');
+      this.stem.mdBottom = parseInt(this.stemMDBottomFormControl.value ?? '');
+  
+      this.stemList.push(this.stem);   
+      this.well.stemList=this.stemList;
+      this.stem=new Stem();
+  
+      this.SendPopupNotification('The Well stem data has been added to the record: '
+        + this.trackRecord.id);
+    }
+    else{
+      this.stemList[stemIndex].stringNumber=parseInt(this.stringNumberFormControl.value?? '');
+      this.stemList[stemIndex].stringType.name=this.stringNumberFormControl.value?? '';
+      this.stemList[stemIndex].size.name=this.stringNumberFormControl.value?? '';
+      this.stemList[stemIndex].weight.name=this.stemWeightFormControl.value?? '';
+      this.stemList[stemIndex].thread.name=this.stemThreadFormControl.value?? '';
+      this.stemList[stemIndex].material.name=this.stemMaterialFormControl.value?? '';
+      this.stemList[stemIndex].mdTop=parseInt(this.stemMDTopFormControl.value?? '');
+      this.stemList[stemIndex].mdBottom=parseInt(this.stemMDBottomFormControl.value?? '');
+
+      this.SendPopupNotification('The  stem data has been updated');
+
+    }
+    this.ClearStemData();  
     this.isWellStemFinished = true;
-    this.nextStep();
+    this.table.renderRows();
+    //this.nextStep();
   }
 
   public SaveCompletionData() {
@@ -1567,23 +1603,23 @@ export class WellViewComponent {
   }
   public OnChangeStringTypetEvent(event: MatOptionSelectionChange, stringType: StringType) {
     if (event.source.selected == true)
-      this.well.stem.stringType = stringType;
+      this.stem.stringType = stringType;
   }
   public OnChangeSizeEvent(event: MatOptionSelectionChange, size: Size) {
     if (event.source.selected == true)
-      this.well.size = size;
+      this.stem.size = size;
   }
   public OnChangeWeightEvent(event: MatOptionSelectionChange, weight: Weight) {
     if (event.source.selected == true)
-      this.well.weight = weight;
+      this.stem.weight = weight;
   }
   public OnChangeThreadEvent(event: MatOptionSelectionChange, thread: Thread) {
     if (event.source.selected == true)
-      this.well.stem.threads = thread;
+      this.stem.thread = thread;
   }
   public OnChangeStemMaterialEvent(event: MatOptionSelectionChange, material: Material) {
     if (event.source.selected == true)
-      this.well.stem.material = material;
+      this.stem.material = material;
   }
   public OnChangeCompletionTypeEvent(event: MatOptionSelectionChange, type: CompletionType) {
     if (event.source.selected == true)
@@ -1609,5 +1645,22 @@ export class WellViewComponent {
     if (event.source.selected == true)
       this.well.completion.reservoirRockType = rockType;
   }
+  public OnClickStemItem(stringNumber:number){
+    let stem:Stem;
 
+    stem=this.stemList.find(p=>p.stringNumber===stringNumber)?? new Stem();
+    this.PopulateStemData(stem);
+ 
+  }
+  private PopulateStemData(stem:Stem){
+
+    this.stringNumberFormControl.setValue(stem.stringNumber.toString());
+    this.stringTypeFormControl.setValue(stem.stringType.name);
+    this.stemSizeFormControl.setValue(stem.size.name);
+    this.stemWeightFormControl.setValue(stem.weight.name);
+    this.stemThreadFormControl.setValue(stem.thread.name);
+    this.stemMaterialFormControl.setValue(stem.material.name);
+    this.stemMDTopFormControl.setValue(stem.mdTop.toString());
+    this.stemMDBottomFormControl.setValue(stem.mdBottom.toString());
+  }
 }
