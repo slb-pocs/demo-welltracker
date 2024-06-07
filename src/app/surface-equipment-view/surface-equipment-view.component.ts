@@ -198,7 +198,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
       surfaceEquipment.productNumber=parseInt(this.surfaceProductNumberFormControl.value??'',0);
       surfaceEquipment.catalogNode.name=this.surfaceCatalogNodeFormControl.value??'';
       surfaceEquipment.description=this.surfaceDescriptionFormControl.value??'';
-      surfaceEquipment.serial=parseInt(this.surfaceSerialFormControl.value??'',0);
+      surfaceEquipment.serial=this.surfaceSerialFormControl.value??'';
       surfaceEquipment.quantity=parseInt(this.surfaceQuantityFormControl.value??'',0);      
 
       surfaceEquipment.isKeyComponent= this.surfaceKeyComponentFormControl.value?.toString() == 'true';
@@ -229,7 +229,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
     this.surfaceProductNumberFormControl.setValue(equipment.productNumber.toString());
     this.surfaceCatalogNodeFormControl.setValue(equipment.catalogNode.name);
     this.surfaceDescriptionFormControl.setValue(equipment.description);
-    this.surfaceSerialFormControl.setValue(equipment.serial.toString());
+    this.surfaceSerialFormControl.setValue(equipment.serial);
     this.surfaceQuantityFormControl.setValue(equipment.quantity.toString());   
     slideToggle.checked=equipment.isKeyComponent;
   }

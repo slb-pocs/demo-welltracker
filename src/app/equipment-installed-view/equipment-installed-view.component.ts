@@ -210,7 +210,7 @@ export class EquipmentInstalledViewComponent {
       equipment.productNumber=parseInt(this.productNumberFormControl.value??'',0);
       equipment.catalogNode.name=this.catalogNodeFormControl.value??'';
       equipment.description=this.descriptionFormControl.value??'';
-      equipment.serial=parseInt(this.serialFormControl.value??'',0);
+      equipment.serial=this.serialFormControl.value??'';
       equipment.deviation=parseInt(this.deviationFormControl.value??'',0);
       equipment.md=parseInt(this.mdFormControl.value??'',0);
       equipment.tvd=parseInt(this.tvdFormControl.value??'',0);
@@ -246,7 +246,7 @@ export class EquipmentInstalledViewComponent {
     this.productNumberFormControl.setValue(equipment.productNumber.toString());
     this.catalogNodeFormControl.setValue(equipment.catalogNode.name);
     this.descriptionFormControl.setValue(equipment.description);
-    this.serialFormControl.setValue(equipment.serial.toString());
+    this.serialFormControl.setValue(equipment.serial);
     this.deviationFormControl.setValue(equipment.deviation.toString());   
     this.mdFormControl.setValue(equipment.md.toString());
     this.tvdFormControl.setValue(equipment.tvd.toString());

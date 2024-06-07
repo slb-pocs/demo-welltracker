@@ -520,13 +520,17 @@ export class WellViewComponent {
   ];
 
   stringTypeList: StringType[] = [
-    { id: 1, name: "Drilling Tieback" },
-    { id: 2, name: "Production Casing" },
-    { id: 3, name: "Production Liner" },
-    { id: 4, name: "Production Tieback" },
-    { id: 5, name: "Tubing" },
-    { id: 6, name: "Short Dual Tubing" },
-    { id: 7, name: "Open Hole" }
+    { id: 1, name: "Conductor" },
+    { id: 2, name: "Surface" },
+    { id: 3, name: "Intermediate Casing" },
+    { id: 4, name: "Drilling Liner" },  
+    { id: 5, name: "Drilling Tieback" },
+    { id: 6, name: "Production Casing" },
+    { id: 7, name: "Production Liner" },
+    { id: 7, name: "Production Tieback" },
+    { id: 9, name: "Tubing" },
+    { id: 10, name: "Short Dual Tubing" },
+    { id: 11, name: "Open Hole" }
   ];
 
   sizeList: Size[] = [
@@ -1042,6 +1046,7 @@ export class WellViewComponent {
   ];
 
   sandControlType: SandControl[] = [
+    { id: 7, name: "None" },
     { id: 1, name: "Gravel Pack" },
     { id: 2, name: "Stimpack" },
     { id: 3, name: "High Rate Water Pack" },
