@@ -1370,8 +1370,6 @@ export class WellViewComponent {
     this.wellList[wellIndex].enviroment = this.enviromentList.find(
       p => p.name === 'Land') ?? new Enviroment(0, '');
 
-
-
   }
 
   public SaveCustomerData() {
@@ -1457,7 +1455,7 @@ export class WellViewComponent {
     }
     else{
       this.stemList[stemIndex].stringNumber=parseInt(this.stringNumberFormControl.value?? '');
-      this.stemList[stemIndex].stringType.name=this.stringNumberFormControl.value?? '';
+      this.stemList[stemIndex].stringType.name=this.stringTypeFormControl.value?? '';
       this.stemList[stemIndex].size.name=this.stringNumberFormControl.value?? '';
       this.stemList[stemIndex].weight.name=this.stemWeightFormControl.value?? '';
       this.stemList[stemIndex].thread.name=this.stemThreadFormControl.value?? '';

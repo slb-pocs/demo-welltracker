@@ -6,6 +6,10 @@
 <mat-horizontal-stepper>
     <mat-step label="Well Information">
         <app-well-view></app-well-view>
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="save-button" matStepperNext>Equipment</button>
+        </div>
+        
     </mat-step>
     <mat-step label="Equipment">
         <app-surface-equipment-view></app-surface-equipment-view>
