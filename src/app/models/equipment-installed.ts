@@ -8,6 +8,8 @@ export class EquipmentInstalled {
     deviation:number=0;
     md:number=0;
     tvd:number=0;
+    isThirdPart:boolean=false;
+    isKeyComponent:boolean=false;
 
     public constructor(){}
 }

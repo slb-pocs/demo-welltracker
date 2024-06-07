@@ -48,7 +48,7 @@
                 </mat-form-field>
 
                 <mat-label style="margin-left: 3%;">Key Component </mat-label>
-                <mat-slide-toggle [formControl]="surfaceKeyComponentFormControl" style="margin: 2%;">
+                <mat-slide-toggle #slideToggle [formControl]="surfaceKeyComponentFormControl" style="margin: 2%;">
                 </mat-slide-toggle>
             </section>
 
@@ -90,7 +90,7 @@
                     <ng-container matColumnDef="Action">
                         <th mat-header-cell *matHeaderCellDef>Action</th>
                         <td style="width: 150px;" mat-cell *matCellDef="let element">
-                            <button mat-icon-button (click)="EditSurfaceEquipment(element.productNumber)">
+                            <button mat-icon-button (click)="EditSurfaceEquipment(element.productNumber, slideToggle)">
                                 <mat-icon color="primary">edit</mat-icon>
                             </button>
                             <button mat-icon-button>

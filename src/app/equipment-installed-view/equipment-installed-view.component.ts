@@ -9,6 +9,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { EquipmentInstalled } from '../models/equipment-installed';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-equipment-installed-view',
@@ -143,7 +144,7 @@ export class EquipmentInstalledViewComponent {
   ];  
 
   columns:string[]=['Product-Number','Catalog-Node',
-        'Serial','Deviation', 'MD','TVD','Action'];
+        'Serial','Deviation', 'MD','TVD','Is-Key-Component','Is-Third-Part','Action'];
 
   //Form Controls
   productNumberFormControl=new FormControl('');
@@ -182,7 +183,7 @@ export class EquipmentInstalledViewComponent {
 
   SaveEquipment(){
     let index=this.equipmentList.findIndex(
-      e => e.serial==parseInt(this.serialFormControl.value??''));  
+      e => e.productNumber==parseInt(this.productNumberFormControl.value??''));  
 
     if(index!==-1){
       this.equipmentList[index].productNumber=
@@ -197,6 +198,10 @@ export class EquipmentInstalledViewComponent {
                 parseInt(this.mdFormControl.value??'',0);
       this.equipmentList[index].tvd=
                 parseInt(this.tvdFormControl.value??'',0);
+      this.equipmentList[index].isThirdPart=
+                this.thirdPartComponentFormControl.value?.toString() == 'true';
+      this.equipmentList[index].isKeyComponent=
+                this.keyComponentFormControl.value?.toString() == 'true';
 
       this.SendPopupNotification('The equipmnet has been updated'); 
     }   
@@ -209,9 +214,11 @@ export class EquipmentInstalledViewComponent {
       equipment.deviation=parseInt(this.deviationFormControl.value??'',0);
       equipment.md=parseInt(this.mdFormControl.value??'',0);
       equipment.tvd=parseInt(this.tvdFormControl.value??'',0);
+      equipment.isThirdPart=this.thirdPartComponentFormControl.value?.toString() == 'true';
+      equipment.isKeyComponent=this.keyComponentFormControl.value?.toString() == 'true';
   
       this.equipmentList.push(equipment);      
-      this.SendPopupNotification('The equipmet has been added to the record: '                             );        
+      this.SendPopupNotification('The equipmet has been added to the record');        
       
     }
     this.isEquipmentFinished=true;   
@@ -229,7 +236,8 @@ export class EquipmentInstalledViewComponent {
     this.tvdFormControl.setValue('');  
   }  
 
-  EditEquipment(productNumber:number){   
+  EditEquipment(productNumber:number, toggleKeyComponet:MatSlideToggle, 
+                toggleThirdComponent:MatSlideToggle){   
     let equipment:EquipmentInstalled;
     
     equipment=this.equipmentList.find
@@ -241,7 +249,9 @@ export class EquipmentInstalledViewComponent {
     this.serialFormControl.setValue(equipment.serial.toString());
     this.deviationFormControl.setValue(equipment.deviation.toString());   
     this.mdFormControl.setValue(equipment.md.toString());
-    this.tvdFormControl.setValue(equipment.tvd.toString());   
+    this.tvdFormControl.setValue(equipment.tvd.toString());
+    toggleKeyComponet.checked=equipment.isKeyComponent;
+    toggleThirdComponent.checked=equipment.isThirdPart;   
   }
 
   private SendPopupNotification(message:string){
@@ -257,5 +267,4 @@ export class EquipmentInstalledViewComponent {
       this.productNumberFormControl.setValue(catalogNode.id.toString());
     }
   }
-
 }

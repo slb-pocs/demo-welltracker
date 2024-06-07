@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SurfaceRunningEquipment, } from '../models/surface-running-equipment';
 import { Observable, map, startWith} from 'rxjs';
 import { MatTable } from '@angular/material/table';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 @Component({
   selector: 'app-surface-equipment-view',
   templateUrl: './surface-equipment-view.component.html',
@@ -138,7 +139,8 @@ export class SurfaceEquipmentViewComponent implements OnInit {
   surfaceEquipmentList:SurfaceRunningEquipment[]=[    
   ];  
 
-  columns:string[]=['Product-Number','Catalog-Node','Serial','Quantity', 'Is Key Component','Action'];
+  columns:string[]=['Product-Number','Catalog-Node','Serial','Quantity',
+   'Is Key Component','Action'];
 
   //Form Controls
   surfaceProductNumberFormControl=new FormControl('');
@@ -146,7 +148,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
   surfaceDescriptionFormControl=new FormControl('');
   surfaceSerialFormControl=new FormControl('');
   surfaceQuantityFormControl=new FormControl('');
-  surfaceKeyComponentFormControl=new FormControl(''); 
+  surfaceKeyComponentFormControl=new FormControl('');  
 
   public constructor(private dialogRef:MatDialog){}
 
@@ -174,8 +176,9 @@ export class SurfaceEquipmentViewComponent implements OnInit {
   //Save Events
 
   SaveSurfaceEquipmentEvent(){
+
     let index=this.surfaceEquipmentList.findIndex(
-      e => e.serial==parseInt(this.surfaceSerialFormControl.value??''));  
+      e => e.productNumber==parseInt(this.surfaceProductNumberFormControl.value??''));  
 
     if(index!==-1){
       this.surfaceEquipmentList[index].productNumber=
@@ -186,16 +189,19 @@ export class SurfaceEquipmentViewComponent implements OnInit {
                 this.surfaceDescriptionFormControl.value??'';      
       this.surfaceEquipmentList[index].quantity=
                 parseInt(this.surfaceQuantityFormControl.value??'',0);
+      this.surfaceEquipmentList[index].isKeyComponent=
+                this.surfaceKeyComponentFormControl.value?.toString() == 'true';
 
-      this.SendPopupNotification('The equipmnet has been updated'); 
-    }   
+      this.SendPopupNotification('The equipmnet has been updated');     }   
     else{
       let surfaceEquipment:SurfaceRunningEquipment=new SurfaceRunningEquipment();
       surfaceEquipment.productNumber=parseInt(this.surfaceProductNumberFormControl.value??'',0);
       surfaceEquipment.catalogNode.name=this.surfaceCatalogNodeFormControl.value??'';
       surfaceEquipment.description=this.surfaceDescriptionFormControl.value??'';
       surfaceEquipment.serial=parseInt(this.surfaceSerialFormControl.value??'',0);
-      surfaceEquipment.quantity=parseInt(this.surfaceQuantityFormControl.value??'',0);
+      surfaceEquipment.quantity=parseInt(this.surfaceQuantityFormControl.value??'',0);      
+
+      surfaceEquipment.isKeyComponent= this.surfaceKeyComponentFormControl.value?.toString() == 'true';
   
       this.surfaceEquipmentList.push(surfaceEquipment);      
       this.SendPopupNotification('The equipment has been added to the record');                             
@@ -214,7 +220,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
     this.surfaceDescriptionFormControl.setValue('');  
   }
 
-  EditSurfaceEquipment(productNumber:number){   
+  EditSurfaceEquipment(productNumber:number, slideToggle: MatSlideToggle){   
     let equipment:SurfaceRunningEquipment;
     
     equipment=this.surfaceEquipmentList.find
@@ -225,6 +231,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
     this.surfaceDescriptionFormControl.setValue(equipment.description);
     this.surfaceSerialFormControl.setValue(equipment.serial.toString());
     this.surfaceQuantityFormControl.setValue(equipment.quantity.toString());   
+    slideToggle.checked=equipment.isKeyComponent;
   }
 
   private SendPopupNotification(message:string){
