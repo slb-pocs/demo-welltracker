@@ -182,24 +182,24 @@ export class SurfaceEquipmentViewComponent implements OnInit {
 
     if(index!==-1){
       this.surfaceEquipmentList[index].productNumber=
-                parseInt(this.surfaceProductNumberFormControl.value??'',0);
+                parseFloat(this.surfaceProductNumberFormControl.value??'');
       this.surfaceEquipmentList[index].catalogNode.name=
                 this.surfaceCatalogNodeFormControl.value??'';
       this.surfaceEquipmentList[index].description=
                 this.surfaceDescriptionFormControl.value??'';      
       this.surfaceEquipmentList[index].quantity=
-                parseInt(this.surfaceQuantityFormControl.value??'',0);
+                parseFloat(this.surfaceQuantityFormControl.value??'');
       this.surfaceEquipmentList[index].isKeyComponent=
                 this.surfaceKeyComponentFormControl.value?.toString() == 'true';
 
       this.SendPopupNotification('The equipmnet has been updated');     }   
     else{
       let surfaceEquipment:SurfaceRunningEquipment=new SurfaceRunningEquipment();
-      surfaceEquipment.productNumber=parseInt(this.surfaceProductNumberFormControl.value??'',0);
+      surfaceEquipment.productNumber=parseFloat(this.surfaceProductNumberFormControl.value??'');
       surfaceEquipment.catalogNode.name=this.surfaceCatalogNodeFormControl.value??'';
       surfaceEquipment.description=this.surfaceDescriptionFormControl.value??'';
       surfaceEquipment.serial=this.surfaceSerialFormControl.value??'';
-      surfaceEquipment.quantity=parseInt(this.surfaceQuantityFormControl.value??'',0);      
+      surfaceEquipment.quantity=parseFloat(this.surfaceQuantityFormControl.value??'');      
 
       surfaceEquipment.isKeyComponent= this.surfaceKeyComponentFormControl.value?.toString() == 'true';
   

@@ -187,17 +187,17 @@ export class EquipmentInstalledViewComponent {
 
     if(index!==-1){
       this.equipmentList[index].productNumber=
-                parseInt(this.productNumberFormControl.value??'',0);
+                parseFloat(this.productNumberFormControl.value??'');
       this.equipmentList[index].catalogNode.name=
                 this.catalogNodeFormControl.value??'';
       this.equipmentList[index].description=
                 this.descriptionFormControl.value??'';      
       this.equipmentList[index].deviation=
-                parseInt(this.deviationFormControl.value??'',0);
+                parseFloat(this.deviationFormControl.value??'');
       this.equipmentList[index].md=
-                parseInt(this.mdFormControl.value??'',0);
+                parseFloat(this.mdFormControl.value??'');
       this.equipmentList[index].tvd=
-                parseInt(this.tvdFormControl.value??'',0);
+                parseFloat(this.tvdFormControl.value??'');
       this.equipmentList[index].isThirdPart=
                 this.thirdPartComponentFormControl.value?.toString() == 'true';
       this.equipmentList[index].isKeyComponent=
@@ -207,13 +207,13 @@ export class EquipmentInstalledViewComponent {
     }   
     else{
       let equipment:EquipmentInstalled=new EquipmentInstalled();
-      equipment.productNumber=parseInt(this.productNumberFormControl.value??'',0);
+      equipment.productNumber=parseFloat(this.productNumberFormControl.value??'');
       equipment.catalogNode.name=this.catalogNodeFormControl.value??'';
       equipment.description=this.descriptionFormControl.value??'';
       equipment.serial=this.serialFormControl.value??'';
-      equipment.deviation=parseInt(this.deviationFormControl.value??'',0);
-      equipment.md=parseInt(this.mdFormControl.value??'',0);
-      equipment.tvd=parseInt(this.tvdFormControl.value??'',0);
+      equipment.deviation=parseFloat(this.deviationFormControl.value??'');
+      equipment.md=parseFloat(this.mdFormControl.value??'');
+      equipment.tvd=parseFloat(this.tvdFormControl.value??'');
       equipment.isThirdPart=this.thirdPartComponentFormControl.value?.toString() == 'true';
       equipment.isKeyComponent=this.keyComponentFormControl.value?.toString() == 'true';
   

@@ -1415,9 +1415,9 @@ export class WellViewComponent {
   }
 
   public SaveWellDetailedData() {
-    this.well.waterDepth = parseInt(this.waterDepthFormControl.value ?? '', 0);
-    this.well.mdDistance = parseInt(this.mdDistanceFormControl.value ?? '', 0);
-    this.well.tvdDistance = parseInt(this.tvdDistanceFormControl.value ?? '', 0);
+    this.well.waterDepth = parseFloat(this.waterDepthFormControl.value ?? '');
+    this.well.mdDistance = parseFloat(this.mdDistanceFormControl.value ?? '');
+    this.well.tvdDistance = parseFloat(this.tvdDistanceFormControl.value ?? '');
     /*
     alert(' Water depth: ' + this.well.waterDepth + 
     ' Max deviation: ' + this.well.maxDeviation.name +
@@ -1448,8 +1448,8 @@ export class WellViewComponent {
 
     if(stemIndex==-1){
       this.stem.stringNumber = parseInt(this.stringNumberFormControl.value ?? '', 0); 
-      this.stem.mdTop = parseInt(this.stemMDTopFormControl.value ?? '');
-      this.stem.mdBottom = parseInt(this.stemMDBottomFormControl.value ?? '');
+      this.stem.mdTop = parseFloat(this.stemMDTopFormControl.value ?? '');
+      this.stem.mdBottom = parseFloat(this.stemMDBottomFormControl.value ?? '');
   
       this.stemList.push(this.stem);   
       this.well.stemList=this.stemList;
@@ -1465,8 +1465,8 @@ export class WellViewComponent {
       this.stemList[stemIndex].weight.name=this.stemWeightFormControl.value?? '';
       this.stemList[stemIndex].thread.name=this.stemThreadFormControl.value?? '';
       this.stemList[stemIndex].material.name=this.stemMaterialFormControl.value?? '';
-      this.stemList[stemIndex].mdTop=parseInt(this.stemMDTopFormControl.value?? '');
-      this.stemList[stemIndex].mdBottom=parseInt(this.stemMDBottomFormControl.value?? '');
+      this.stemList[stemIndex].mdTop=parseFloat(this.stemMDTopFormControl.value?? '');
+      this.stemList[stemIndex].mdBottom=parseFloat(this.stemMDBottomFormControl.value?? '');
 
       this.SendPopupNotification('The  stem data has been updated');
 
@@ -1478,10 +1478,10 @@ export class WellViewComponent {
   }
 
   public SaveCompletionData() {
-    this.well.completion.number = parseInt(this.completionNumberFormControl.value ?? '', 0);
-    this.well.completion.reservoirTemperature = parseInt(this.reservoirTempFormControl.value ?? '', 0);
-    this.well.completion.corrosiveCCO2 = parseInt(this.corrosiveCCO2FormControl.value ?? '', 0);
-    this.well.completion.corrosiveH25 = parseInt(this.corrosiveH25FormControl.value ?? '', 0);
+    this.well.completion.number = parseFloat(this.completionNumberFormControl.value ?? '');
+    this.well.completion.reservoirTemperature = parseFloat(this.reservoirTempFormControl.value ?? '');
+    this.well.completion.corrosiveCCO2 = parseFloat(this.corrosiveCCO2FormControl.value ?? '');
+    this.well.completion.corrosiveH25 = parseFloat(this.corrosiveH25FormControl.value ?? '');
 
     this.SendPopupNotification('The Completion data has been added to the record: '
       + this.trackRecord.id);
