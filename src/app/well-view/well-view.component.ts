@@ -1461,13 +1461,15 @@ export class WellViewComponent {
     else{
       this.stemList[stemIndex].stringNumber=parseInt(this.stringNumberFormControl.value?? '');
       this.stemList[stemIndex].stringType.name=this.stringTypeFormControl.value?? '';
-      this.stemList[stemIndex].size.name=this.stringNumberFormControl.value?? '';
+      this.stemList[stemIndex].size.name=this.stemSizeFormControl.value?? '';
       this.stemList[stemIndex].weight.name=this.stemWeightFormControl.value?? '';
       this.stemList[stemIndex].thread.name=this.stemThreadFormControl.value?? '';
       this.stemList[stemIndex].material.name=this.stemMaterialFormControl.value?? '';
       this.stemList[stemIndex].mdTop=parseFloat(this.stemMDTopFormControl.value?? '');
       this.stemList[stemIndex].mdBottom=parseFloat(this.stemMDBottomFormControl.value?? '');
 
+      this.well.stemList=this.stemList;
+      this.stem=new Stem();
       this.SendPopupNotification('The  stem data has been updated');
 
     }
