@@ -67,6 +67,7 @@ export class WellViewComponent {
   labelPosition: 'before' | 'after' = 'after';
   disabled = false;
 
+  isSearchFinisehd:boolean=false;
   isCustomerFinished: boolean = false;
   isWellFinished: boolean = false;
   isManagementInfoFinished: boolean = false;
@@ -1201,6 +1202,11 @@ export class WellViewComponent {
   filteredAccounts!: Observable<SalesAccount[]>;
   filteredFields!: Observable<Field[]>;
 
+  // Searching Data Form Controls
+  projectFormControl=new FormControl('');
+  operationFormControl=new FormControl('');
+  operationActivityFormControl=new FormControl('');
+  activityJobFormControl=new FormControl('');
   // Customer Data Form Controls
   wellFormControl = new FormControl('');
   wellTypeFormControl = new FormControl('');
@@ -1299,17 +1305,6 @@ export class WellViewComponent {
     return this.fieldList.filter(option => option.name.toLocaleLowerCase().includes(searchValue));
   }
 
-  public PopulateCustomerData() {
-    this.wellFormControl.setValue(this.well.name);
-    this.wellTypeFormControl.setValue(this.well.type.name);
-    this.customerFormControl.setValue(this.well.customer.name);
-    this.accountFormControl.setValue(this.well.account.name);
-    this.countryFormControl.setValue(this.well.mgtCountry.name);
-    this.basinFormControl.setValue(this.well.basin.name);
-    this.fieldFormControl.setValue(this.well.field.name);
-    this.geoUnitFormControl.setValue(this.well.geoUnit.name);
-    this.enviromentFormControl.setValue(this.well.enviroment.name);
-  }
 
   setStep(index: number) {
     this.step = index;
@@ -1329,6 +1324,18 @@ export class WellViewComponent {
   public ClearStemData(){
     this.stem=new Stem();
     this.PopulateStemData(this.stem);
+  }
+
+  public PopulateCustomerData() {
+    this.wellFormControl.setValue(this.well.name);
+    this.wellTypeFormControl.setValue(this.well.type.name);
+    this.customerFormControl.setValue(this.well.customer.name);
+    this.accountFormControl.setValue(this.well.account.name);
+    this.countryFormControl.setValue(this.well.mgtCountry.name);
+    this.basinFormControl.setValue(this.well.basin.name);
+    this.fieldFormControl.setValue(this.well.field.name);
+    this.geoUnitFormControl.setValue(this.well.geoUnit.name);
+    this.enviromentFormControl.setValue(this.well.enviroment.name);
   }
 
   private PopulateWellData() {
@@ -1356,7 +1363,13 @@ export class WellViewComponent {
   }
 
   private PopulateTestScenario() {
+
     let wellIndex = this.wellList.findIndex(b => b.name === 'TPTA-031');
+
+    this.wellList[wellIndex].projectId ='P.NWY.000030';
+    this.wellList[wellIndex].operationId ='O.NWY.000030.01';
+    this.wellList[wellIndex].operationActivityId ='O.NWY.000001.01.01';
+
 
     this.wellList[wellIndex].customer = this.customerList.find(
       p => p.name === 'PAM') ?? new Customer(0, '');
@@ -1375,6 +1388,7 @@ export class WellViewComponent {
     this.wellList[wellIndex].enviroment = this.enviromentList.find(
       p => p.name === 'Land') ?? new Enviroment(0, '');
 
+      
   }
 
   public SaveCustomerData() {
@@ -1666,6 +1680,47 @@ export class WellViewComponent {
     this.stemThreadFormControl.setValue(stem.thread.name);
     this.stemMaterialFormControl.setValue(stem.material.name);
     this.stemMDTopFormControl.setValue(stem.mdTop.toString());
-    this.stemMDBottomFormControl.setValue(stem.mdBottom.toString());
+    this.stemMDBottomFormControl.setValue(stem.mdBottom.toString()); }
+
+  SearchData(){
+   
+
+    if(this.projectFormControl.value!=''){
+      this.well=this.wellList.find(p => p.projectId==this.projectFormControl.value)?? new Well(0,'');
+      this.PopulateCustomerData();
+
+      this.SendPopupNotification('The data have been pre-loaded');
+      this.isSearchFinisehd = true;
+      this.nextStep();
+     
+    }
+    else if(this.operationFormControl.value!=''){
+      this.well=this.wellList.find(p => p.operationId==this.operationFormControl.value)?? new Well(0,'');
+      this.PopulateCustomerData();
+
+      this.SendPopupNotification('The data have been pre-loaded');
+      this.isSearchFinisehd = true;
+      this.nextStep();
+    }
+    else if(this.operationActivityFormControl.value!=''){
+      this.well=this.wellList.find(p => p.operationActivityId==this.operationActivityFormControl.value)?? new Well(0,'');
+      this.PopulateCustomerData();
+
+      this.SendPopupNotification('The data have been pre-loaded');
+      this.isSearchFinisehd = true;
+      this.nextStep();
+    }
+    else if(this.activityJobFormControl.value!=''){
+      this.well=this.wellList.find(p => p.activityJob==this.activityJobFormControl.value)?? new Well(0,'');
+      this.PopulateCustomerData();
+
+      this.SendPopupNotification('The data have been pre-loaded');
+      this.isSearchFinisehd = true;
+      this.nextStep();
+    }
+    else{
+      alert('No searching criteria ');
+    }
+      
   }
 }

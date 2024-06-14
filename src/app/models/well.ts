@@ -49,6 +49,11 @@ export class Well {
     public stemList:Stem[]=[];
     public completion:Completion=new Completion(); 
 
+    public projectId:string='';
+    public operationId:string='';
+    public operationActivityId='';
+    public activityJob:string='';
+
     public constructor(id:number, name:string){
         this.id=id;
         this.name=name;
