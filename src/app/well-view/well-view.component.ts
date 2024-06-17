@@ -1362,6 +1362,18 @@ export class WellViewComponent {
     this.PopulateTestScenario();
   }
 
+  private PopulateStemData(stem:Stem){
+
+    this.stringNumberFormControl.setValue(stem.stringNumber.toString());
+    this.stringTypeFormControl.setValue(stem.stringType.name);
+    this.stemSizeFormControl.setValue(stem.size.name);
+    this.stemWeightFormControl.setValue(stem.weight.name);
+    this.stemThreadFormControl.setValue(stem.thread.name);
+    this.stemMaterialFormControl.setValue(stem.material.name);
+    this.stemMDTopFormControl.setValue(stem.mdTop.toString());
+    this.stemMDBottomFormControl.setValue(stem.mdBottom.toString());
+   }
+
   private PopulateTestScenario() {
 
     let wellIndex = this.wellList.findIndex(b => b.name === 'TPTA-031');
@@ -1369,8 +1381,8 @@ export class WellViewComponent {
     this.wellList[wellIndex].projectId ='P.NWY.000030';
     this.wellList[wellIndex].operationId ='O.NWY.000030.01';
     this.wellList[wellIndex].operationActivityId ='O.NWY.000001.01.01';
-
-
+ 
+    //CUSTOMER DATA
     this.wellList[wellIndex].customer = this.customerList.find(
       p => p.name === 'PAM') ?? new Customer(0, '');
     this.wellList[wellIndex].account = this.salesAccountList.find(
@@ -1388,24 +1400,101 @@ export class WellViewComponent {
     this.wellList[wellIndex].enviroment = this.enviromentList.find(
       p => p.name === 'Land') ?? new Enviroment(0, '');
 
+    //WELL DETAILED DATA
+    this.wellList[wellIndex].maxDeviation=this.maxDeviationList[2];
+    this.wellList[wellIndex].mdMeasuredFrom=this.meassuredFromList[2];
+    this.wellList[wellIndex].mdDistance=5416.00;
+    this.wellList[wellIndex].mdUnits=this.mdUnitList[1];
+    this.wellList[wellIndex].tvdMeasuredFrom=this.meassuredFromList[2];
+    this.wellList[wellIndex].tvdDistance=4819.00;
+    this.wellList[wellIndex].tvdUnits=this.tvdUnitList[1];
+    this.wellList[wellIndex].upperCompletion=this.upperCompletionList[0];
+    this.wellList[wellIndex].artificialLift=this.artificialLiftList[1];
+    this.wellList[wellIndex].multiLateral=this.multiLateralList[0];
+    this.wellList[wellIndex].linerHanger=this.linerHangerSystemList[0];
+    this.wellList[wellIndex].multiStage=this.multiLateralList[0];
+
+    //WELL STEM DATA
+
+    this.stemList=[
+      {stringNumber:1,
+        stringType:this.stringTypeList[1],
+        size:this.sizeList[20],
+        weight:this.weightList[20],
+        thread:this.threadList[2],
+        material:this.materialList[2],
+        mdTop:0,
+        mdBottom:3877
+      },
+      {stringNumber:2,
+        stringType:this.stringTypeList[2],
+        size:this.sizeList[25],
+        weight:this.weightList[25],
+        thread:this.threadList[2],
+        material:this.materialList[2],
+        mdTop:0,
+        mdBottom:4830
+      },
+      {stringNumber:3,
+        stringType:this.stringTypeList[3],
+        size:this.sizeList[30],
+        weight:this.weightList[30],
+        thread:this.threadList[2],
+        material:this.materialList[2],
+        mdTop:4687,
+        mdBottom:5414
+      }
+    ];
+    this.wellList[wellIndex].stemList=this.stemList;
+
+    //COMPLETION DATA
+    this.wellList[wellIndex].completion.number=1
+    this.wellList[wellIndex].completion.type=this.completionTypeList[0];
+    this.wellList[wellIndex].completion.producedFluid=this.producedFluidList[0];
+    //this.wellList[wellIndex].completion.injectedFluid=this.injectedFluidList[1];
+    this.wellList[wellIndex].completion.completionClass=this.completionClassList[0];
+    this.wellList[wellIndex].completion.sandControl=this.sandControlType[0];
+    this.wellList[wellIndex].completion.reservoirRockType=this.rockTypeList[0];
+    this.wellList[wellIndex].completion.reservoirTemperature=950;
+    this.wellList[wellIndex].completion.corrosiveCCO2=0;
+    this.wellList[wellIndex].completion.corrosiveH25=0;
+
+
+    //POPULATE FORM CONTROLS
+
+    //WELL DETAILED DATA
+    this.maxDeviationFormControl.setValue(this.wellList[wellIndex].maxDeviation.name);
+    this.mdMeasuredFormControl.setValue(this.wellList[wellIndex].mdMeasuredFrom.name);
+    this.mdDistanceFormControl.setValue(this.wellList[wellIndex].mdDistance.toString());
+    this.mdUnitsFormControl.setValue(this.wellList[wellIndex].mdUnits.name);
+    this.tvdMeasuredFormControl.setValue(this.wellList[wellIndex].tvdMeasuredFrom.name);
+    this.tvdDistanceFormControl.setValue(this.wellList[wellIndex].tvdDistance.toString());
+    this.tvdUnitsFormControl.setValue(this.wellList[wellIndex].tvdUnits.name);
+    this.upperCompletionFormControl.setValue(this.wellList[wellIndex].upperCompletion.name);
+    this.artificalLiftFormControl.setValue(this.wellList[wellIndex].artificialLift.name);
+    this.multiLateralFormControl.setValue(this.wellList[wellIndex].multiLateral.name);
+    this.linerHangerFormControl.setValue(this.wellList[wellIndex].linerHanger.name);
+    this.multiStageFormControl.setValue(this.wellList[wellIndex].multiStage.name);
+
+    //COMPLETION DATA
+    this.completionNumberFormControl.setValue(this.wellList[wellIndex].completion.number.toString());
+    this.completionTypeFormControl.setValue(this.wellList[wellIndex].completion.type.name);
+    this.producedFluidTypeFormControl.setValue(this.wellList[wellIndex].completion.producedFluid.name);
+    this.injectedfluidTypeFormControl.setValue(this.wellList[wellIndex].completion.injectedFluid.name);
+    this.completionClassFormControl.setValue(this.wellList[wellIndex].completion.completionClass.name);
+    this.sandControlFormControl.setValue(this.wellList[wellIndex].completion.sandControl.name);
+    this.rockTypeFormControl.setValue(this.wellList[wellIndex].completion.reservoirRockType.name);this.rockTypeFormControl.setValue(this.wellList[wellIndex].completion.reservoirRockType.name);
+    this.reservoirTempFormControl.setValue(this.wellList[wellIndex].completion.reservoirTemperature.toString());
+    this.corrosiveCCO2FormControl.setValue(this.wellList[wellIndex].completion.corrosiveCCO2.toString());
+    this.corrosiveH25FormControl.setValue(this.wellList[wellIndex].completion.corrosiveH25.toString());
+    
+
       
   }
 
   public SaveCustomerData() {
 
-    this.well.name = this.wellFormControl.value ?? ''
-    /*
-    alert(' well: ' + this.well.name + 
-          ' welltype: ' + this.well.type.name +
-          ' customer: ' + this.well.customer.name +
-          ' account: ' + this.well.account.name +
-          ' basin: ' + this.well.basin.name +
-          ' geoUnit: ' + this.well.geoUnit.name +
-          ' country: ' + this.well.mgtCountry.name +
-          ' field: ' + this.well.field.name +
-          ' enviroment: ' + this.well.enviroment.name           
-          );
-    */
+    this.well.name = this.wellFormControl.value ?? '' 
 
     this.trackRecord.well = this.well;
     this.SendPopupNotification('The Trackrecord ' + this.trackRecord.id + ' has been created');
@@ -1431,23 +1520,7 @@ export class WellViewComponent {
   public SaveWellDetailedData() {
     this.well.waterDepth = parseFloat(this.waterDepthFormControl.value ?? '');
     this.well.mdDistance = parseFloat(this.mdDistanceFormControl.value ?? '');
-    this.well.tvdDistance = parseFloat(this.tvdDistanceFormControl.value ?? '');
-    /*
-    alert(' Water depth: ' + this.well.waterDepth + 
-    ' Max deviation: ' + this.well.maxDeviation.name +
-    ' Md meassured from: ' + this.well.mdMeasuredFrom +
-    ' tvd meassured from: ' + this.well.tvdMeasuredFrom +
-    ' md distance: ' + this.well.mdDistance +
-    ' tvd distance: ' + this.well.tvdDistance +
-    ' md units: ' + this.well.mdUnits.name +
-    ' tvd units: ' + this.well.tvdUnits.name +
-    ' upper completion: ' + this.well.upperCompletion.name + 
-    ' Artificial lift: ' + this.well.artificialLift.name +
-    ' Multi-lateral: ' + this.well.multiLateral.name +
-    ' Liner hanger system: ' + this.well.linerHanger.name +
-    ' Multistage simulation: ' + this.well.multiStage.name    
-    );     
-    */
+    this.well.tvdDistance = parseFloat(this.tvdDistanceFormControl.value ?? '');  
 
     this.SendPopupNotification('The Well detailed data has been added to the record: '
       + this.trackRecord.id);
@@ -1671,52 +1744,62 @@ export class WellViewComponent {
     this.PopulateStemData(stem);
  
   }
-  private PopulateStemData(stem:Stem){
-
-    this.stringNumberFormControl.setValue(stem.stringNumber.toString());
-    this.stringTypeFormControl.setValue(stem.stringType.name);
-    this.stemSizeFormControl.setValue(stem.size.name);
-    this.stemWeightFormControl.setValue(stem.weight.name);
-    this.stemThreadFormControl.setValue(stem.thread.name);
-    this.stemMaterialFormControl.setValue(stem.material.name);
-    this.stemMDTopFormControl.setValue(stem.mdTop.toString());
-    this.stemMDBottomFormControl.setValue(stem.mdBottom.toString()); }
 
   SearchData(){
    
 
     if(this.projectFormControl.value!=''){
       this.well=this.wellList.find(p => p.projectId==this.projectFormControl.value)?? new Well(0,'');
-      this.PopulateCustomerData();
 
-      this.SendPopupNotification('The data have been pre-loaded');
-      this.isSearchFinisehd = true;
-      this.nextStep();
+      if (this.well.id==0)
+        this.SendPopupNotification('The Project Id indicated does not exist');
+      else{
+        this.PopulateCustomerData();
+
+        this.SendPopupNotification('The data have been pre-loaded');
+        this.isSearchFinisehd = true;
+        this.nextStep();
+      }      
      
     }
     else if(this.operationFormControl.value!=''){
       this.well=this.wellList.find(p => p.operationId==this.operationFormControl.value)?? new Well(0,'');
-      this.PopulateCustomerData();
 
-      this.SendPopupNotification('The data have been pre-loaded');
-      this.isSearchFinisehd = true;
-      this.nextStep();
+      if (this.well.id==0)
+        this.SendPopupNotification('The Operation Id indicated does not exist');
+      else{
+        this.PopulateCustomerData();
+
+        this.SendPopupNotification('The data have been pre-loaded');
+        this.isSearchFinisehd = true;
+        this.nextStep();
+      }
+     
     }
     else if(this.operationActivityFormControl.value!=''){
       this.well=this.wellList.find(p => p.operationActivityId==this.operationActivityFormControl.value)?? new Well(0,'');
-      this.PopulateCustomerData();
 
-      this.SendPopupNotification('The data have been pre-loaded');
-      this.isSearchFinisehd = true;
-      this.nextStep();
+      if (this.well.id==0)
+        this.SendPopupNotification('The Operation Activity Id indicated does not exist');
+      else{
+        this.PopulateCustomerData();
+
+        this.SendPopupNotification('The data have been pre-loaded');
+        this.isSearchFinisehd = true;
+        this.nextStep();
+      }
     }
     else if(this.activityJobFormControl.value!=''){
       this.well=this.wellList.find(p => p.activityJob==this.activityJobFormControl.value)?? new Well(0,'');
-      this.PopulateCustomerData();
+       if (this.well.id==0)
+        this.SendPopupNotification('The Activity Job Id indicated does not exist');
+      else{
+        this.PopulateCustomerData();
 
-      this.SendPopupNotification('The data have been pre-loaded');
-      this.isSearchFinisehd = true;
-      this.nextStep();
+        this.SendPopupNotification('The data have been pre-loaded');
+        this.isSearchFinisehd = true;
+        this.nextStep();
+      }
     }
     else{
       alert('No searching criteria ');

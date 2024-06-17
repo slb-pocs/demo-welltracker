@@ -5,14 +5,9 @@
     <mat-expansion-panel hideToggle="true" [expanded]="step === 0" (opened)="setStep(0)">
 
       <mat-expansion-panel-header>
-        <mat-panel-title>Search by Operational Activity Criteria</mat-panel-title>
-        <div *ngIf="isSearchFinisehd">
-          <mat-icon class="check-icon">check_circle</mat-icon>
-        </div>
-        <div *ngIf="!isSearchFinisehd">
-          <mat-icon class="progress-icon">pending</mat-icon>
-        </div>
-      </mat-expansion-panel-header>
+        <mat-panel-title>Search by Operational Activity Criteria</mat-panel-title>      
+          <mat-icon>search</mat-icon>
+      </mat-expansion-panel-header> 
 
       <mat-form-field appearance="outline" class="mat-form-field">
         <mat-label>Project Id</mat-label>
