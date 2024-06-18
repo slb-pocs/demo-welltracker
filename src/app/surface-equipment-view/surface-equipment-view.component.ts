@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { CatalogNode } from '../models/catalog-node';
@@ -17,6 +17,8 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 export class SurfaceEquipmentViewComponent implements OnInit {
   @ViewChild(MatTable)
   table!: MatTable<SurfaceRunningEquipment>; 
+
+  @Input() projectId:string='';
 
   well:Well=new Well(0,'');
     
@@ -154,7 +156,14 @@ export class SurfaceEquipmentViewComponent implements OnInit {
 
   ngOnInit(): void {    
     this.filteredCatalogNodes=this.surfaceCatalogNodeFormControl.valueChanges.pipe(
-      startWith(''), map(value => this.GetFilteredCatalogNodes(value||'')));
+      startWith(''), map(value => this.GetFilteredCatalogNodes(value||'')));    
+
+ 
+    if (this.projectId=='P.NWY.000030'){
+      alert('Reciving data');
+      this.PopulateTestScenario();
+      this.table.renderRows();
+    }      
   } 
 
   setStep(index: number) {this.step = index;}
@@ -174,7 +183,6 @@ export class SurfaceEquipmentViewComponent implements OnInit {
   }
 
   //Save Events
-
   SaveSurfaceEquipmentEvent(){
 
     let index=this.surfaceEquipmentList.findIndex(
@@ -241,6 +249,32 @@ export class SurfaceEquipmentViewComponent implements OnInit {
       }
     });
   }
+
+  PopulateTestScenario(){
+    this.well.projectId ='P.NWY.000030';
+    this.well.operationId ='P.NWY.000030';
+    this.well.operationActivityId ='O.NWY.000030.01';
+
+    this.surfaceEquipmentList=[
+      {
+        catalogNode:this.surfaceCatalogNodeList[45],
+        description:'',
+        productNumber:this.surfaceCatalogNodeList[45].id,
+        serial:'2243266',
+        quantity:2,
+        isKeyComponent:false
+      },
+      {
+        catalogNode:this.surfaceCatalogNodeList[30],
+        description:'',
+        productNumber:this.surfaceCatalogNodeList[30].id,
+        serial:'776654543',
+        quantity:1,
+        isKeyComponent:false
+      }
+    ];       
+  }
+
 }
 
 

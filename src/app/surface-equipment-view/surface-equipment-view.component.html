@@ -2,6 +2,7 @@
     <mat-accordion class="example-headers-align" multi>
 
         <!--------------------------------------SURFACE/RUNNING EQUIPMENT----------------------------->
+        <p>{{projectId}}</p>
         <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
 
             <mat-expansion-panel-header>
@@ -58,7 +59,11 @@
             </div>
         </mat-expansion-panel>
 
-        <div *ngIf="surfaceEquipmentList.length>0">
+        <div *ngIf="projectId=='P.NWY.000030'">
+            {{PopulateTestScenario()}}
+        </div>
+        
+        <div *ngIf="surfaceEquipmentList.length>0" >                       
             <mat-card style="margin-top: 2%;">
                 <table mat-table [dataSource]="surfaceEquipmentList" class="mat-elevation-z8 demo-table">
 

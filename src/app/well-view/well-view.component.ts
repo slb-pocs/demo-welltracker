@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { Observable, map, startWith } from 'rxjs';
@@ -61,6 +61,8 @@ export class WellViewComponent {
 
   @ViewChild(MatTable)
   table!: MatTable<Stem>; 
+
+  @Output() dataEvent=new EventEmitter<string>();
 
   checked = false;
   indeterminate = false;
@@ -439,7 +441,7 @@ export class WellViewComponent {
       new Enviroment(5, "Offshore Shallow"), new Enviroment(4, "Swamp/inland Waters")
     ];
 
-    this.PopulateWellData();
+    //this.PopulateWellData();
   }
   //Customer data lists
 
@@ -1318,7 +1320,7 @@ export class WellViewComponent {
 
   public ClearCustomerData() {
     this.well = new Well(0, "");
-    this.PopulateCustomerData();
+    this.PopulateFormControls(this.well);
   }
 
   public ClearStemData(){
@@ -1326,20 +1328,8 @@ export class WellViewComponent {
     this.PopulateStemData(this.stem);
   }
 
-  public PopulateCustomerData() {
-    this.wellFormControl.setValue(this.well.name);
-    this.wellTypeFormControl.setValue(this.well.type.name);
-    this.customerFormControl.setValue(this.well.customer.name);
-    this.accountFormControl.setValue(this.well.account.name);
-    this.countryFormControl.setValue(this.well.mgtCountry.name);
-    this.basinFormControl.setValue(this.well.basin.name);
-    this.fieldFormControl.setValue(this.well.field.name);
-    this.geoUnitFormControl.setValue(this.well.geoUnit.name);
-    this.enviromentFormControl.setValue(this.well.enviroment.name);
-  }
-
   private PopulateWellData() {
-    for (let i = 0; i < this.wellList.length; i++) {
+    /*for (let i = 0; i < this.wellList.length; i++) {
 
       this.wellList[i].customer = this.customerList[i];
       this.wellList[i].account = this.salesAccountList[i];
@@ -1358,7 +1348,7 @@ export class WellViewComponent {
     this.wellList[71].type = this.wellTypeList[1];
     this.wellList[71].mgtCountry = this.mgtCountryList[9];
     this.wellList[71].basin = this.basinList[1];
-
+    */
     this.PopulateTestScenario();
   }
 
@@ -1374,7 +1364,8 @@ export class WellViewComponent {
     this.stemMDBottomFormControl.setValue(stem.mdBottom.toString());
    }
 
-  private PopulateTestScenario() {
+  private PopulateTestScenario()
+   {
 
     let wellIndex = this.wellList.findIndex(b => b.name === 'TPTA-031');
 
@@ -1459,37 +1450,47 @@ export class WellViewComponent {
     this.wellList[wellIndex].completion.corrosiveCCO2=0;
     this.wellList[wellIndex].completion.corrosiveH25=0;
 
-
-    //POPULATE FORM CONTROLS
-
-    //WELL DETAILED DATA
-    this.maxDeviationFormControl.setValue(this.wellList[wellIndex].maxDeviation.name);
-    this.mdMeasuredFormControl.setValue(this.wellList[wellIndex].mdMeasuredFrom.name);
-    this.mdDistanceFormControl.setValue(this.wellList[wellIndex].mdDistance.toString());
-    this.mdUnitsFormControl.setValue(this.wellList[wellIndex].mdUnits.name);
-    this.tvdMeasuredFormControl.setValue(this.wellList[wellIndex].tvdMeasuredFrom.name);
-    this.tvdDistanceFormControl.setValue(this.wellList[wellIndex].tvdDistance.toString());
-    this.tvdUnitsFormControl.setValue(this.wellList[wellIndex].tvdUnits.name);
-    this.upperCompletionFormControl.setValue(this.wellList[wellIndex].upperCompletion.name);
-    this.artificalLiftFormControl.setValue(this.wellList[wellIndex].artificialLift.name);
-    this.multiLateralFormControl.setValue(this.wellList[wellIndex].multiLateral.name);
-    this.linerHangerFormControl.setValue(this.wellList[wellIndex].linerHanger.name);
-    this.multiStageFormControl.setValue(this.wellList[wellIndex].multiStage.name);
-
-    //COMPLETION DATA
-    this.completionNumberFormControl.setValue(this.wellList[wellIndex].completion.number.toString());
-    this.completionTypeFormControl.setValue(this.wellList[wellIndex].completion.type.name);
-    this.producedFluidTypeFormControl.setValue(this.wellList[wellIndex].completion.producedFluid.name);
-    this.injectedfluidTypeFormControl.setValue(this.wellList[wellIndex].completion.injectedFluid.name);
-    this.completionClassFormControl.setValue(this.wellList[wellIndex].completion.completionClass.name);
-    this.sandControlFormControl.setValue(this.wellList[wellIndex].completion.sandControl.name);
-    this.rockTypeFormControl.setValue(this.wellList[wellIndex].completion.reservoirRockType.name);this.rockTypeFormControl.setValue(this.wellList[wellIndex].completion.reservoirRockType.name);
-    this.reservoirTempFormControl.setValue(this.wellList[wellIndex].completion.reservoirTemperature.toString());
-    this.corrosiveCCO2FormControl.setValue(this.wellList[wellIndex].completion.corrosiveCCO2.toString());
-    this.corrosiveH25FormControl.setValue(this.wellList[wellIndex].completion.corrosiveH25.toString());
+    this.PopulateFormControls(this.wellList[wellIndex]);
     
+  }
 
-      
+  private PopulateFormControls(well:Well)
+  {
+    //CUSTOMER DATA
+    this.wellFormControl.setValue(well.name);
+    this.wellTypeFormControl.setValue(well.type.name);
+    this.customerFormControl.setValue(well.customer.name);
+    this.accountFormControl.setValue(well.account.name);
+    this.countryFormControl.setValue(well.mgtCountry.name);
+    this.basinFormControl.setValue(well.basin.name);
+    this.fieldFormControl.setValue(well.field.name);
+    this.geoUnitFormControl.setValue(well.geoUnit.name);
+    this.enviromentFormControl.setValue(well.enviroment.name);
+    //WELL DETAILED DATA
+    this.maxDeviationFormControl.setValue(well.maxDeviation.name);
+    this.mdMeasuredFormControl.setValue(well.mdMeasuredFrom.name);
+    this.mdDistanceFormControl.setValue(well.mdDistance.toString());
+    this.mdUnitsFormControl.setValue(well.mdUnits.name);
+    this.tvdMeasuredFormControl.setValue(well.tvdMeasuredFrom.name);
+    this.tvdDistanceFormControl.setValue(well.tvdDistance.toString());
+    this.tvdUnitsFormControl.setValue(well.tvdUnits.name);
+    this.upperCompletionFormControl.setValue(well.upperCompletion.name);
+    this.artificalLiftFormControl.setValue(well.artificialLift.name);
+    this.multiLateralFormControl.setValue(well.multiLateral.name);
+    this.linerHangerFormControl.setValue(well.linerHanger.name);
+    this.multiStageFormControl.setValue(well.multiStage.name);
+
+    //WELL DEATILED DATA
+    this.completionNumberFormControl.setValue(well.completion.number.toString());
+    this.completionTypeFormControl.setValue(well.completion.type.name);
+    this.producedFluidTypeFormControl.setValue(well.completion.producedFluid.name);
+    this.injectedfluidTypeFormControl.setValue(well.completion.injectedFluid.name);
+    this.completionClassFormControl.setValue(well.completion.completionClass.name);
+    this.sandControlFormControl.setValue(well.completion.sandControl.name);
+    this.rockTypeFormControl.setValue(well.completion.reservoirRockType.name);   
+    this.reservoirTempFormControl.setValue(well.completion.reservoirTemperature.toString());
+    this.corrosiveCCO2FormControl.setValue(well.completion.corrosiveCCO2.toString());
+    this.corrosiveH25FormControl.setValue(well.completion.corrosiveH25.toString());
   }
 
   public SaveCustomerData() {
@@ -1617,8 +1618,7 @@ export class WellViewComponent {
 
   public OnChangeWellEvent(event: MatOptionSelectionChange, well: Well) {
     if (event.source.selected == true) {
-      this.well = well;
-      this.PopulateCustomerData();
+      this.well = well;   
     }
   }
   public OnChangeWellTypeEvent(event: MatOptionSelectionChange, wellType: WellType) {
@@ -1745,65 +1745,49 @@ export class WellViewComponent {
  
   }
 
-  SearchData(){
-   
-
-    if(this.projectFormControl.value!=''){
-      this.well=this.wellList.find(p => p.projectId==this.projectFormControl.value)?? new Well(0,'');
-
-      if (this.well.id==0)
+  SearchData(){   
+    if(this.projectFormControl.value!='' ){
+      if (this.projectFormControl.value=='P.NWY.000030'){
+        this.PopulateTestScenario();
+        this.SendPopupNotification('The data have been pre-loaded');
+        this.isSearchFinisehd = true;
+        this.nextStep();
+        this.EmitEvent(this.projectFormControl.value);
+      }
+      else{
         this.SendPopupNotification('The Project Id indicated does not exist');
-      else{
-        this.PopulateCustomerData();
-
+      }  
+    }
+    else if(this.operationFormControl.value!='' ){
+      if (this.operationFormControl.value=='O.NWY.000030.01'){
+        this.PopulateTestScenario();
         this.SendPopupNotification('The data have been pre-loaded');
         this.isSearchFinisehd = true;
         this.nextStep();
-      }      
-     
-    }
-    else if(this.operationFormControl.value!=''){
-      this.well=this.wellList.find(p => p.operationId==this.operationFormControl.value)?? new Well(0,'');
-
-      if (this.well.id==0)
+      }
+      else{
         this.SendPopupNotification('The Operation Id indicated does not exist');
-      else{
-        this.PopulateCustomerData();
-
+      }  
+    }
+    else if(this.operationActivityFormControl.value!='' ){
+      if (this.operationActivityFormControl.value=='O.NWY.000001.01.01'){
+        this.PopulateTestScenario();
         this.SendPopupNotification('The data have been pre-loaded');
         this.isSearchFinisehd = true;
         this.nextStep();
       }
-     
-    }
-    else if(this.operationActivityFormControl.value!=''){
-      this.well=this.wellList.find(p => p.operationActivityId==this.operationActivityFormControl.value)?? new Well(0,'');
-
-      if (this.well.id==0)
+      else{
         this.SendPopupNotification('The Operation Activity Id indicated does not exist');
-      else{
-        this.PopulateCustomerData();
-
-        this.SendPopupNotification('The data have been pre-loaded');
-        this.isSearchFinisehd = true;
-        this.nextStep();
-      }
-    }
-    else if(this.activityJobFormControl.value!=''){
-      this.well=this.wellList.find(p => p.activityJob==this.activityJobFormControl.value)?? new Well(0,'');
-       if (this.well.id==0)
-        this.SendPopupNotification('The Activity Job Id indicated does not exist');
-      else{
-        this.PopulateCustomerData();
-
-        this.SendPopupNotification('The data have been pre-loaded');
-        this.isSearchFinisehd = true;
-        this.nextStep();
-      }
-    }
+      }  
+    }   
     else{
-      alert('No searching criteria ');
-    }
-      
+      this.SendPopupNotification('No searching criteria ');
+    }      
   }
+
+  EmitEvent(data:string){
+    this.dataEvent.emit(data);
+  }
+
+
 }

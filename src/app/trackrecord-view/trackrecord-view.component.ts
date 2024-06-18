@@ -10,7 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 export class TrackrecordViewComponent {
   trackRecord:TrackRecord;  
   @Input() id:string='';
+  
+  projectId:string='';
+
+
   message:string='New Record';
+  
 
   constructor(private route: ActivatedRoute){
     this.trackRecord=new TrackRecord();       
@@ -21,5 +26,10 @@ export class TrackrecordViewComponent {
       this.message='Record Id: '+this.id;
     }
   }
+  ReceiveProjectData(data:string){
+      this.projectId=data;
+  }    
+  
+    
 
 }

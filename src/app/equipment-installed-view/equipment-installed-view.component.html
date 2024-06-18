@@ -76,6 +76,10 @@
 </div>
 
 <!------------------------------------------------TABLE---------------------------------------------------->
+<div *ngIf="projectId=='P.NWY.000030'">
+    {{PopulateTestScenario()}}
+</div>
+
 <div *ngIf="equipmentList.length>0">
     <mat-card style="margin-top: 2%;">
         <table mat-table [dataSource]="equipmentList" class="mat-elevation-z8 demo-table">
