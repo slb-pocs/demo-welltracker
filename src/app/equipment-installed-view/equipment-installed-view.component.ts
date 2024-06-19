@@ -21,6 +21,8 @@ export class EquipmentInstalledViewComponent {
   table!: MatTable<EquipmentInstalled>;
 
   @Input()projectId:string='';
+  @Input() operationId:string='';
+  @Input() operationActivityId:string='';
 
   well: Well = new Well(0, '');
 

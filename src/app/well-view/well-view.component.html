@@ -23,16 +23,11 @@
       <mat-form-field appearance="outline" class="mat-form-field">
         <mat-label>Operation Activity</mat-label>
         <input matInput [formControl]="operationActivityFormControl">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field">
-        <mat-label>Activity Job</mat-label>
-        <input matInput [formControl]="activityJobFormControl">
-      </mat-form-field>    
+      </mat-form-field>     
 
       <div>
         <button (click)="SearchData()" mat-stroked-button class="save-button">Search</button>
-        <button mat-stroked-button class="cancel-button">Cancel</button>
+        <button (click)="ClearSearchingdata()" mat-stroked-button class="cancel-button">Cancel</button>
       </div>
     </mat-expansion-panel>
     <!----------------------------------CUSTOMER DATA-------------------------------------->

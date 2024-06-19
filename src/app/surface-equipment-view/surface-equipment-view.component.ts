@@ -19,6 +19,8 @@ export class SurfaceEquipmentViewComponent implements OnInit {
   table!: MatTable<SurfaceRunningEquipment>; 
 
   @Input() projectId:string='';
+  @Input() operationId:string='';
+  @Input() operationActivityId:string='';
 
   well:Well=new Well(0,'');
     
@@ -273,6 +275,11 @@ export class SurfaceEquipmentViewComponent implements OnInit {
         isKeyComponent:false
       }
     ];       
+  }
+
+  ClearEquipmentList(){
+    this.surfaceEquipmentList=[];
+    this.ClearSurfaceEquipmentEvent();
   }
 
 }

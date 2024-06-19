@@ -62,7 +62,9 @@ export class WellViewComponent {
   @ViewChild(MatTable)
   table!: MatTable<Stem>; 
 
-  @Output() dataEvent=new EventEmitter<string>();
+  @Output() projectEvent=new EventEmitter<string>();
+  @Output() operationtEvent=new EventEmitter<string>();
+  @Output() operationActivityEvent=new EventEmitter<string>();
 
   checked = false;
   indeterminate = false;
@@ -1208,7 +1210,6 @@ export class WellViewComponent {
   projectFormControl=new FormControl('');
   operationFormControl=new FormControl('');
   operationActivityFormControl=new FormControl('');
-  activityJobFormControl=new FormControl('');
   // Customer Data Form Controls
   wellFormControl = new FormControl('');
   wellTypeFormControl = new FormControl('');
@@ -1326,6 +1327,16 @@ export class WellViewComponent {
   public ClearStemData(){
     this.stem=new Stem();
     this.PopulateStemData(this.stem);
+  }
+
+  public ClearSearchingdata(){
+    this.projectFormControl.setValue('');
+    this.operationFormControl.setValue('');
+    this.operationActivityFormControl.setValue('');
+
+    this.EmitProjectEvent('');
+    this.EmitOperationtEvent('');
+    this.EmitOperationtActivityEvent('');
   }
 
   private PopulateWellData() {
@@ -1752,7 +1763,7 @@ export class WellViewComponent {
         this.SendPopupNotification('The data have been pre-loaded');
         this.isSearchFinisehd = true;
         this.nextStep();
-        this.EmitEvent(this.projectFormControl.value);
+        this.EmitProjectEvent(this.projectFormControl.value);
       }
       else{
         this.SendPopupNotification('The Project Id indicated does not exist');
@@ -1764,6 +1775,7 @@ export class WellViewComponent {
         this.SendPopupNotification('The data have been pre-loaded');
         this.isSearchFinisehd = true;
         this.nextStep();
+        this.EmitOperationtEvent(this.operationFormControl.value);
       }
       else{
         this.SendPopupNotification('The Operation Id indicated does not exist');
@@ -1775,6 +1787,7 @@ export class WellViewComponent {
         this.SendPopupNotification('The data have been pre-loaded');
         this.isSearchFinisehd = true;
         this.nextStep();
+        this.EmitOperationtActivityEvent(this.operationActivityFormControl.value);
       }
       else{
         this.SendPopupNotification('The Operation Activity Id indicated does not exist');
@@ -1785,8 +1798,14 @@ export class WellViewComponent {
     }      
   }
 
-  EmitEvent(data:string){
-    this.dataEvent.emit(data);
+  EmitProjectEvent(data:string){
+    this.projectEvent.emit(data);
+  }
+  EmitOperationtEvent(data:string){
+    this.operationtEvent.emit(data);
+  }
+  EmitOperationtActivityEvent(data:string){
+    this.operationActivityEvent.emit(data);
   }
 
 

@@ -12,7 +12,8 @@ export class TrackrecordViewComponent {
   @Input() id:string='';
   
   projectId:string='';
-
+  operationId:string='';
+  operationActivityId:string='';
 
   message:string='New Record';
   
@@ -28,7 +29,16 @@ export class TrackrecordViewComponent {
   }
   ReceiveProjectData(data:string){
       this.projectId=data;
+  } 
+  
+  ReceiveOperationtData(data:string){
+    this.operationId=data;
   }    
+
+  ReceiveOperationActivityData(data:string){
+    this.operationActivityId=data;
+}    
+
   
     
 
