@@ -14,32 +14,27 @@ export class TrackrecordViewComponent {
   projectId:string='';
   operationId:string='';
   operationActivityId:string='';
+  trackRecordId:number=0;
 
-  message:string='New Record';
-  
+  message:string='Track Record';  
 
   constructor(private route: ActivatedRoute){
     this.trackRecord=new TrackRecord();       
   }
     
   ngOnInit() {          
-    if(this.id!='0'){
-      this.message='Record Id: '+this.id;
-    }
+    
   }
   ReceiveProjectData(data:string){
       this.projectId=data;
-  } 
-  
+  }  
   ReceiveOperationtData(data:string){
     this.operationId=data;
-  }    
-
+  }
   ReceiveOperationActivityData(data:string){
     this.operationActivityId=data;
-}    
-
-  
-    
-
+  }
+  ReceiveTrackRecordData(data:number){
+    this.trackRecordId=data;
+  }
 }

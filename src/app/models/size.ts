@@ -1,6 +1,6 @@
 export class Size {
     public id:number=0;
-    public name:string='';
+    public sizeInMm:number=0;
 
     constructor(){}
 

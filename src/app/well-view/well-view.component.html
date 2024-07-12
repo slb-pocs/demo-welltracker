@@ -30,11 +30,70 @@
         <button (click)="ClearSearchingdata()" mat-stroked-button class="cancel-button">Cancel</button>
       </div>
     </mat-expansion-panel>
+       <!----------------------------------MANAGEMENT INFO-------------------------------------->
+       <mat-expansion-panel hideToggle="true" [expanded]="step === 1" (opened)="setStep(1)">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>1. Management Info</mat-panel-title>
+          <div *ngIf="isManagementInfoFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isManagementInfoFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+  
+        <mat-form-field appearance="outline" class="mat-form-field">
+          <mat-label>Supervisor User</mat-label>
+          <input matInput [formControl]="supervisorFormControl">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="mat-form-field">
+          <mat-label>Validator User</mat-label>
+          <input matInput [formControl]="validatorUserFormControl">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="mat-form-field">
+          <mat-label>Data Entered By</mat-label>
+          <input matInput [formControl]="dataEntryUserFormControl">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="mat-form-field">
+          <mat-label>Assigned To</mat-label>
+          <input matInput [formControl]="assignedUserFormControl">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
+          <mat-label>Install Start Date</mat-label>
+          <input matInput [matDatepicker]="startDate">
+          <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
+          <mat-label>Install End Date</mat-label>
+          <input matInput [matDatepicker]="endDate">
+          <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+          <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
+          <mat-label>Validation Date</mat-label>
+          <input matInput [matDatepicker]="validationDate">
+          <mat-datepicker-toggle matIconSuffix [for]="validationDate"></mat-datepicker-toggle>
+          <mat-datepicker #validationDate></mat-datepicker>
+        </mat-form-field>
+  
+        <div>
+          <button (click)="SaveManagementData()" mat-stroked-button class="save-button">Save</button>
+          <button mat-stroked-button class="cancel-button">Cancel</button>
+        </div>
+      </mat-expansion-panel>
     <!----------------------------------CUSTOMER DATA-------------------------------------->
-    <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+    <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
 
       <mat-expansion-panel-header>
-        <mat-panel-title>1. Customer Information</mat-panel-title>
+        <mat-panel-title>2. Customer Information</mat-panel-title>
 
         <div *ngIf="isCustomerFinished">
           <mat-icon class="check-icon">check_circle</mat-icon>
@@ -144,65 +203,7 @@
 
       </div>
     </mat-expansion-panel>
-    <!----------------------------------MANAGEMENT INFO-------------------------------------->
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 2" (opened)="setStep(2)">
-
-      <mat-expansion-panel-header>
-        <mat-panel-title>2. Management Info</mat-panel-title>
-        <div *ngIf="isManagementInfoFinished">
-          <mat-icon class="check-icon">check_circle</mat-icon>
-        </div>
-        <div *ngIf="!isManagementInfoFinished">
-          <mat-icon class="progress-icon">pending</mat-icon>
-        </div>
-      </mat-expansion-panel-header>
-
-      <mat-form-field appearance="outline" class="mat-form-field">
-        <mat-label>Supervisor User</mat-label>
-        <input matInput [formControl]="supervisorFormControl">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field">
-        <mat-label>Validator User</mat-label>
-        <input matInput [formControl]="validatorUserFormControl">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field">
-        <mat-label>Data Entered By</mat-label>
-        <input matInput [formControl]="dataEntryUserFormControl">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field">
-        <mat-label>Assigned To</mat-label>
-        <input matInput [formControl]="assignedUserFormControl">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
-        <mat-label>Install Start Date</mat-label>
-        <input matInput [matDatepicker]="startDate">
-        <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
-        <mat-datepicker #startDate></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
-        <mat-label>Install End Date</mat-label>
-        <input matInput [matDatepicker]="endDate">
-        <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
-        <mat-datepicker #endDate></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
-        <mat-label>Validation Date</mat-label>
-        <input matInput [matDatepicker]="validationDate">
-        <mat-datepicker-toggle matIconSuffix [for]="validationDate"></mat-datepicker-toggle>
-        <mat-datepicker #validationDate></mat-datepicker>
-      </mat-form-field>
-
-      <div>
-        <button (click)="SaveManagementData()" mat-stroked-button class="save-button">Save</button>
-        <button mat-stroked-button class="cancel-button">Cancel</button>
-      </div>
-    </mat-expansion-panel>
+ 
 
     <!----------------------------------WELL DETAILED DATA-------------------------------------->
     <mat-expansion-panel hideToggle="true" [expanded]="step === 3" (opened)="setStep(3)">
@@ -340,7 +341,7 @@
 
       <div>
         <button (click)="SaveWellDetailedData()" mat-stroked-button class="save-button">Save</button>
-        <button mat-stroked-button class="cancel-button">Cancel</button>
+        <button (click)="ClearWellDetailedData()" mat-stroked-button class="cancel-button">Cancel</button>
       </div>
     </mat-expansion-panel>
     <!----------------------------------WELL STEM DATA-------------------------------------->
@@ -375,9 +376,9 @@
       <mat-form-field appearance="outline" class="mat-form-field" style="width: 430px;">
         <mat-label>Size</mat-label>
         <mat-select [formControl]="stemSizeFormControl">
-          <mat-option *ngFor="let item of sizeList" [value]="item.name"
+          <mat-option *ngFor="let item of sizeList" [value]="item.sizeInMm"
             (onSelectionChange)="OnChangeSizeEvent($event,item)">
-            {{item.name}}
+            {{item.sizeInMm}}
           </mat-option>
         </mat-select>
         <mat-hint style="font-size: smaller; margin-left: 0%;">
@@ -387,14 +388,25 @@
 
       <mat-form-field appearance="outline" class="mat-form-field">
         <mat-label>Weight</mat-label>
+        <input matInput [matAutocomplete]="weight" [formControl]="stemWeightFormControl" />
+        <mat-autocomplete autoActiveFirstOption #weight>
+          <mat-option *ngFor="let item of filteredWeights | async" [value]="item.weightInLb">
+            {{item.weightInLb}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+<!--
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Weight</mat-label>
         <mat-select [formControl]="stemWeightFormControl">
-          <mat-option *ngFor="let item of weightList" [value]="item.name"
+          <mat-option *ngFor="let item of weightList" [value]="item.WeightInLb"
             (onSelectionChange)="OnChangeWeightEvent($event,item)">
-            {{item.name}}
+            {{item.WeightInLb}}
           </mat-option>
         </mat-select>
         <mat-hint style="font-size: smaller;">lb/ft | kg/m </mat-hint>
       </mat-form-field>
+ -->
 
       <mat-form-field appearance="outline" class="mat-form-field">
         <mat-label>Threads</mat-label>
@@ -428,7 +440,7 @@
 
       <div>
         <button (click)="SaveWellStemData()" mat-stroked-button class="save-button">Save</button>
-        <button mat-stroked-button class="cancel-button" (click)="ClearStemData()">Cancel</button>
+        <button (click)="ClearStemData()" mat-stroked-button class="cancel-button" (click)="ClearStemData()">Cancel</button>
       </div>
       <!-------------------------------STEM TABLE----------------------------------------------->
 
@@ -635,7 +647,7 @@
       <mat-form-field appearance="outline" class="mat-form-field">
         <mat-label>Sand Control</mat-label>
         <mat-select [formControl]="sandControlFormControl">
-          <mat-option *ngFor="let sandControlItem of sandControlType" [value]="sandControlItem.name"
+          <mat-option *ngFor="let sandControlItem of sandControlTypeList" [value]="sandControlItem.name"
             (onSelectionChange)="OnChangeSandControl($event,sandControlItem)">
             {{sandControlItem.name}}
           </mat-option>
@@ -669,7 +681,7 @@
 
       <div>
         <button (click)="SaveCompletionData()" mat-stroked-button class="save-button">Save</button>
-        <button mat-stroked-button class="cancel-button">Cancel</button>
+        <button (click)="ClearCompletionData()" mat-stroked-button class="cancel-button">Cancel</button>
       </div>
     </mat-expansion-panel>
 

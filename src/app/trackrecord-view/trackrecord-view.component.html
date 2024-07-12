@@ -1,13 +1,14 @@
 <div style="margin-left: 2%;">
     <mat-label>
-        {{message}}
+        {{message+": "}}{{trackRecordId}}
     </mat-label>
 </div>
 <mat-horizontal-stepper>
     <mat-step label="Well Information">
         <app-well-view (projectEvent)="ReceiveProjectData($event)" 
             (operationtEvent)="ReceiveOperationtData($event)"
-            (operationActivityEvent)="ReceiveOperationActivityData($event)">
+            (operationActivityEvent)="ReceiveOperationActivityData($event)"
+            (trackRecordEvent)="ReceiveTrackRecordData($event)">
         </app-well-view>
         <div style="text-align: right; margin-top: 3%;">
             <button mat-stroked-button class="save-button" matStepperNext>Equipment</button>
