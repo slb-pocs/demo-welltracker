@@ -78,7 +78,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-stem-data>
+        <app-stem-data (wellEvent)="OnWellInfoEvent($event)"
+        [wellIdFromParent]="wellId">
         </app-stem-data>
 
     </mat-expansion-panel>

@@ -44,8 +44,7 @@ import { ScreenType } from '../models/screen-type';
 import { CompletionpulledReason } from '../models/completionpulled-reason';
 import { CdkStepper } from '@angular/cdk/stepper';
 import { MeassuredFrom } from '../models/meassured-from';
-import { Size } from '../models/size';
-import { Weight } from '../models/weight';
+
 import { Stem } from '../models/stem';
 import { MatTable } from '@angular/material/table';
 import { TypesService } from '../services/types.service';

@@ -26,8 +26,8 @@ import { PumpingCompany } from '../models/pumping-company';
 import { SandControl } from '../models/sand-control';
 import { ScreenProvider } from '../models/screen-provider';
 import { ScreenType } from '../models/screen-type';
-import { Size } from '../models/size';
-import { Weight } from '../models/weight';
+import { StemSize } from '../models/stemSize';
+import { StemWeight } from '../models/StemWeight';
 import { StringType } from '../models/string-type';
 import { Thread } from '../models/thread';
 import { ToolsCompany } from '../models/tools-company';
@@ -117,11 +117,11 @@ export class TypesService {
   public GetScreenTypes():Observable<ScreenType[]>{
     return this.http.get<ScreenType[]>(this.apiUrl+"ScreenTypes");   
   }  
-  public GetStemSizes():Observable<Size[]>{
-    return this.http.get<Size[]>(this.apiUrl+"StemSizes");   
+  public GetStemSizes():Observable<StemSize[]>{
+    return this.http.get<StemSize[]>(this.apiUrl+"StemSizes");   
   }
-  public GetStemWeights():Observable<Weight[]>{
-    return this.http.get<Weight[]>(this.apiUrl+"StemWeights");   
+  public GetStemWeights():Observable<StemWeight[]>{
+    return this.http.get<StemWeight[]>(this.apiUrl+"StemWeights");   
   }
   public GetStringTypes():Observable<StringType[]>{
     return this.http.get<StringType[]>(this.apiUrl+"StringTypes");   

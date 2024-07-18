@@ -41,6 +41,10 @@ export class WellInformationWorkflowComponent implements OnInit {
     this.isWellDataFinished=true;
     this.step=4;
   }
+  OnStemInfoEvent(message:number){   
+    this.isStemDataFinished=true;
+    this.step=5;
+  }
 
 
 }
