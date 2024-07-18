@@ -1,6 +1,8 @@
 export class MeassuredFrom {
-    id:number=0;
-    name:string='';
+    public id:number=1;
+    public name:string='';
 
-    constructor(){}
+    public constructor(){
+      
+    }
 }

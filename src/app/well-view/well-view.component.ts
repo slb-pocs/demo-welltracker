@@ -8,13 +8,12 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 
 import { Well } from '../models/well';
 import { Customer } from '../models/customer';
-import { SalesAccount } from '../models/sales-account';
 import { WellType } from '../models/well-type';
 import { Basin } from '../models/basin';
 import { GeoUnit } from '../models/geo-unit';
 import { Country } from '../models/country';
 import { Field } from '../models/field';
-import { Enviroment } from '../models/enviroment';
+import { Environment } from '../models/environment';
 import { TrackRecord } from '../models/track-record';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { MaxDeviation } from '../models/max-deviation';
@@ -58,6 +57,7 @@ import { TrackrecordService } from '../services/trackrecord.service';
   styleUrl: './well-view.component.css'
 })
 export class WellViewComponent {
+  /*
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
@@ -91,250 +91,31 @@ export class WellViewComponent {
   stemList:Stem[]=[];
   customerList: Customer[] = [];
   wellList: Well[] = [];
-  salesAccountList: SalesAccount[] = [];
+
   wellTypeList: WellType[] = [];
   basinList: Basin[] = [];
   geoUnitList: GeoUnit[] = [];
-  mgtCountryList: Country[] = [];
+  countryList: Country[] = [];
   fieldList: Field[] = [];
-  enviromentList: Enviroment[] = [];
+  environmentList: Environment[] = [];
 
   public constructor(private router: Router
                    , private dialogRef: MatDialog
                    ,private typesService:TypesService
                    ,private trackRecordService:TrackrecordService) {
-    this.well = new Well(0, '');
+    this.well = new Well();
     this.trackRecord = new TrackRecord();
     this.stem=new Stem();
 
     this.customerList = [
-      { id: 1, name: "ALLEDER, INC." },
-      { id: 2, name: "AMERIND OIL" },
-      { id: 3, name: "AMTEX" },
-      { id: 4, name: "ANADARKO - BRAZIL" },
-      { id: 5, name: "ANP - AGENCIA NACIONAL DO PETROLEO" },
-      { id: 6, name: "APACHE CORPORATION" },
-      { id: 7, name: "APACHE CORPORATION" },
-      { id: 8, name: "AVRA OIL AND GAS" },
-      { id: 9, name: "BENSON & SCHOEN OIL COMPANY INC" },
-      { id: 10, name: "BILL J. GRAHAM OIL AND GAS CORPORATION" },
-      { id: 11, name: "BIRDWELL" },
-      { id: 12, name: "BITECH PETROLEUM CORP." },
-      { id: 13, name: "BLS PRODUCTION COMPANY" },
-      { id: 14, name: "BOWERMAN OIL AND GAS" },
-      { id: 15, name: "BP" },
-      { id: 16, name: "BROTHERS PRODUCTION" },
-      { id: 17, name: "BRUCE A. WILBANKS" },
-      { id: 18, name: "BT OIL FIELD SUPPLY" },
-      { id: 19, name: "BUCKWHEAT RESOURCES" },
-      { id: 20, name: "BYRD OPERATING COMPANY" },
-      { id: 21, name: "C.E. JACOBS" },
-      { id: 22, name: "C.F. QUALIA OPERATING COMPANY" },
-      { id: 23, name: "CAPATAZ OPERATING" },
-      { id: 24, name: "CARAWAY OPERATING" },
-      { id: 25, name: "CENTRAL ENERGY PRODUCTION" },
-      { id: 26, name: "CERTIFIED PETROLEUM" },
-      { id: 27, name: "CHESTER UPHAM, JR." },
-      { id: 28, name: "CITATION OIL & GAS CORPORATION - WEST TEXAS AREA" },
-      { id: 29, name: "CLAY GRAY" },
-      { id: 30, name: "COCKRELL PRODUCTION" },
-      { id: 31, name: "COOPER OIL AND GAS, INC" },
-      { id: 32, name: "COTTONWOOD PETROLEUM" },
-      { id: 33, name: "D GAIL LATIMER" },
-      { id: 34, name: "D.C. TANKERSLEY" },
-      { id: 35, name: "DAKOTA RESOURCES" },
-      { id: 36, name: "DBO OIL" },
-      { id: 37, name: "DENTON EXPLORATION" },
-      { id: 38, name: "DEVON ENERGY DO BRASIL LTDA" },
-      { id: 39, name: "DINERO OPERATING COMPANY" },
-      { id: 40, name: "DISCOVERY OPERATING" },
-      { id: 41, name: "DRACO ENERGY, INC." },
-      { id: 42, name: "DUBLIN INTERNATIONAL PETROLEUM TANZANIA LIMITED" },
-      { id: 43, name: "DURANGO OPERATING" },
-      { id: 44, name: "E.D. ANDERSON" },
-      { id: 45, name: "E.G.L. RESOURCES" },
-      { id: 46, name: "ESSO EXPLORATION & PRODUCTION CHAD, INC." },
-      { id: 47, name: "F W OIL INTERESTS, INC" },
-      { id: 48, name: "IPC" },
-      { id: 49, name: "KOCH PETROLEO DO BRASIL LTDA" },
-      { id: 50, name: "KUWAIT DRILLING COMPANY K.S.C" },
-      { id: 51, name: "NAM" },
-      { id: 52, name: "NOBLE ENERGY, INC." },
-      { id: 53, name: "ORMAT" },
-      { id: 54, name: "OXY" },
-      { id: 1111, name: "PAM" },
-      { id: 55, name: "PEP-SRN-ACTIVO BURGOS" },
-      { id: 56, name: "PEP-SRN-ACTIVO POZA RICA-ALTAMIRA - PROYECTO ALTAMIRA" },
-      { id: 57, name: "PEP-SRN-ACTIVO REGIONAL DE EXPLORACION REGION NORTE" },
-      { id: 58, name: "PERFORADORA CENTRAL" },
-      { id: 59, name: "PETROBRAS - E&P NNE - UN BA" },
-      { id: 60, name: "PETROBRAS - E&P NNE - UN SEAL" },
-      { id: 61, name: "PETROBRAS - E&P SSE - UN RIO" },
-      { id: 62, name: "PETROBRAS INTERNACIONAL" },
-      { id: 63, name: "PETROSERV" },
-      { id: 64, name: "PITSA" },
-      { id: 65, name: "REPSOL  BRASIL S.A." },
-      { id: 66, name: "ROC OIL COMPANY LIMITED" },
-      { id: 67, name: "ROMTEX INTERNATIONAL, LLC" },
-      { id: 68, name: "SIPETROL" },
-      { id: 69, name: "SITE OIL TOOLS" },
-      { id: 70, name: "TOTAL E&P MYANMAR" },
-      { id: 71, name: "W. DALE MORRIS, INC." },
-      { id: 72, name: "YORKTON SECURITIES Inc." }
+      { id: 1, name: "ALLEDER, INC.",accountName:'salesAccount' },
+     
     ];
 
     this.wellList = [
-      new Well(1, "543P2-29"),
-      new Well(2, "AB-1613"),
-      new Well(3, "AK-10441"),
-      new Well(4, "AL-10341"),
-      new Well(5, "AL-766"),
-      new Well(6, "Albarakah-41"),
-      new Well(7, "AP-0566"),
-      new Well(8, "AP1101"),
-      new Well(9, "AP1664"),
-      new Well(10, "AQ 1802"),
-      new Well(11, "AQ-1421"),
-      new Well(12, "AQ-1812"),
-      new Well(13, "AR-1569"),
-      new Well(14, "AR-1663"),
-      new Well(15, "AR-1666"),
-      new Well(16, "AR-3102"),
-      new Well(17, "AS 1665"),
-      new Well(18, "AS-1762"),
-      new Well(19, "AS-1803"),
-      new Well(20, "AS-1812"),
-      new Well(21, "AS-1813"),
-      new Well(22, "AT-1765"),
-      new Well(23, "AT-1882"),
-      new Well(24, "Buah A-1P"),
-      new Well(25, "CM-235"),
-      new Well(26, "Cosecha-CNW"),
-      new Well(27, "DB-1"),
-      new Well(28, "Infantas 3609"),
-      new Well(29, "ITAYA-A11"),
-      new Well(30, "Khuff A-1P"),
-      new Well(31, "LT-18z"),
-      new Well(32, "MKN AR1669"),
-      new Well(33, "MKN AS1821"),
-      new Well(34, "MKNAL0445-K74"),
-      new Well(35, "MKNAN1617-K66"),
-      new Well(36, "MKNAN1637-K64"),
-      new Well(37, "MKNAQ1662"),
-      new Well(38, "MKNAQ1663"),
-      new Well(39, "MKNAR 3002"),
-      new Well(40, "MKNAR 3003"),
-      new Well(41, "MKNAR 3004"),
-      new Well(42, "MKNAR 3012"),
-      new Well(43, "MKNAR 3012S1"),
-      new Well(44, "MKNAR1464"),
-      new Well(45, "MKNAR1464S1"),
-      new Well(46, "MKNAR1661"),
-      new Well(47, "MKNAR1669"),
-      new Well(48, "MKNAR1763"),
-      new Well(49, "MKNAR2065-K69"),
-      new Well(50, "MKNAR3165"),
-      new Well(51, "MKNAR3167"),
-      new Well(52, "MKNAS 3062"),
-      new Well(53, "MKNAS3264"),
-      new Well(54, "MKNAT 1572"),
-      new Well(55, "MKNAT1567"),
-      new Well(56, "MKNAT1615-K68"),
-      new Well(57, "MKNAU1568"),
-      new Well(58, "MKNAU1666"),
-      new Well(59, "MKNAU1766"),
-      new Well(60, "MUKH-077"),
-      new Well(61, "PAINTBRUSH"),
-      new Well(62, "Phase II - Pad 201 P2"),
-      new Well(63, "Phase II - Pad 202 I3"),
-      new Well(64, "PRUDHOE BAY18-26A"),
-      new Well(65, "PY3 D4"),
-      new Well(66, "QuaIboe-4"),
-      new Well(67, "Reham West 9"),
-      new Well(68, "Szentlorinckata-1"),
-      new Well(69, "Szolnok ENY-1"),
-      new Well(11111, "TPTA-031"),
-      new Well(70, "WAE-12"),
-      new Well(71, "WASSERBURGER 2"),
-      new Well(72, "WRKM 101")
+      new Well()    
 
-    ];
-
-    this.salesAccountList = [
-      { id: 1, name: "ALLEDER, INC." },
-      { id: 2, name: "AMERIND OIL" },
-      { id: 3, name: "AMTEX" },
-      { id: 4, name: "ANADARKO - BRAZIL" },
-      { id: 5, name: "ANP - AGENCIA NACIONAL DO PETROLEO" },
-      { id: 6, name: "APACHE CORPORATION" },
-      { id: 7, name: "APACHE CORPORATION" },
-      { id: 8, name: "AVRA OIL AND GAS" },
-      { id: 9, name: "BENSON & SCHOEN OIL COMPANY INC" },
-      { id: 10, name: "BILL J. GRAHAM OIL AND GAS CORPORATION" },
-      { id: 11, name: "BIRDWELL" },
-      { id: 12, name: "BITECH PETROLEUM CORP." },
-      { id: 13, name: "BLS PRODUCTION COMPANY" },
-      { id: 14, name: "BOWERMAN OIL AND GAS" },
-      { id: 15, name: "BP" },
-      { id: 16, name: "BROTHERS PRODUCTION" },
-      { id: 17, name: "BRUCE A. WILBANKS" },
-      { id: 18, name: "BT OIL FIELD SUPPLY" },
-      { id: 19, name: "BUCKWHEAT RESOURCES" },
-      { id: 20, name: "BYRD OPERATING COMPANY" },
-      { id: 21, name: "C.E. JACOBS" },
-      { id: 22, name: "C.F. QUALIA OPERATING COMPANY" },
-      { id: 23, name: "CAPATAZ OPERATING" },
-      { id: 24, name: "CARAWAY OPERATING" },
-      { id: 25, name: "CENTRAL ENERGY PRODUCTION" },
-      { id: 26, name: "CERTIFIED PETROLEUM" },
-      { id: 27, name: "CHESTER UPHAM, JR." },
-      { id: 28, name: "CITATION OIL & GAS CORPORATION - WEST TEXAS AREA" },
-      { id: 29, name: "CLAY GRAY" },
-      { id: 30, name: "COCKRELL PRODUCTION" },
-      { id: 31, name: "COOPER OIL AND GAS, INC" },
-      { id: 32, name: "COTTONWOOD PETROLEUM" },
-      { id: 33, name: "D GAIL LATIMER" },
-      { id: 34, name: "D.C. TANKERSLEY" },
-      { id: 35, name: "DAKOTA RESOURCES" },
-      { id: 36, name: "DBO OIL" },
-      { id: 37, name: "DENTON EXPLORATION" },
-      { id: 38, name: "DEVON ENERGY DO BRASIL LTDA" },
-      { id: 39, name: "DINERO OPERATING COMPANY" },
-      { id: 40, name: "DISCOVERY OPERATING" },
-      { id: 41, name: "DRACO ENERGY, INC." },
-      { id: 42, name: "DUBLIN INTERNATIONAL PETROLEUM TANZANIA LIMITED" },
-      { id: 43, name: "DURANGO OPERATING" },
-      { id: 44, name: "E.D. ANDERSON" },
-      { id: 45, name: "E.G.L. RESOURCES" },
-      { id: 46, name: "ESSO EXPLORATION & PRODUCTION CHAD, INC." },
-      { id: 47, name: "F W OIL INTERESTS, INC" },
-      { id: 48, name: "IPC" },
-      { id: 49, name: "KOCH PETROLEO DO BRASIL LTDA" },
-      { id: 50, name: "KUWAIT DRILLING COMPANY K.S.C" },
-      { id: 51, name: "NAM" },
-      { id: 52, name: "NOBLE ENERGY, INC." },
-      { id: 53, name: "ORMAT" },
-      { id: 54, name: "OXY" },
-      { id: 55, name: "PEP-SRN-ACTIVO BURGOS" },
-      { id: 56, name: "PEP-SRN-ACTIVO POZA RICA-ALTAMIRA - PROYECTO ALTAMIRA" },
-      { id: 57, name: "PEP-SRN-ACTIVO REGIONAL DE EXPLORACION REGION NORTE" },
-      { id: 58, name: "PERFORADORA CENTRAL" },
-      { id: 11111, name: "PETROAMAZONAS ECUADOR S.A." },
-      { id: 59, name: "PETROBRAS - E&P NNE - UN BA" },
-      { id: 60, name: "PETROBRAS - E&P NNE - UN SEAL" },
-      { id: 61, name: "PETROBRAS - E&P SSE - UN RIO" },
-      { id: 62, name: "PETROBRAS INTERNACIONAL" },
-      { id: 63, name: "PETROSERV" },
-      { id: 64, name: "PITSA" },
-      { id: 65, name: "REPSOL  BRASIL S.A." },
-      { id: 66, name: "ROC OIL COMPANY LIMITED" },
-      { id: 67, name: "ROMTEX INTERNATIONAL, LLC" },
-      { id: 68, name: "SIPETROL" },
-      { id: 69, name: "SITE OIL TOOLS" },
-      { id: 70, name: "TOTAL E&P MYANMAR" },
-      { id: 71, name: "W. DALE MORRIS, INC." },
-      { id: 72, name: "YORKTON SECURITIES Inc." }
-    ];
+    ];  
 
     this.wellTypeList = [];
 
@@ -342,11 +123,11 @@ export class WellViewComponent {
 
     this.geoUnitList = [];
 
-    this.mgtCountryList = [];
+    this.countryList = [];
 
     this.fieldList = [];
 
-    this.enviromentList = [];
+    this.environmentList = [];
 
     //this.PopulateWellData();
   }
@@ -417,7 +198,7 @@ export class WellViewComponent {
 
   filteredCustomers!: Observable<Customer[]>;
   filteredWells!: Observable<Well[]>;
-  filteredAccounts!: Observable<SalesAccount[]>;
+
   filteredFields!: Observable<Field[]>;
   filteredWeights!:Observable<Weight[]>;
 
@@ -434,7 +215,7 @@ export class WellViewComponent {
   basinFormControl = new FormControl('');
   fieldFormControl = new FormControl('');
   geoUnitFormControl = new FormControl('');
-  enviromentFormControl = new FormControl('');
+  environmentFormControl = new FormControl('');
   //Well Data Form Controls
   waterDepthFormControl = new FormControl('');
   maxDeviationFormControl = new FormControl('');
@@ -494,8 +275,8 @@ export class WellViewComponent {
     this.typesService.GetCompletionClasses().subscribe(response =>{this.completionClassList=response});
     this.typesService.GetCompletionPulledReasons().subscribe(response =>{this.completionPulledReasonList=response});
     this.typesService.GetCompletionTypes().subscribe(response =>{this.completionTypeList=response});
-    this.typesService.GetCountries().subscribe(response =>{this.mgtCountryList=response});
-    this.typesService.GetEnvironments().subscribe(response =>{this.enviromentList=response});
+    this.typesService.GetCountries().subscribe(response =>{this.countryList=response});
+    this.typesService.GetEnvironments().subscribe(response =>{this.environmentList=response});
     this.typesService.GetFields().subscribe(response =>{this.fieldList=response});
     this.typesService.GetFilterTypes().subscribe(response =>{this.filterTypeList=response});
     this.typesService.GetFluidTypes().subscribe(response =>{this.fluidTypeList=response});
@@ -531,9 +312,7 @@ export class WellViewComponent {
     this.filteredWells = this.wellFormControl.valueChanges.pipe(
       startWith(''), map(value => this.FilterWells(value || ''))
     );
-    this.filteredAccounts = this.accountFormControl.valueChanges.pipe(
-      startWith(''), map(value => this.FilterAccounts(value || ''))
-    );
+
     this.filteredFields = this.fieldFormControl.valueChanges.pipe(
       startWith(''), map(value => this.FilterFields(value || ''))
     );
@@ -551,10 +330,7 @@ export class WellViewComponent {
     let searchValue = value.toLocaleLowerCase();
     return this.wellList.filter(option => option.name.toLocaleLowerCase().includes(searchValue));
   }
-  private FilterAccounts(value: string): SalesAccount[] {
-    let searchValue = value.toLocaleLowerCase();
-    return this.salesAccountList.filter(option => option.name.toLocaleLowerCase().includes(searchValue));
-  }
+
 
   private FilterFields(value: string): Field[] {
     let searchValue = value.toLocaleLowerCase();
@@ -580,7 +356,7 @@ export class WellViewComponent {
     this.operationFormControl.setValue('');
     this.operationActivityFormControl.setValue('');
 
-    this.PopulateFormControls(new Well(0,''));
+    this.PopulateFormControls(new Well());
     this.ClearManagementData();
 
     this.EmitProjectEvent('');
@@ -589,42 +365,42 @@ export class WellViewComponent {
   }
 
   public ClearCustomerData() {     
-    this.PopulateCustomerFormControls(new Well(0, ""));
+    this.PopulateCustomerFormControls(new Well());
   }
   ClearManagementData(){
     this.PopulateManagmentFormControls(new TrackRecord());
   }
   ClearWellDetailedData(){
-    this.PopulateWellDetailedFormControls(new Well(0, ""));
+    this.PopulateWellDetailedFormControls(new Well());
   }
   public ClearStemData(){    
     this.PopulateStemData(new Stem());
   }
   ClearCompletionData(){
-    this.PopulateCompletionFormControls(new Well(0, ""));
+    this.PopulateCompletionFormControls(new Well());
   }
 
   private PopulateWellData() {
-    /*for (let i = 0; i < this.wellList.length; i++) {
+    for (let i = 0; i < this.wellList.length; i++) {
 
       this.wellList[i].customer = this.customerList[i];
       this.wellList[i].account = this.salesAccountList[i];
       this.wellList[i].field = this.fieldList[i];
       this.wellList[i].geoUnit = this.geoUnitList[1];
-      this.wellList[i].enviroment = this.enviromentList[1];
+      this.wellList[i].environment = this.environmentList[1];
       this.wellList[i].type = this.wellTypeList[1];
-      this.wellList[i].mgtCountry = this.mgtCountryList[1];
+      this.wellList[i].country = this.countryList[1];
       this.wellList[i].basin = this.basinList[1];
     }
     this.wellList[71].customer = this.customerList[53];
     this.wellList[71].account = this.salesAccountList[53];
     this.wellList[71].field = this.fieldList[71];
     this.wellList[71].geoUnit = this.geoUnitList[1];
-    this.wellList[71].enviroment = this.enviromentList[1];
+    this.wellList[71].environment = this.environmentList[1];
     this.wellList[71].type = this.wellTypeList[1];
-    this.wellList[71].mgtCountry = this.mgtCountryList[9];
+    this.wellList[71].country = this.countryList[9];
     this.wellList[71].basin = this.basinList[1];
-    */
+    
     this.PopulateTestScenario();
   }
   
@@ -639,21 +415,20 @@ export class WellViewComponent {
  
     //CUSTOMER DATA
     this.well.customer = this.customerList.find(
-      p => p.name === 'PAM') ?? new Customer(0, '');
-    this.well.account = this.salesAccountList.find(
-      p => p.name === 'PETROAMAZONAS ECUADOR S.A.') ?? new SalesAccount(0, '');
+      p => p.name === 'PAM') ?? new Customer();
+  
     this.well.type = this.wellTypeList.find(
-      p => p.name === 'Oil Production') ?? new WellType(0, '');
+      p => p.name === 'Oil Production') ?? new WellType();
     this.well.basin = this.basinList.find(
-      p => p.name === 'AML') ?? new Basin(0, '');
+      p => p.name === 'AML') ?? new Basin();
     this.well.geoUnit = this.geoUnitList.find(
-      p => p.name === 'ECP') ?? new GeoUnit(0, '');
-    this.well.mgtCountry = this.mgtCountryList.find(
-      p => p.name === 'Ecuador') ?? new Country(0, '');
+      p => p.name === 'ECP') ?? new GeoUnit();
+    this.well.country = this.countryList.find(
+      p => p.name === 'Ecuador') ?? new Country();
     this.well.field = this.fieldList.find(
-      p => p.name === 'TIPUTINI') ?? new Field(0, '');
-    this.well.enviroment = this.enviromentList.find(
-      p => p.name === 'Land') ?? new Enviroment(0, '');
+      p => p.name === 'TIPUTINI') ?? new Field();
+    this.well.environment = this.environmentList.find(
+      p => p.name === 'Land') ?? new Environment();
 
     //MANAGAMENET DATA
     this.trackRecord.supervisorUser='XMENDOZA';
@@ -736,12 +511,12 @@ export class WellViewComponent {
         this.wellFormControl.setValue(well.name);
         this.wellTypeFormControl.setValue(well.type.name);
         this.customerFormControl.setValue(well.customer.name);
-        this.accountFormControl.setValue(well.account.name);
-        this.countryFormControl.setValue(well.mgtCountry.name);
+   
+        this.countryFormControl.setValue(well.country.name);
         this.basinFormControl.setValue(well.basin.name);
-        this.fieldFormControl.setValue(well.field.name);
+        this.fieldFormControl.setValue(well.field);
         this.geoUnitFormControl.setValue(well.geoUnit.name);
-        this.enviromentFormControl.setValue(well.enviroment.name);
+        this.environmentFormControl.setValue(well.environment.name);
   }
 
   PopulateManagmentFormControls(trackRecord:TrackRecord){
@@ -814,7 +589,7 @@ export class WellViewComponent {
             this.isManagementInfoFinished = true,
             this.nextStep();
         });
-    /*
+    
     this.EmitTrackRecordEvent(this.trackRecord.id);                       
 
     this.SendPopupNotification('The TrackRecord has been created with the Id: '
@@ -822,7 +597,7 @@ export class WellViewComponent {
 
     this.isManagementInfoFinished = true;
     this.nextStep();
-    */
+    
   }
 
   public SaveWellDetailedData() {
@@ -918,7 +693,7 @@ export class WellViewComponent {
 
   private GetWell(name: string): Well {
     const objWell = this.wellList.find(option => option.name === name);
-    return objWell ? objWell : new Well(0, '');
+    return objWell ? objWell : new Well();
   }
 
   //EVENTS
@@ -937,10 +712,7 @@ export class WellViewComponent {
       this.well.customer = customer;
   }  
 
-  public OnChangeSalesAccountEvent(event: MatOptionSelectionChange, salesAccount: SalesAccount) {
-    if (event.source.selected == true)
-      this.well.account = salesAccount;
-  }
+ 
   public OnChangeBasinEvent(event: MatOptionSelectionChange, basin: Basin) {
     if (event.source.selected == true)
       this.well.basin = basin;
@@ -949,17 +721,17 @@ export class WellViewComponent {
     if (event.source.selected == true)
       this.well.geoUnit = geoUnit;
   }
-  public OnChangeMgtCountryEvent(event: MatOptionSelectionChange, mgtCountry: Country) {
+  public OnChangeMgtCountryEvent(event: MatOptionSelectionChange, country: Country) {
     if (event.source.selected == true)
-      this.well.mgtCountry = mgtCountry;
+      this.well.country = country;
   }
   public OnChangeFieldEvent(event: MatOptionSelectionChange, field: Field) {
     if (event.source.selected == true)
-      this.well.field = field;
+      this.well.field = field.name;
   }
-  public OnChangeEnviromentEvent(event: MatOptionSelectionChange, enviroment: Enviroment) {
+  public OnChangeEnvironmentEvent(event: MatOptionSelectionChange, environment: Environment) {
     if (event.source.selected == true)
-      this.well.enviroment = enviroment;
+      this.well.environment = environment;
   }
   public OnChangeMaxDeviationEvent(event: MatOptionSelectionChange, maxDeviation: MaxDeviation) {
     if (event.source.selected == true)
@@ -1107,6 +879,6 @@ export class WellViewComponent {
   EmitTrackRecordEvent(data:number){
     this.trackRecordEvent.emit(data);
   }
-
+  */
 
 }

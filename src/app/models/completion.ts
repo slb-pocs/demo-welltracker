@@ -8,12 +8,12 @@ import { SandControl } from "./sand-control";
 export class Completion {
     public initialCompletion:boolean=true;    
     public number:number=0;    
-    public type:CompletionType=new CompletionType(0,'');
-    public producedFluid:ProducedfluidType=new ProducedfluidType(0,'');
-    public injectedFluid:InjectedfluidType=new InjectedfluidType(0,'');
-    public completionClass:CompletionClass=new CompletionClass(0,'');
-    public sandControl:SandControl=new SandControl(0,'');
-    public reservoirRockType:RockType=new RockType(0,'');
+    public type:CompletionType=new CompletionType();
+    public producedFluid:ProducedfluidType=new ProducedfluidType();
+    public injectedFluid:InjectedfluidType=new InjectedfluidType();
+    public completionClass:CompletionClass=new CompletionClass();
+    public sandControl:SandControl=new SandControl();
+    public reservoirRockType:RockType=new RockType();
     public reservoirTemperature:number=0
     public corrosiveCCO2:number=0
     public corrosiveH25:number=0;

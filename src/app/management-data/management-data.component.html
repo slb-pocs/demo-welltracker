@@ -1,0 +1,49 @@
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Supervisor User</mat-label>
+  <input matInput [formControl]="supervisorFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Validator User</mat-label>
+  <input matInput [formControl]="validatorUserFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Data Entered By</mat-label>
+  <input matInput [formControl]="dataEntryUserFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Assigned To</mat-label>
+  <input matInput [formControl]="assignedUserFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
+  <mat-label>Install Start Date</mat-label>
+  <input matInput [matDatepicker]="startDate">
+  <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+  <mat-datepicker #startDate></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
+  <mat-label>Install End Date</mat-label>
+  <input matInput [matDatepicker]="endDate">
+  <mat-datepicker-toggle matIconSuffix [for]="endDate"></mat-datepicker-toggle>
+  <mat-datepicker #endDate></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field" style="width: 212px;">
+  <mat-label>Validation Date</mat-label>
+  <input matInput [matDatepicker]="validationDate">
+  <mat-datepicker-toggle matIconSuffix [for]="validationDate"></mat-datepicker-toggle>
+  <mat-datepicker #validationDate></mat-datepicker>
+</mat-form-field>
+
+<div>
+  <button (click)="SaveManagementData()" mat-stroked-button class="primary-action-button">
+    Save
+</button>
+  <button (click)="ClearFields()" mat-stroked-button class="secondary-action-button">
+    Cancel
+</button>
+</div>

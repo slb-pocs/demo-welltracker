@@ -1,0 +1,20 @@
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Project Id</mat-label>
+  <input matInput [formControl]="projectFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Operation</mat-label>
+  <input matInput [formControl]="operationFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field">
+  <mat-label>Operation Activity</mat-label>
+  <input matInput [formControl]="operationActivityFormControl">
+</mat-form-field>     
+
+<div>
+  <button (click)="SearchData()" mat-stroked-button class="primary-action-button">Search</button>
+  <button (click)="ClearFields()" mat-stroked-button class="secondary-action-button">Cancel</button>
+</div>
+

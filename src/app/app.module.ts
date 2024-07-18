@@ -38,6 +38,14 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {  MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTableModule} from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
+import { WellDetailedDataComponent } from './well-detailed-data/well-detailed-data.component';
+import { StemDataComponent } from './stem-data/stem-data.component';
+import { CompletionHistoryComponent } from './completion-history/completion-history.component';
+import { CompletionDataComponent } from './completion-data/completion-data.component';
+import { WellInformationWorkflowComponent } from './well-information-workflow/well-information-workflow.component';
+import { ManagementDataComponent } from './management-data/management-data.component';
+import { SearchingComponent } from './searching/searching.component';
+import { CustomerDataComponent } from './customer-data/customer-data.component';
 
 
 
@@ -49,7 +57,15 @@ import { HttpClientModule } from '@angular/common/http';
     PopupViewComponent,
     SurfaceEquipmentViewComponent,
     TrackrecordViewComponent,
-    WellViewComponent
+    WellViewComponent,
+    WellDetailedDataComponent,
+    StemDataComponent,
+    CompletionHistoryComponent,
+    CompletionDataComponent,
+    WellInformationWorkflowComponent,
+    ManagementDataComponent,
+    SearchingComponent,
+    CustomerDataComponent
   ],
   imports: [
     BrowserModule,

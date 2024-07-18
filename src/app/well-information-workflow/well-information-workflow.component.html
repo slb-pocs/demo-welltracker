@@ -1,0 +1,127 @@
+<p>well-information-workflow works!</p>
+<p>Trackrecord: {{trackRecordId}}</p>
+
+<mat-accordion class="example-headers-align" multi>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 0" (opened)="SetStep(0)">
+        <mat-expansion-panel-header>
+            <mat-panel-title>Searching by Operational Activity</mat-panel-title>    
+                <mat-icon>search</mat-icon>   
+        </mat-expansion-panel-header>
+
+        <app-searching>            
+        </app-searching>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 1" (opened)="SetStep(1)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>1. Management Info</mat-panel-title>
+          <div *ngIf="isManagementInfoFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isManagementInfoFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+
+        <app-management-data (trackRecordEvent)="OnManagementInfoEvent($event)"
+        [trackRecordIdFromParent]="trackRecordId">    
+        </app-management-data>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 2" (opened)="SetStep(2)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>2. Customer Information</mat-panel-title>
+          <div *ngIf="isCustomerDataFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isCustomerDataFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+
+        <app-customer-data (wellEvent)="OnCustomerInfoEvent($event)"
+        [trackRecordIdFromParent]="trackRecordId"
+        [wellIdFromParent]="wellId">
+        </app-customer-data>        
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 3" (opened)="SetStep(3)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>3. Well Detailed Information</mat-panel-title>
+          <div *ngIf="isWellDataFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isWellDataFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+
+        <app-well-detailed-data (wellEvent)="OnWellInfoEvent($event)"
+        [trackRecordIdFromParent]="trackRecordId"
+        [wellIdFromParent]="wellId">
+        </app-well-detailed-data>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 4" (opened)="SetStep(4)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>4. Stem Information</mat-panel-title>
+          <div *ngIf="isStemDataFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isStemDataFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+
+        <app-stem-data>
+        </app-stem-data>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 5" (opened)="SetStep(5)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>5. Completion History</mat-panel-title>
+          <div *ngIf="isCompletionHistoryFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isCompletionHistoryFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+
+        <app-completion-history>
+        </app-completion-history>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 6" (opened)="SetStep(6)">
+        <mat-expansion-panel-header>
+          <mat-panel-title>6. Completion Information</mat-panel-title>
+          <div *ngIf="isCompletionDataFinished">
+            <mat-icon class="check-icon">check_circle</mat-icon>
+          </div>
+          <div *ngIf="!isCompletionDataFinished">
+            <mat-icon class="progress-icon">pending</mat-icon>
+          </div>
+        </mat-expansion-panel-header>
+
+        <app-completion-data>    
+        </app-completion-data>       
+
+    </mat-expansion-panel>    
+
+</mat-accordion>
+
+
+
+
+
+
+
+
+

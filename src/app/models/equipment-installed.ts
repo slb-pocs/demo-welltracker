@@ -1,8 +1,9 @@
 import { CatalogNode } from "./catalog-node";
 
 export class EquipmentInstalled {
+    id:number=0;
     productNumber:number=0;
-    catalogNode:CatalogNode=new CatalogNode(0,'');
+    catalogNode:CatalogNode=new CatalogNode();
     description:string='';
     serial:string='';
     deviation:number=0;

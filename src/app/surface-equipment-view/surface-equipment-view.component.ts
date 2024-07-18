@@ -22,7 +22,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
   @Input() operationId:string='';
   @Input() operationActivityId:string='';
 
-  well:Well=new Well(0,'');
+  well:Well=new Well();
     
   surfaceCatalogNodeList:CatalogNode[]=[
     {id:103354908,name:"CLAMP"},

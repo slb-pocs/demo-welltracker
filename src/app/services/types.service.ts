@@ -8,7 +8,7 @@ import { CompletionClass } from '../models/completion-class';
 import { CompletionpulledReason } from '../models/completionpulled-reason';
 import { CompletionType } from '../models/completion-type';
 import { Country } from '../models/country';
-import { Enviroment } from '../models/enviroment';
+import { Environment } from '../models/environment';
 import { Field } from '../models/field';
 import { FilterType } from '../models/filter-type';
 import { FluidType } from '../models/fluid-type';
@@ -63,8 +63,8 @@ export class TypesService {
   public GetCountries():Observable<Country[]>{
     return this.http.get<Country[]>(this.apiUrl+"Countries");   
   }
-  public GetEnvironments():Observable<Enviroment[]>{
-    return this.http.get<Enviroment[]>(this.apiUrl+"Environments");   
+  public GetEnvironments():Observable<Environment[]>{
+    return this.http.get<Environment[]>(this.apiUrl+"Environments");   
   }
   public GetFields():Observable<Field[]>{
     return this.http.get<Field[]>(this.apiUrl+"Fields");   

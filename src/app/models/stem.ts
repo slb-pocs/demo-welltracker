@@ -6,11 +6,11 @@ import { Weight } from "./weight";
 
 export class Stem {
     public stringNumber:number=0;
-    public stringType:StringType=new StringType(0,'');
+    public stringType:StringType=new StringType();
     public size:Size=new Size();
     public weight:Weight=new Weight();
-    public thread:Thread=new Thread(0,'');
-    public material:Material=new Material(0,'');
+    public thread:Thread=new Thread();
+    public material:Material=new Material();
     public mdTop:number=0;
     public mdBottom:number=0;
 

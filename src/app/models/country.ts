@@ -1,9 +1,8 @@
 export class Country {
-    public id:number;
-    public name:string;
+    public id:number=1;
+    public name:string='';
 
-    public constructor(id:number, name:string){
-        this.id=id;
-        this.name=name;
+    public constructor(){
+      
     }
 }

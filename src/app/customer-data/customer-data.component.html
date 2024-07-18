@@ -1,0 +1,93 @@
+<mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Well Name</mat-label>
+    <input matInput [matAutocomplete]="well" [formControl]="wellFormControl" />
+    <mat-autocomplete autoActiveFirstOption #well>
+      <mat-option *ngFor="let item of filteredWells | async" [value]="item.name"
+        (onSelectionChange)="OnChangeWellEvent($event,item)">
+        {{item.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Well Type</mat-label>
+    <mat-select [formControl]="wellTypeFormControl">
+      <mat-option *ngFor="let wellTypeItem of wellTypeList" [value]="wellTypeItem.name"
+        (onSelectionChange)="OnChangeWellTypeEvent($event,wellTypeItem)">
+        {{wellTypeItem.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field" style="width: 430px;">
+    <mat-label>Corporate Customer</mat-label>
+    <input matInput [matAutocomplete]="customer" [formControl]="customerFormControl" />
+    <mat-autocomplete autoActiveFirstOption #customer>
+      <mat-option *ngFor="let item of filteredCustomers | async" [value]="item.name"
+        (onSelectionChange)="OnChangeCustomerEvent($event,item)">
+        {{item.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field" style="width: 430px;">
+    <mat-label>Sales Account</mat-label>
+    <input matInput [formControl]="accountFormControl" />    
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Basin</mat-label>
+    <mat-select [formControl]="basinFormControl">
+      <mat-option *ngFor="let basinItem of basinList" [value]="basinItem.name"
+        (onSelectionChange)="OnChangeBasinEvent($event,basinItem)">
+        {{basinItem.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>GeoUnits</mat-label>
+    <mat-select [formControl]="geoUnitFormControl">
+      <mat-option *ngFor="let geoItem of geoUnitList" [value]="geoItem.name"
+        (onSelectionChange)="OnChangeGeoUnitEvent($event,geoItem)">
+        {{geoItem.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Mgt Country</mat-label>
+    <mat-select [formControl]="countryFormControl">
+      <mat-option *ngFor="let countryItem of countryList" [value]="countryItem.name"
+        (onSelectionChange)="OnChangeMgtCountryEvent($event,countryItem)">
+        {{countryItem.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Field</mat-label>
+    <input matInput [matAutocomplete]="field" [formControl]="fieldFormControl" />
+    <mat-autocomplete autoActiveFirstOption #field>
+      <mat-option *ngFor="let item of filteredFields | async" [value]="item.name"
+        (onSelectionChange)="OnChangeFieldEvent($event,item)">
+        {{item.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Enviroment</mat-label>
+    <mat-select [formControl]="environmentFormControl">
+      <mat-option *ngFor="let enviromentItem of environmentList" [value]="enviromentItem.name"
+        (onSelectionChange)="OnChangeEnvironmentEvent($event,enviromentItem)">
+        {{enviromentItem.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div>
+    <button mat-stroked-button class="primary-action-button" (click)="SaveCustomerData()">Save</button>
+    <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
+
+  </div>
