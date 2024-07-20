@@ -16,9 +16,9 @@
   <mat-form-field appearance="outline" class="mat-form-field" style="width: 430px;">
     <mat-label>Size</mat-label>
     <mat-select [formControl]="stemSizeFormControl">
-      <mat-option *ngFor="let item of sizeList" [value]="item.sizeInMm"
-        (onSelectionChange)="OnChangeSizeEvent($event,item)">
-        {{item.sizeInMm}}
+      <mat-option *ngFor="let sizeItem of sizeList" [value]="sizeItem.sizeInMm"
+        (onSelectionChange)="OnChangeSizeEvent($event,sizeItem)">
+        {{sizeItem.sizeInMm}}
       </mat-option>
     </mat-select>
     <mat-hint style="font-size: smaller; margin-left: 0%;">
@@ -29,9 +29,9 @@
   <mat-form-field appearance="outline" class="mat-form-field">
     <mat-label>Weight</mat-label>
     <mat-select [formControl]="stemWeightFormControl">
-      <mat-option *ngFor="let item of weightList" [value]="item.weightInLb"
-        (onSelectionChange)="OnChangeWeightEvent($event,item)">
-        {{item.weightInLb}}
+      <mat-option *ngFor="let weightItem of weightList" [value]="weightItem.weightInLb"
+        (onSelectionChange)="OnChangeWeightEvent($event,weightItem)">
+        {{weightItem.weightInLb}}
       </mat-option>
     </mat-select>   
   </mat-form-field> 
@@ -67,6 +67,92 @@
   </mat-form-field>
 
   <div>
-    <button (click)="Save()" mat-stroked-button class="save-button">Save</button>
-    <button (click)="ClearFields()" mat-stroked-button class="cancel-button" (click)="ClearFields()">Cancel</button>
+    <button (click)="Save()" mat-stroked-button class="primary-action-button">Save</button>
+    <button (click)="ClearFields()" mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
+  </div>
+
+  <!----------------------------------TABLE---------------------------------------------------->
+  <div *ngIf="stemList.length>0">
+    <mat-card style="margin-top: 2%;">
+      <table mat-table [dataSource]="stemList" class="mat-elevation-z8 demo-table">
+
+        <ng-container matColumnDef="Id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.id}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="String-Number">
+          <th mat-header-cell *matHeaderCellDef>String Number</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.stringNumber}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="String-Type">
+          <th mat-header-cell *matHeaderCellDef>String Type</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.stringType.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Size">
+          <th mat-header-cell *matHeaderCellDef>Size</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.size.sizeInMm}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Weight">
+          <th mat-header-cell *matHeaderCellDef>Weight</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.weight.weightInLb}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Thread">
+          <th mat-header-cell *matHeaderCellDef>Thread</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.thread.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Material">
+          <th mat-header-cell *matHeaderCellDef>Material</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.material.name}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="MD-Top">
+          <th mat-header-cell *matHeaderCellDef>MD Top</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.mdTop}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="MD-Bottom">
+          <th mat-header-cell *matHeaderCellDef>MD Bottom</th>
+          <td mat-cell *matCellDef="let element" style="font-size: small;">
+            {{element.mdBottom}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td style="width: 150px;" mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="OnClickStemItem(element.id)">
+              <mat-icon color="primary">edit</mat-icon>
+            </button>
+            <button mat-icon-button>
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+    </mat-card>
   </div>

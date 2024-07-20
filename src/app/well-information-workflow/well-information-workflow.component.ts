@@ -26,7 +26,6 @@ export class WellInformationWorkflowComponent implements OnInit {
   SetStep(step:number){
     this.step=step;
   }
-
   OnManagementInfoEvent(message:number){
     this.trackRecordId=message;
     this.isManagementInfoFinished=true;
@@ -44,6 +43,14 @@ export class WellInformationWorkflowComponent implements OnInit {
   OnStemInfoEvent(message:number){   
     this.isStemDataFinished=true;
     this.step=5;
+  }
+  OnHistoryDataCompletion(message:number){   
+    this.isCompletionHistoryFinished=true;
+    this.step=6;
+  }
+  OnCompletionInfo(message:number){   
+    this.isCompletionDataFinished=true;
+    this.step=7;
   }
 
 

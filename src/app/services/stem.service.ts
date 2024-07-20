@@ -23,8 +23,11 @@ export class StemService {
   public GetAllStems():Observable<Stem[]>{
     return this.http.get<Stem[]>(this.apiUrl);
   }
+  public GetStemsByWell(wellId:number):Observable<Stem[]>{
+    return this.http.get<Stem[]>(this.apiUrl+'/wellid?wellId='+wellId);
+  }
   public GetStem(id:number):Observable<Stem>{  
-    return this.http.get<Stem>(this.apiUrl+'/id?id='+id);;
+    return this.http.get<Stem>(this.apiUrl+'/id?id='+id);
   }
 
   private GetStemDtoFromStem(stem:Stem):StemDto{

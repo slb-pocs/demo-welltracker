@@ -13,6 +13,7 @@ import { StemSize } from '../models/stemSize';
 import { StemWeight } from '../models/StemWeight';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
+import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-stem-data',
@@ -22,6 +23,9 @@ import { PopupViewComponent } from '../popup-view/popup-view.component';
 export class StemDataComponent {
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
+
+  @ViewChild(MatTable)
+  table!: MatTable<Stem>; 
 
   @Output() wellEvent=new EventEmitter<number>();
   @Input() wellIdFromParent:number=0;
@@ -42,11 +46,16 @@ export class StemDataComponent {
   weightList:StemWeight[]=[];
   threadList: Thread[] = [];
   materialList: Material[] = [];
+  stemList:Stem[]=[];
  
   filteredSizes!:Observable<StemSize[]>;
   filteredWeights!:Observable<StemWeight[]>;
 
   isStemInfoFinished:boolean=false;
+
+  columns:string[]=["Id","String-Number","String-Type","Size",
+    "Weight","Thread","Material","MD-Top","MD-Bottom",
+    "Action"];
 
   public constructor(private typesService: TypesService
                     ,private stemService: StemService
@@ -75,39 +84,59 @@ export class StemDataComponent {
     this.typesService.GetMaterials()
                              .subscribe(response =>{
                               this.materialList=response
-                             });  
-
-   
-    
+                             });    
   } 
  
   Save(){
+    this.stem.mdBottom=parseFloat(this.stemMDBottomFormControl.value);
+    this.stem.mdTop=parseFloat(this.stemMDTopFormControl.value);
+    this.stem.stringNumber=parseFloat(this.stringNumberFormControl.value);
+
     if(this.wellIdFromParent==0)
       this.SendPopupNotification
       ('The well information has not been created');
 
     else{
-      this.stem.wellId=this.wellIdFromParent;     
-      this.CreateWell();       
+      this.stem.wellId=this.wellIdFromParent; 
+      if(this.stem.id==0)            
+        this.Create();
+      else
+        this.Update();            
     }   
   }
-  CreateWell(){
+  Create(){
     this.stemService.CreateStem(this.stem)
     .subscribe(response=> {
       this.stem=response,
       this.SendPopupNotification
           ('The stem has been created with the id: '
             +this.stem.id),
-      this.wellEvent.emit(this.stem.wellId)              
+      this.wellEvent.emit(this.stem.wellId),
+      this.stemService.GetStemsByWell(this.stem.wellId)
+        .subscribe(response2 => {
+          this.stemList=response2,
+          this.table.renderRows(),
+          this.stem=new Stem(),
+          this.stem.wellId=this.wellIdFromParent,
+          this.ClearFields()
+        })              
     });
   }
-  UpdateWell(){
+  Update(){
     this.stemService.UpdateStem(this.stem)
     .subscribe(response=> {
       this.stem=response,
       this.SendPopupNotification
           ('The Well with id: '+this.stem.id+' has been updated '),
-      this.wellEvent.emit(this.stem.id)              
+      this.wellEvent.emit(this.stem.id),
+      this.stemService.GetStemsByWell(this.stem.wellId)
+      .subscribe(response2 => {
+        this.stemList=response2,
+        this.table.renderRows(),
+        this.stem=new Stem(),
+        this.stem.wellId=this.wellIdFromParent,
+        this.ClearFields()
+      })               
     });
   }
   ClearFields(){
@@ -115,14 +144,14 @@ export class StemDataComponent {
     this.FillFields(stem);
   }
   FillFields(stem:Stem){
-    this.stringNumberFormControl.setValue(stem.stringNumber);
+    this.stringNumberFormControl.setValue(stem.stringNumber.toString());
     this.stringTypeFormControl.setValue(stem.stringType.name);
-    this.stemSizeFormControl.setValue(stem.size.sizeInMm);
-    this.stemWeightFormControl.setValue(stem.weight.weightInLb);
+    this.stemSizeFormControl.setValue(stem.size.sizeInMm.toString());
+    this.stemWeightFormControl.setValue(stem.weight.weightInLb.toString());
     this.stemThreadFormControl.setValue(stem.thread.name);
     this.stemMaterialFormControl.setValue(stem.material.name);
-    this.stemMDTopFormControl.setValue(stem.mdTop);
-    this.stemMDBottomFormControl.setValue(stem.mdBottom);
+    this.stemMDTopFormControl.setValue(stem.mdTop.toString());
+    this.stemMDBottomFormControl.setValue(stem.mdBottom.toString());
   }  
 
   public OnChangeStringTypetEvent(event: MatOptionSelectionChange, stringType: StringType) {
@@ -144,6 +173,11 @@ export class StemDataComponent {
   public OnChangeStemMaterialEvent(event: MatOptionSelectionChange, material: Material) {
     if (event.source.selected == true)
       this.stem.material = material;
+  }
+  public OnClickStemItem(stemId:number){
+    this.stem=this.stemList.find(p=>p.id===stemId)?? new Stem();
+    this.FillFields(this.stem);
+ 
   }
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {

@@ -95,7 +95,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-completion-history>
+        <app-completion-history (wellEvent)="OnHistoryDataCompletion($event)"
+        [wellIdFromParent]="wellId">
         </app-completion-history>
 
     </mat-expansion-panel>
