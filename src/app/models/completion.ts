@@ -1,26 +1,24 @@
 import { CompletionClass } from "./completion-class";
 import { CompletionType } from "./completion-type";
-import { InjectedfluidType } from "./injectedfluid-type";
-import { ProducedfluidType } from "./producedfluid-type";
+import { InjectedFluidType } from "./injected-fluid-type";
+import { ProducedFluidType } from "./producedfluid-type";
 import { RockType } from "./rock-type";
 import { SandControl } from "./sand-control";
 
 export class Completion {
-    public initialCompletion:boolean=true;    
+    public id:number=0;  
     public number:number=0;    
-    public type:CompletionType=new CompletionType();
-    public producedFluid:ProducedfluidType=new ProducedfluidType();
-    public injectedFluid:InjectedfluidType=new InjectedfluidType();
+    public completionType:CompletionType=new CompletionType();
+    public wellId:number=0;
+    public producedFluidType:ProducedFluidType=new ProducedFluidType();
+    public injectedFluidType:InjectedFluidType=new InjectedFluidType();
     public completionClass:CompletionClass=new CompletionClass();
-    public sandControl:SandControl=new SandControl();
+    public sandControlType:SandControl=new SandControl();
     public reservoirRockType:RockType=new RockType();
     public reservoirTemperature:number=0
-    public corrosiveCCO2:number=0
-    public corrosiveH25:number=0;
-    public wasPulled:boolean=false;
-    public ipmWell:boolean=false;
-    public hasLinerHangerInstalation=false;
-    public pulledDate:Date=new Date();
+    public corrosiveCompCCO2:number=0
+    public corrosiveCompH25:number=0; 
+
 
     constructor(){}
 }

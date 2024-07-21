@@ -140,8 +140,17 @@ export class StemDataComponent {
     });
   }
   ClearFields(){
-    let stem:Stem=new Stem();
-    this.FillFields(stem);
+  this.stem=new Stem();
+  this.stem.wellId=this.wellIdFromParent;
+  this.stringNumberFormControl=new FormControl('');
+  this.stringTypeFormControl=new FormControl('');
+  this.stemSizeFormControl=new FormControl('');
+  this.stemWeightFormControl=new FormControl('');
+  this.stemThreadFormControl=new FormControl('');
+  this.stemMaterialFormControl=new FormControl('');
+  this.stemMDTopFormControl=new FormControl('');
+  this.stemMDBottomFormControl=new FormControl('');
+
   }
   FillFields(stem:Stem){
     this.stringNumberFormControl.setValue(stem.stringNumber.toString());

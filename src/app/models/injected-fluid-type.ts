@@ -1,4 +1,4 @@
-export class InjectedfluidType {
+export class InjectedFluidType {
     public id:number=1;
     public name:string='';
 

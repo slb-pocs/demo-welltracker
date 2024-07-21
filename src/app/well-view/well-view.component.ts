@@ -1,3 +1,4 @@
+
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
@@ -28,8 +29,8 @@ import { StringType } from '../models/string-type';
 import { Thread } from '../models/thread';
 import { Material } from '../models/material';
 import { CompletionType } from '../models/completion-type';
-import { ProducedfluidType } from '../models/producedfluid-type';
-import { InjectedfluidType } from '../models/injectedfluid-type';
+import { ProducedFluidType } from '../models/producedfluid-type';
+import { InjectedFluidType } from '../models/injected-fluid-type';
 import { CompletionClass } from '../models/completion-class';
 import { SandControl } from '../models/sand-control';
 import { RockType } from '../models/rock-type';

@@ -1,7 +1,7 @@
-import { InjectedfluidType } from './injectedfluid-type';
+import { InjectedFluidType } from './injected-fluid-type';
 
 describe('InjectedfluidType', () => {
   it('should create an instance', () => {
-    expect(new InjectedfluidType()).toBeTruthy();
+    expect(new InjectedFluidType()).toBeTruthy();
   });
 });

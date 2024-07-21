@@ -13,7 +13,7 @@ import { Field } from '../models/field';
 import { FilterType } from '../models/filter-type';
 import { FluidType } from '../models/fluid-type';
 import { GeoUnit } from '../models/geo-unit';
-import { InjectedfluidType } from '../models/injectedfluid-type';
+import { InjectedFluidType } from '../models/injected-fluid-type';
 import { LinerhangerSystem } from '../models/linerhanger-system';
 import { Material } from '../models/material';
 import { MaxDeviation } from '../models/max-deviation';
@@ -21,7 +21,7 @@ import { MdUnit } from '../models/md-unit';
 import { MeassuredFrom } from '../models/meassured-from';
 import { Multilateral } from '../models/multilateral';
 import { MultistageSimulation } from '../models/multistage-simulation';
-import { ProducedfluidType } from '../models/producedfluid-type';
+import { ProducedFluidType } from '../models/producedfluid-type';
 import { PumpingCompany } from '../models/pumping-company';
 import { SandControl } from '../models/sand-control';
 import { ScreenProvider } from '../models/screen-provider';
@@ -78,8 +78,8 @@ export class TypesService {
   public GetGeoUnits():Observable<GeoUnit[]>{
     return this.http.get<GeoUnit[]>(this.apiUrl+"GeoUnits");   
   }
-  public GetInjectedFluidTypes():Observable<InjectedfluidType[]>{
-    return this.http.get<InjectedfluidType[]>(this.apiUrl+"InjectedFluidTypes");   
+  public GetInjectedFluidTypes():Observable<InjectedFluidType[]>{
+    return this.http.get<InjectedFluidType[]>(this.apiUrl+"InjectedFluidTypes");   
   }
   public GetLinerHangerSystems():Observable<LinerhangerSystem[]>{
     return this.http.get<LinerhangerSystem[]>(this.apiUrl+"LinerHangerSystems");   
@@ -102,8 +102,8 @@ export class TypesService {
   public GetMultiStageTypes():Observable<MultistageSimulation[]>{
     return this.http.get<MultistageSimulation[]>(this.apiUrl+"MultiStageTypes");   
   }  
-  public GetProducedFluidTypes():Observable<ProducedfluidType[]>{
-    return this.http.get<ProducedfluidType[]>(this.apiUrl+"ProducedFluidTypes");   
+  public GetProducedFluidTypes():Observable<ProducedFluidType[]>{
+    return this.http.get<ProducedFluidType[]>(this.apiUrl+"ProducedFluidTypes");   
   }
   public GetPumpingCompanies():Observable<PumpingCompany[]>{
     return this.http.get<PumpingCompany[]>(this.apiUrl+"PumpingCompanies");   
@@ -146,5 +146,8 @@ export class TypesService {
   }
   public GetWellTypes():Observable<WellType[]>{
     return this.http.get<WellType[]>(this.apiUrl+"WellTypes");   
+  }
+  public GetReservoirRockTypes():Observable<WellType[]>{
+    return this.http.get<WellType[]>(this.apiUrl+"RockTypes");   
   }
 }
