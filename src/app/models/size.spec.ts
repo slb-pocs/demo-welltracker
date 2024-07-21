@@ -1,7 +1,7 @@
-import { StemSize } from './stemSize';
+import { Size } from './size';
 
 describe('StemSize', () => {
   it('should create an instance', () => {
-    expect(new StemSize()).toBeTruthy();
+    expect(new Size()).toBeTruthy();
   });
 });

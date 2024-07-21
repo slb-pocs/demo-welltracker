@@ -72,6 +72,7 @@ export class WellDetailedDataComponent {
 
   ngOnInit(){
     this.well.trackRecordId=this.trackRecordIdFromParent;
+    this.well.id=this.wellIdFromParent;
     
     if (this.wellIdFromParent!=0){    
       this.wellService.GetWell(this.wellIdFromParent).subscribe(response => {
@@ -128,11 +129,11 @@ export class WellDetailedDataComponent {
       ('The customer information needs to be added first.');
 
     else{                  
-      this.UpdateWell();             
+      this.Update();             
     }   
   } 
 
-  UpdateWell(){
+  Update(){
     let updatedWell:Well=new Well();
     
     this.wellService.GetWell(this.wellIdFromParent).subscribe(
@@ -166,8 +167,23 @@ export class WellDetailedDataComponent {
    
   }
   ClearFields(){
-    let well:Well=new Well();
-    this.FillFields(well);
+    this.well=new Well();
+    this.well.id=this.wellIdFromParent;
+    this.well.trackRecordId=this.trackRecordIdFromParent;
+
+    this.waterDepthFormControl=new FormControl('');
+    this.maxDeviationFormControl=new FormControl('');
+    this.mdMeasuredFormControl=new FormControl('');
+    this.mdDistanceFormControl=new FormControl('');
+    this.mdUnitsFormControl=new FormControl('');
+    this.tvdMeasuredFormControl=new FormControl('');
+    this.tvdDistanceFormControl=new FormControl('');
+    this.tvdUnitsFormControl=new FormControl('');
+    this.upperCompletionFormControl=new FormControl('');
+    this.artificalLiftFormControl=new FormControl('');
+    this.multiLateralFormControl=new FormControl('');
+    this.linerHangerFormControl=new FormControl('');
+    this.multiStageFormControl=new FormControl('');
   }
   FillFields(well:Well){
     this.waterDepthFormControl.setValue(well.waterDepth);

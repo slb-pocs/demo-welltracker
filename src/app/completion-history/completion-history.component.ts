@@ -44,7 +44,8 @@ export class CompletionHistoryComponent {
 
   }
 
-  ngOnInit(){    
+  ngOnInit(){
+    this.completionInitialData.wellId=this.wellIdFromParent;    
 
     this.isCompletionPulledFormControl.setValue(false);
     this.isInitialCompletionFormControl.setValue(false);
@@ -94,58 +95,34 @@ export class CompletionHistoryComponent {
     });
   }
   ClearFields(){
-    let completionInitial:CompletionInitialData=new CompletionInitialData();
-    this.FillFields(completionInitial);
+    this.completionInitialData=new CompletionInitialData();
+    this.completionInitialData.wellId=this.wellIdFromParent
+
+    this.isCompletionPulledFormControl=new FormControl('');
+    this.isInitialCompletionFormControl=new FormControl('');
+    this.completionPulledDateFormControl=new FormControl('');
+    this.completionPulledReasonFormControl=new FormControl('');
+    this.lastValidatedFormControl=new FormControl('');  
+    this.hasIpmWellFormControl=new FormControl('');
+    this.hasLinerHangerInstallationFormControl=new FormControl('');  
   }
   FillFields(completionInitialData:CompletionInitialData){
-    /*
-    this.wellFormControl.setValue(well.name);
-    this.wellTypeFormControl.setValue(well.wellType.name);
-    this.customerFormControl.setValue(well.customer.name);
-
-    this.countryFormControl.setValue(well.country.name);
-    this.basinFormControl.setValue(well.basin.name);
-    this.fieldFormControl.setValue(well.field);
-    this.geoUnitFormControl.setValue(well.geoUnit.name);
-    this.environmentFormControl.setValue(well.environment.name);
-    */
+    this.isCompletionPulledFormControl.setValue
+            (this.completionInitialData.isCompletionPulled==true);
+    this.isInitialCompletionFormControl.setValue
+            (this.completionInitialData.isInitialCompletion==true);
+    this.completionPulledDateFormControl.setValue
+            (this.completionInitialData.completionPulledDate);
+    this.completionPulledReasonFormControl.setValue
+            (this.completionInitialData.completionPulledReason.name);
+    this.lastValidatedFormControl.setValue
+            (this.completionInitialData.equipmentLastValidated);
+    this.hasIpmWellFormControl.setValue
+            (this.completionInitialData.hasIpmWell);
+    this.hasLinerHangerInstallationFormControl.setValue
+            (this.completionInitialData.hasLinerHangerInstallation);  
   }  
-  /*
-  public OnChangeWellEvent(event: MatOptionSelectionChange, wellReference: WellReference) {
-    if (event.source.selected == true) 
-      this.well.name = wellReference.name;       
-  }
-  public OnChangeWellTypeEvent(event: MatOptionSelectionChange, wellType: WellType) {
-    if (event.source.selected == true)
-      this.well.wellType = wellType;
-  }
-  public OnChangeCustomerEvent(event: MatOptionSelectionChange, customer: Customer) {
-    if (event.source.selected == true)
-      this.well.customer = customer;
-      this.accountFormControl.setValue(customer.name);
-  } 
-  public OnChangeBasinEvent(event: MatOptionSelectionChange, basin: Basin) {
-    if (event.source.selected == true)
-      this.well.basin = basin;
-  }
-  public OnChangeGeoUnitEvent(event: MatOptionSelectionChange, geoUnit: GeoUnit) {
-    if (event.source.selected == true)
-      this.well.geoUnit = geoUnit;
-  }
-  public OnChangeMgtCountryEvent(event: MatOptionSelectionChange, country: Country) {
-    if (event.source.selected == true)
-      this.well.country = country;
-  }
-  public OnChangeFieldEvent(event: MatOptionSelectionChange, field: Field) {
-    if (event.source.selected == true)
-      this.well.field = field.name;
-  }
-  public OnChangeEnvironmentEvent(event: MatOptionSelectionChange, environment: Environment) {
-    if (event.source.selected == true)
-      this.well.environment = environment;
-  }
  
-    */
 
   public OnChangeWellEvent(event: MatOptionSelectionChange, completionPulledReason: CompletionpulledReason) {
     if (event.source.selected == true) 

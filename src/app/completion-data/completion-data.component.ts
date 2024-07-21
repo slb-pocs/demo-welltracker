@@ -62,8 +62,7 @@ export class CompletionDataComponent {
                     ,private dialogWindow: MatDialog
   ){}
 
-  ngOnInit(){
-    this.wellIdFromParent=88; 
+  ngOnInit(){ 
     this.completion.wellId=this.wellIdFromParent;    
     
     this.typesService.GetCompletionTypes()
@@ -100,7 +99,7 @@ export class CompletionDataComponent {
 
     if(this.wellIdFromParent==0)
       this.SendPopupNotification
-      ('The well information has not been created');
+      ('You need to enter the customer data first');
 
     else{
       this.completion.wellId=this.wellIdFromParent; 
@@ -110,46 +109,45 @@ export class CompletionDataComponent {
         this.Update();            
     }   
   }
+  NextStep(){
+    this.wellEvent.emit(this.completion.wellId);
+  }
   Create(){
     this.completionService.CreateCompletion(this.completion)
     .subscribe(response=> {
       this.completion=response,
       this.SendPopupNotification
           ('The completion has been created with the id: '
-            +this.completion.id),
-      this.wellEvent.emit(this.completion.wellId),
-      this.completionService.GetCompletionsByWell(this.completion.wellId)
-        .subscribe(response2 => {
-          this.completionList=response2,
-          this.table.renderRows(),
-          this.completion=new Completion(),
-          this.completion.wellId=this.wellIdFromParent,
-          this.ClearFields()
-        })              
+            +this.completion.id),     
+      this.completion=new Completion(),
+      this.completion.wellId=this.wellIdFromParent,
+      this.ClearFields(),     
+      this.RefreshCompletionList()          
     });
-  }
+  }  
   Update(){
     this.completionService.UpdateCompletion(this.completion)
     .subscribe(response=> {
       this.completion=response,
       this.SendPopupNotification
-          ('The Completion with id: '+this.completion.id+' has been updated '),
-      this.wellEvent.emit(this.completion.id),
-      this.completionService.GetCompletionsByWell(this.completion.wellId)
-      .subscribe(response2 => {
-        this.completionList=response2,
-        this.table.renderRows(),
-        this.completion=new Completion(),
-        this.completion.wellId=this.wellIdFromParent,
-        this.ClearFields()
-      })               
+          ('The Completion with id: '+this.completion.id+' has been updated '),      
+      this.completion=new Completion(),
+      this.completion.wellId=this.wellIdFromParent,
+      this.ClearFields(),
+      this.RefreshCompletionList()                  
     });
   }
+  RefreshCompletionList(){
+    this.completionService.GetCompletionsByWell(this.completion.wellId)
+    .subscribe(response => {
+      this.completionList=response,
+      this.table.renderRows()      
+    })  
+  }
+
   ClearFields(){
-    /*
-    let completion:Completion=new Completion();
-    this.FillFields(completion);
-    */
+    this.completion=new Completion();
+    this.completion.wellId=this.wellIdFromParent;
     this.completionNumberFormControl = new FormControl('');
     this.completionTypeFormControl = new FormControl('');
     this.producedFluidTypeFormControl = new FormControl('');

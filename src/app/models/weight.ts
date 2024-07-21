@@ -1,4 +1,4 @@
-export class StemWeight {
+export class Weight {
     public id:number=1;
     public weightInLb:string='';
 

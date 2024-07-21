@@ -152,12 +152,12 @@ export class CustomerDataComponent implements OnInit {
       }     
   
       if (this.wellIdFromParent==0)
-        this.CreateWell();      
+        this.Create();      
       else
-        this.UpdateWell();      
+        this.Update();      
     }   
   }
-  CreateWell(){
+  Create(){
     this.wellService.CreateWell(this.well)
     .subscribe(response=> {
       this.well=response,
@@ -167,7 +167,7 @@ export class CustomerDataComponent implements OnInit {
       this.wellEvent.emit(this.well.id)              
     });
   }
-  UpdateWell(){
+  Update(){
     this.wellService.UpdateWell(this.well)
     .subscribe(response=> {
       this.well=response,
@@ -177,8 +177,17 @@ export class CustomerDataComponent implements OnInit {
     });
   }
   ClearFields(){
-    let well:Well=new Well();
-    this.FillFields(well);
+    this.well=new Well();
+    this.well.trackRecordId=this.trackRecordIdFromParent;
+    this.wellFormControl=new FormControl('');
+    this.wellTypeFormControl=new FormControl('');
+    this.customerFormControl=new FormControl('');
+    this.accountFormControl=new FormControl('');
+    this.basinFormControl=new FormControl('');
+    this.geoUnitFormControl=new FormControl('');
+    this.countryFormControl=new FormControl('');
+    this.fieldFormControl=new FormControl('');
+    this.environmentFormControl=new FormControl('');
   }
   FillFields(well:Well){
     this.wellFormControl.setValue(well.name);
