@@ -1,6 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { SurfaceRunningEquipment } from '../models/surface-running-equipment';
 import { Well } from '../models/well';
 import { CatalogNode } from '../models/catalog-node';
 import { Observable, map, startWith } from 'rxjs';

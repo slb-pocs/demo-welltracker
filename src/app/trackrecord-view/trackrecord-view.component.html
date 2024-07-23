@@ -5,7 +5,7 @@
 </div>
 <mat-horizontal-stepper>
     <mat-step label="Well Information">
-       <app-well-information-workflow>
+       <app-well-information-workflow (trackRecordEvent)="ReceiveTrackRecordData($event)">
         
        </app-well-information-workflow>
         <div style="text-align: right; margin-top: 3%;">
@@ -14,14 +14,13 @@
 
     </mat-step>
     <mat-step label="Equipment">
-        <app-surface-equipment-view [projectId]="projectId"
-            [operationId]="operationId"
-            [operationActivityId]="operationActivityId">
-        </app-surface-equipment-view>
-        <app-equipment-installed-view [projectId]="projectId"
-            [operationId]="operationId"
-            [operationActivityId]="operationActivityId">
-        </app-equipment-installed-view>
+        <app-equipment-workflow>
+
+        </app-equipment-workflow>
+    </mat-step>
+
+    <mat-step label="Equipment">
+     
     </mat-step>
     <mat-step label="Key Components">
         <p>Key components</p>

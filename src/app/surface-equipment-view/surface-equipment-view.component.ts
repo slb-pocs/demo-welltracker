@@ -1,14 +1,16 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { CatalogNode } from '../models/catalog-node';
 import { Well } from '../models/well';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { MatDialog } from '@angular/material/dialog';
-import { SurfaceRunningEquipment, } from '../models/surface-running-equipment';
+import { SurfaceEquipment, } from '../models/surface-equipment';
 import { Observable, map, startWith} from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { TypesService } from '../services/types.service';
+import { SurfaceEquipmentService } from '../services/surface-equipment.service';
 @Component({
   selector: 'app-surface-equipment-view',
   templateUrl: './surface-equipment-view.component.html',
@@ -16,13 +18,16 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 })
 export class SurfaceEquipmentViewComponent implements OnInit {
   @ViewChild(MatTable)
-  table!: MatTable<SurfaceRunningEquipment>; 
+  table!: MatTable<SurfaceEquipment>; 
 
   @Input() projectId:string='';
   @Input() operationId:string='';
   @Input() operationActivityId:string='';
+  @Input() trackRecordIdFromParent:number=0;
 
-  well:Well=new Well();
+  @Output() equimentEvent= new EventEmitter<boolean>();
+
+  surfaceEquipment:SurfaceEquipment=new SurfaceEquipment();
     
   surfaceCatalogNodeList:CatalogNode[]=[
     {id:103354908,name:"CLAMP"},
@@ -127,50 +132,47 @@ export class SurfaceEquipmentViewComponent implements OnInit {
     {id:80055419,name:"TUBING SEAL ASSEMBLY, 04.750 OD, 5 SETS V-PKG, 2 DEBRIS BARRIER (V/T/R) SETS (1 ON TOP & 1 ON BOTTOM) & 3 CHEMRAZ SETS, 03.50/12.95 (12.70) STL BOX, 13CR 80KSI"},
     {id:80055420,name:"TUBING, 2-7/8 6.4# PTJ B X P, 15FT, L8"},
     {id:103374232,name:"TUBING, TAPERED, HEAT SHRINK, STRAIGHT, 1.22 IN ID"},
-    {id:103300171,name:"WIRELINE ENTRY GUIDE (WEG) 2.875 IN (6.4) TSH BLUE BOX P110:SPN-10004138,SUPPLIER-COMPLETION PRODUCTS PTE LTD."},
+    {id:103300171,name:"WIRELINE ENTRY GUIDE (WEG) 2.875 IN (6.4) TSH BLUE BOX P110:SPN-10004138,SUPPLIER-SURFACEEQUIPMENT PRODUCTS PTE LTD."},
     {id:103388862,name:"WIRELINE RE-ENTRY GUIDE W/ 2-3/8 EUE BOX X HALF MULE SHOE, 4130-4140 L80, MAX OD 3.063, MIN ID 1.995:SPN-238WEG5331,SUPPLIER-GIANT OIL TOOLS (PRODUCTS)."},
     {id:103388863,name:"WIRELINE RE-ENTRY GUIDE, 2 7/8IN 6.4PPF"}
 
     ];  
 
   isSurfaceEquipmentFinished:boolean=false;
-  isEquipmentInstalledFinished:boolean=false;
 
   filteredCatalogNodes!:Observable<CatalogNode[]>;
 
   step:number=0;
 
-  surfaceEquipmentList:SurfaceRunningEquipment[]=[    
-  ];  
+  surfaceEquipmentList:SurfaceEquipment[]=[];  
 
-  columns:string[]=['Product-Number','Catalog-Node','Serial','Quantity',
+  columns:string[]=['Id','Product Number','Catalog Node','Serial','Quantity',
    'Is Key Component','Action'];
 
   //Form Controls
-  surfaceProductNumberFormControl=new FormControl('');
-  surfaceCatalogNodeFormControl=new FormControl('');
-  surfaceDescriptionFormControl=new FormControl('');
-  surfaceSerialFormControl=new FormControl('');
-  surfaceQuantityFormControl=new FormControl('');
-  surfaceKeyComponentFormControl=new FormControl('');  
+  productNumberFormControl:FormControl=new FormControl('');
+  catalogNodeFormControl:FormControl=new FormControl('');
+  descriptionFormControl:FormControl=new FormControl('');
+  serialFormControl:FormControl=new FormControl('');
+  quantityFormControl:FormControl=new FormControl('');
+  isKeyComponentFormControl:FormControl=new FormControl(false);  
 
-  public constructor(private dialogRef:MatDialog){}
+  public constructor(private typesService: TypesService
+                    ,private surfaceEquipmentService: SurfaceEquipmentService
+                    ,private dialogWindow: MatDialog){}
 
-  ngOnInit(): void {    
-    this.filteredCatalogNodes=this.surfaceCatalogNodeFormControl.valueChanges.pipe(
-      startWith(''), map(value => this.GetFilteredCatalogNodes(value||'')));    
+  ngOnInit(): void {
+    this.trackRecordIdFromParent=11;    
+    this.surfaceEquipment.trackRecordId=this.trackRecordIdFromParent;    
+    
+    this.typesService.GetCatalogNodes()
+                             .subscribe(response =>{
+                              this.surfaceCatalogNodeList=response
+                             });
 
- 
-    if (this.projectId=='P.NWY.000030'){
-      alert('Reciving data');
-      this.PopulateTestScenario();
-      this.table.renderRows();
-    }      
-  } 
-
-  setStep(index: number) {this.step = index;}
-  nextStep() {this.step++;}
-  prevStep() {this.step--;}  
+    this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
+      startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 
+  }  
 
   private GetFilteredCatalogNodes(filter:string):CatalogNode[]{
     let searchValue=filter.toLocaleLowerCase();    
@@ -178,109 +180,104 @@ export class SurfaceEquipmentViewComponent implements OnInit {
        option.name.toLocaleLowerCase().includes(searchValue));
   }
 
-  //Event methods
-  OnCatalogChangeEvent(event:MatOptionSelectionChange, catalogNode:CatalogNode){
-    if(event.source.selected==true)
-      this.surfaceProductNumberFormControl.setValue(catalogNode.id.toString());
-  }
 
   //Save Events
-  SaveSurfaceEquipmentEvent(){
+  Save(){
+    this.surfaceEquipment.productNumber=parseInt(this.productNumberFormControl.value);
+    this.surfaceEquipment.description=this.descriptionFormControl.value;
+    this.surfaceEquipment.serial=this.serialFormControl.value ;
+    this.surfaceEquipment.quantity=parseInt(this.quantityFormControl.value);
+    this.surfaceEquipment.isKeyComponent=this.isKeyComponentFormControl.value;
 
-    let index=this.surfaceEquipmentList.findIndex(
-      e => e.productNumber==parseInt(this.surfaceProductNumberFormControl.value??''));  
+    if(this.trackRecordIdFromParent==0)
+      this.SendPopupNotification
+      ('The Well data need to be created first');
 
-    if(index!==-1){
-      this.surfaceEquipmentList[index].productNumber=
-                parseFloat(this.surfaceProductNumberFormControl.value??'');
-      this.surfaceEquipmentList[index].catalogNode.name=
-                this.surfaceCatalogNodeFormControl.value??'';
-      this.surfaceEquipmentList[index].description=
-                this.surfaceDescriptionFormControl.value??'';      
-      this.surfaceEquipmentList[index].quantity=
-                parseFloat(this.surfaceQuantityFormControl.value??'');
-      this.surfaceEquipmentList[index].isKeyComponent=
-                this.surfaceKeyComponentFormControl.value?.toString() == 'true';
-
-      this.SendPopupNotification('The equipmnet has been updated');     }   
     else{
-      let surfaceEquipment:SurfaceRunningEquipment=new SurfaceRunningEquipment();
-      surfaceEquipment.productNumber=parseFloat(this.surfaceProductNumberFormControl.value??'');
-      surfaceEquipment.catalogNode.name=this.surfaceCatalogNodeFormControl.value??'';
-      surfaceEquipment.description=this.surfaceDescriptionFormControl.value??'';
-      surfaceEquipment.serial=this.surfaceSerialFormControl.value??'';
-      surfaceEquipment.quantity=parseFloat(this.surfaceQuantityFormControl.value??'');      
-
-      surfaceEquipment.isKeyComponent= this.surfaceKeyComponentFormControl.value?.toString() == 'true';
-  
-      this.surfaceEquipmentList.push(surfaceEquipment);      
-      this.SendPopupNotification('The equipment has been added to the record');                             
-      
-    }
-    this.isSurfaceEquipmentFinished=true;   
-      this.ClearSurfaceEquipmentEvent(); 
-      this.table.renderRows();
+      this.surfaceEquipment.trackRecordId=this.trackRecordIdFromParent; 
+      if(this.surfaceEquipment.id==0)            
+        this.Create();
+      else
+        this.Update();            
+    }   
   }
-
-  ClearSurfaceEquipmentEvent(){
-    this.surfaceCatalogNodeFormControl.setValue('');
-    this.surfaceProductNumberFormControl.setValue('');
-    this.surfaceSerialFormControl.setValue('');
-    this.surfaceQuantityFormControl.setValue('');
-    this.surfaceDescriptionFormControl.setValue('');  
+  NextStep(){
+    this.equimentEvent.emit(true);
   }
-
-  EditSurfaceEquipment(productNumber:number, slideToggle: MatSlideToggle){   
-    let equipment:SurfaceRunningEquipment;
+  Create(){
+    this.surfaceEquipmentService.CreateSurfaceEquipment(this.surfaceEquipment)
+    .subscribe(response=> {
+      this.surfaceEquipment=response,
+      this.SendPopupNotification
+          ('The surface equipment has been created with the id: '
+            +this.surfaceEquipment.id),     
+      this.ClearFields(),     
+      this.RefreshSurfaceEquipmentList()          
+    });
+  }  
+  Update(){
+    this.surfaceEquipmentService.UpdateSurfaceEquipment(this.surfaceEquipment)
+    .subscribe(response=> {
+      this.surfaceEquipment=response,
+      this.SendPopupNotification
+          ('The SurfaceEquipment with id: '+this.surfaceEquipment.id+' has been updated '),   
+      this.ClearFields(),
+      this.RefreshSurfaceEquipmentList()                  
+    });
+  }
+  RefreshSurfaceEquipmentList(){
+    this.surfaceEquipmentService.GetSurfaceEquipmentsByTrackRecord
+      (this.surfaceEquipment.trackRecordId)
+    .subscribe(response => {
+      console.log(response);
+      this.surfaceEquipmentList=response,
+      this.table.renderRows()      
+    });  
+  }   
+  FillFields(equipment:SurfaceEquipment){
     
-    equipment=this.surfaceEquipmentList.find
-    (b => b.productNumber===productNumber)??new SurfaceRunningEquipment();  
+    this.productNumberFormControl.setValue(equipment.productNumber.toString());
+    this.catalogNodeFormControl.setValue(equipment.catalogNode.name);
+    this.descriptionFormControl.setValue(equipment.description);
+    this.serialFormControl.setValue(equipment.serial);
+    this.quantityFormControl.setValue(equipment.quantity.toString());  
+    this.isKeyComponentFormControl.setValue(equipment.isKeyComponent); 
+  }  
+  ClearFields(){
+    this.surfaceEquipment=new SurfaceEquipment();
+    this.surfaceEquipment.trackRecordId=this.trackRecordIdFromParent;
 
-    this.surfaceProductNumberFormControl.setValue(equipment.productNumber.toString());
-    this.surfaceCatalogNodeFormControl.setValue(equipment.catalogNode.name);
-    this.surfaceDescriptionFormControl.setValue(equipment.description);
-    this.surfaceSerialFormControl.setValue(equipment.serial);
-    this.surfaceQuantityFormControl.setValue(equipment.quantity.toString());   
-    slideToggle.checked=equipment.isKeyComponent;
+    this.productNumberFormControl=new FormControl('');
+    this.catalogNodeFormControl.setValue('');
+    this.descriptionFormControl=new FormControl('');
+    this.serialFormControl=new FormControl('');
+    this.quantityFormControl=new FormControl('');
+    this.isKeyComponentFormControl=new FormControl(false);   
   }
+
+  OnCatalogChangeEvent(event:MatOptionSelectionChange, catalogNode:CatalogNode){
+    if(event.source.selected==true){
+      this.surfaceEquipment.catalogNode=catalogNode;
+      this.productNumberFormControl.setValue(catalogNode.id.toString());
+    }
+      
+  }
+
+  OnClickEquipmentItem(id:number){   
+    this.surfaceEquipment=this.surfaceEquipmentList
+          .find(p=>p.id===id)?? new SurfaceEquipment();
+    this.FillFields(this.surfaceEquipment);
+  }  
 
   private SendPopupNotification(message:string){
-    this.dialogRef.open(PopupViewComponent,{
+    this.dialogWindow.open(PopupViewComponent,{
       data:{
         message:message
       }
     });
-  }
+  }  
 
-  PopulateTestScenario(){
-    this.well.projectId ='P.NWY.000030';
-    this.well.operationId ='P.NWY.000030';
-    this.well.operationActivityId ='O.NWY.000030.01';
 
-    this.surfaceEquipmentList=[
-      {
-        catalogNode:this.surfaceCatalogNodeList[45],
-        description:'',
-        productNumber:this.surfaceCatalogNodeList[45].id,
-        serial:'2243266',
-        quantity:2,
-        isKeyComponent:false
-      },
-      {
-        catalogNode:this.surfaceCatalogNodeList[30],
-        description:'',
-        productNumber:this.surfaceCatalogNodeList[30].id,
-        serial:'776654543',
-        quantity:1,
-        isKeyComponent:false
-      }
-    ];       
-  }
-
-  ClearEquipmentList(){
-    this.surfaceEquipmentList=[];
-    this.ClearSurfaceEquipmentEvent();
-  }
 
 }
 

@@ -1,119 +1,97 @@
-<div class="container">
-    <mat-accordion class="example-headers-align" multi>
+<mat-form-field appearance="outline" class="mat-form-field" style="width: 864px;">
+    <mat-label>Catalog Node</mat-label>
+    <input matInput [matAutocomplete]="node" [formControl]="catalogNodeFormControl" />
+    <mat-autocomplete autoActiveFirstOption #node>
+        <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name"
+        (onSelectionChange)="OnCatalogChangeEvent($event, item)">
+            {{item.name}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
 
-        <!--------------------------------------SURFACE/RUNNING EQUIPMENT----------------------------->
-        <p>Project Id: {{projectId}}</p>
-        <mat-expansion-panel hideToggle="true">
+<mat-form-field appearance="outline" class="mat-form-field" style="width: 864px;">
+    <mat-label>Description</mat-label>
+    <textarea matInput [formControl]="descriptionFormControl">
+    </textarea>
+</mat-form-field>
 
-            <mat-expansion-panel-header>
-                <mat-panel-title>1. Surface/Running Equipment</mat-panel-title>
-                <div *ngIf="isSurfaceEquipmentFinished">
-                    <mat-icon class="check-icon">check_circle</mat-icon>
-                </div>
-                <div *ngIf="!isSurfaceEquipmentFinished">
-                    <mat-icon class="progress-icon">pending</mat-icon>
-                </div>
+<section>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Product number</mat-label>
+        <input matInput [formControl]="productNumberFormControl" type="number">
+    </mat-form-field>
 
-            </mat-expansion-panel-header>
-            <mat-form-field appearance="outline" class="mat-form-field" style="width: 864px;">
-                <mat-label>Catalog Node</mat-label>
-                <input matInput [matAutocomplete]="node" [formControl]="surfaceCatalogNodeFormControl" />
-                <mat-autocomplete autoActiveFirstOption #node>
-                    <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name"
-                    (onSelectionChange)="OnCatalogChangeEvent($event, item)">
-                        {{item.name}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Serial</mat-label>
+        <input matInput [formControl]="serialFormControl">
+    </mat-form-field>
 
-            <mat-form-field appearance="outline" class="mat-form-field" style="width: 864px;">
-                <mat-label>Description</mat-label>
-                <textarea matInput [formControl]="surfaceDescriptionFormControl">
-                </textarea>
-            </mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Quantity</mat-label>
+        <input matInput [formControl]="quantityFormControl" type="number">
+    </mat-form-field>
 
-            <section>
-                <mat-form-field appearance="outline" class="mat-form-field">
-                    <mat-label>Product number</mat-label>
-                    <input matInput [formControl]="surfaceProductNumberFormControl" type="number">
-                </mat-form-field>
+    <mat-label style="margin-left: 3%;">Key Component </mat-label>
+    <mat-slide-toggle #slideToggle [formControl]="isKeyComponentFormControl" style="margin: 2%;">
+    </mat-slide-toggle>
+</section>
 
-                <mat-form-field appearance="outline" class="mat-form-field">
-                    <mat-label>Serial</mat-label>
-                    <input matInput [formControl]="surfaceSerialFormControl">
-                </mat-form-field>
+<div>
+    <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
+    <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
+    <button mat-stroked-button class="primary-action-button" (click)="NextStep()">Next Step</button>
+</div>
 
-                <mat-form-field appearance="outline" class="mat-form-field">
-                    <mat-label>Quantity</mat-label>
-                    <input matInput [formControl]="surfaceQuantityFormControl" type="number">
-                </mat-form-field>
+<!-----------------------------------------TABLE------------------------------------------------------->
 
-                <mat-label style="margin-left: 3%;">Key Component </mat-label>
-                <mat-slide-toggle #slideToggle [formControl]="surfaceKeyComponentFormControl" style="margin: 2%;">
-                </mat-slide-toggle>
-            </section>
+<div *ngIf="surfaceEquipmentList.length>0" >                       
+<mat-card style="margin-top: 2%;">
+<table mat-table [dataSource]="surfaceEquipmentList" class="mat-elevation-z8 demo-table">
 
-            <div>
-                <button mat-stroked-button class="save-button" (click)="SaveSurfaceEquipmentEvent()">Save</button>
-                <button mat-stroked-button class="cancel-button" (click)="ClearSurfaceEquipmentEvent()">Cancel</button>
-            </div>
-        </mat-expansion-panel>
+<ng-container matColumnDef="Id">
+    <th mat-header-cell *matHeaderCellDef>Id Number</th>
+    <td mat-cell *matCellDef="let element">{{element.id}} </td>
+</ng-container>
 
-        <div *ngIf="projectId=='P.NWY.000030' 
-                    || operationId=='O.NWY.000030.01'
-                    || operationActivityId=='O.NWY.000001.01.01'">
-            {{PopulateTestScenario()}}
-        </div>
+<ng-container matColumnDef="Product Number">
+    <th mat-header-cell *matHeaderCellDef>Product Number</th>
+    <td mat-cell *matCellDef="let element">{{element.productNumber}} </td>
+</ng-container>
 
-        <ng-template #clearEquipmentList>
-            {{ClearEquipmentList()}}
-        </ng-template>
-        
-        <div *ngIf="surfaceEquipmentList.length>0" >                       
-            <mat-card style="margin-top: 2%;">
-                <table mat-table [dataSource]="surfaceEquipmentList" class="mat-elevation-z8 demo-table">
+<ng-container matColumnDef="Catalog Node">
+    <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
+    <td mat-cell *matCellDef="let element">{{element.catalogNode.name}} </td>
+</ng-container>
 
-                    <ng-container matColumnDef="Product-Number">
-                        <th mat-header-cell *matHeaderCellDef>Product Number</th>
-                        <td mat-cell *matCellDef="let element">{{element.productNumber}} </td>
-                    </ng-container>
+<ng-container matColumnDef="Serial">
+    <th mat-header-cell *matHeaderCellDef>Serial</th>
+    <td mat-cell *matCellDef="let element">{{element.serial}} </td>
+</ng-container>
 
-                    <ng-container matColumnDef="Catalog-Node">
-                        <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
-                        <td mat-cell *matCellDef="let element">{{element.catalogNode.name}} </td>
-                    </ng-container>
+<ng-container matColumnDef="Quantity">
+    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+    <td mat-cell *matCellDef="let element">{{element.quantity}} </td>
+</ng-container>
 
-                    <ng-container matColumnDef="Serial">
-                        <th mat-header-cell *matHeaderCellDef>Serial</th>
-                        <td mat-cell *matCellDef="let element">{{element.serial}} </td>
-                    </ng-container>
+<ng-container matColumnDef="Is Key Component">
+    <th mat-header-cell *matHeaderCellDef>Is Key Component</th>
+    <td mat-cell *matCellDef="let element">{{element.isKeyComponent}} </td>
+</ng-container>
 
-                    <ng-container matColumnDef="Quantity">
-                        <th mat-header-cell *matHeaderCellDef>Quantity</th>
-                        <td mat-cell *matCellDef="let element">{{element.quantity}} </td>
-                    </ng-container>
+<ng-container matColumnDef="Action">
+    <th mat-header-cell *matHeaderCellDef>Action</th>
+    <td style="width: 150px;" mat-cell *matCellDef="let element">
+        <button mat-icon-button (click)="OnClickEquipmentItem(element.id)">
+            <mat-icon color="primary">edit</mat-icon>
+        </button>
+        <button mat-icon-button>
+            <mat-icon color="warn">delete</mat-icon>
+        </button>
+    </td>
+</ng-container>
 
-                    <ng-container matColumnDef="Is Key Component">
-                        <th mat-header-cell *matHeaderCellDef>Is Key Component</th>
-                        <td mat-cell *matCellDef="let element">{{element.isKeyComponent}} </td>
-                    </ng-container>
-
-                    <ng-container matColumnDef="Action">
-                        <th mat-header-cell *matHeaderCellDef>Action</th>
-                        <td style="width: 150px;" mat-cell *matCellDef="let element">
-                            <button mat-icon-button (click)="EditSurfaceEquipment(element.productNumber, slideToggle)">
-                                <mat-icon color="primary">edit</mat-icon>
-                            </button>
-                            <button mat-icon-button>
-                                <mat-icon color="warn">delete</mat-icon>
-                            </button>
-                        </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: columns"></tr>
-                </table>
-            </mat-card>
-        </div>
-    </mat-accordion>
+<tr mat-header-row *matHeaderRowDef="columns"></tr>
+<tr mat-row *matRowDef="let row; columns: columns"></tr>
+</table>
+</mat-card>
 </div>

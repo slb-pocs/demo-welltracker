@@ -1,6 +1,8 @@
 import { CatalogNode } from "./catalog-node";
 
-export class SurfaceRunningEquipment {
+export class SurfaceEquipment {
+    id:number=0;
+    trackRecordId:number=0;
     productNumber:number=0;
     catalogNode:CatalogNode=new CatalogNode();
     serial:string='';

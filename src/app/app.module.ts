@@ -46,6 +46,7 @@ import { WellInformationWorkflowComponent } from './well-information-workflow/we
 import { ManagementDataComponent } from './management-data/management-data.component';
 import { SearchingComponent } from './searching/searching.component';
 import { CustomerDataComponent } from './customer-data/customer-data.component';
+import { EquipmentWorkflowComponent } from './equipment-workflow/equipment-workflow.component';
 
 
 
@@ -65,7 +66,8 @@ import { CustomerDataComponent } from './customer-data/customer-data.component';
     WellInformationWorkflowComponent,
     ManagementDataComponent,
     SearchingComponent,
-    CustomerDataComponent
+    CustomerDataComponent,
+    EquipmentWorkflowComponent
   ],
   imports: [
     BrowserModule,

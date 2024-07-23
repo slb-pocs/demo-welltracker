@@ -35,6 +35,7 @@ import { ToolType } from '../models/tool-type';
 import { TubeType } from '../models/tube-type';
 import { TvdUnit } from '../models/tvd-unit';
 import { UppercompletionType } from '../models/uppercompletion-type';
+import { CatalogNode } from '../models/catalog-node';
 
 @Injectable({
   providedIn: 'root'
@@ -149,5 +150,8 @@ export class TypesService {
   }
   public GetReservoirRockTypes():Observable<WellType[]>{
     return this.http.get<WellType[]>(this.apiUrl+"RockTypes");   
+  }
+  public GetCatalogNodes():Observable<CatalogNode[]>{
+    return this.http.get<CatalogNode[]>(this.apiUrl+"CatalogNodes");   
   }
 }

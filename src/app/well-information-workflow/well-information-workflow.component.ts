@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 @Component({
   selector: 'app-well-information-workflow',
   templateUrl: './well-information-workflow.component.html',
   styleUrl: './well-information-workflow.component.css'
 })
 export class WellInformationWorkflowComponent implements OnInit { 
-
   step:number=0;
   trackRecordId:number=0;
   wellId:number=0;
+
+  @Output() trackRecordEvent=new EventEmitter<number>();
 
   isSearchingFinished:boolean=false;  
   isManagementInfoFinished:boolean=false;
@@ -28,6 +29,7 @@ export class WellInformationWorkflowComponent implements OnInit {
   }
   OnManagementInfoEvent(message:number){
     this.trackRecordId=message;
+    this.trackRecordEvent.emit(this.trackRecordId);
     this.isManagementInfoFinished=true;
     this.step=2;
   } 

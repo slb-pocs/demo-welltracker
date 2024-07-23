@@ -1,7 +1,7 @@
-import { SurfaceRunningEquipment } from './surface-running-equipment';
+import { SurfaceEquipment } from './surface-equipment';
 
 describe('SurfaceRunningEquipment', () => {
   it('should create an instance', () => {
-    expect(new SurfaceRunningEquipment()).toBeTruthy();
+    expect(new SurfaceEquipment()).toBeTruthy();
   });
 });
