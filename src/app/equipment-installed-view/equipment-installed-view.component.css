@@ -10,13 +10,13 @@
     margin-right: 1%;
   }
 
-  .save-button{
+  .primary-action-button{
     position: relative;
     color:blue;    
     margin-right: 1%;
   }
 
-    .cancel-button{
+    .secondary-action-button{
     position: relative;
     color:dimgrey;   
     margin-right: 1%;

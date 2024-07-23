@@ -15,20 +15,21 @@ export class EquipmentWorkflowComponent {
 
   @Input() trackRecordId:number=0;
   @Output() surfaceEquipmentEvent=new EventEmitter<boolean>();
+  @Output() installedEquipmentEvent=new EventEmitter<boolean>();
 
   SetStep(step:number){
     this.step=step;
   }
-
   ReceiveSurfaceEquipmentEvent(message:boolean){
     this.isSurfaceEquipmentFinished=message;    
     this.step++;
     this.surfaceEquipmentEvent.emit(this.isSurfaceEquipmentFinished);
   }
   ReceiveInstalledEquipmentEvent(message:boolean){
-    this.isSurfaceEquipmentFinished=message;
-    this.surfaceEquipmentEvent.emit(this.isSurfaceEquipmentFinished);
+    this.isInstalledEquipmentFinished=message;
     this.step++;
+    this.installedEquipmentEvent.emit(this.isInstalledEquipmentFinished);
+    
   }
 
 

@@ -161,8 +161,7 @@ export class SurfaceEquipmentViewComponent implements OnInit {
                     ,private surfaceEquipmentService: SurfaceEquipmentService
                     ,private dialogWindow: MatDialog){}
 
-  ngOnInit(): void {
-    this.trackRecordIdFromParent=11;    
+  ngOnInit(): void {     
     this.surfaceEquipment.trackRecordId=this.trackRecordIdFromParent;    
     
     this.typesService.GetCatalogNodes()

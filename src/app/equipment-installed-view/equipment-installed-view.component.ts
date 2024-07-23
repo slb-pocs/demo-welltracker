@@ -1,14 +1,14 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { Well } from '../models/well';
 import { CatalogNode } from '../models/catalog-node';
 import { Observable, map, startWith } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
-import { EquipmentInstalled } from '../models/equipment-installed';
-import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { InstalledEquipment } from '../models/installed-equipment';
+import { TypesService } from '../services/types.service';
+import { InstalledEquipmentService } from '../services/installed-equipment.service';
 
 @Component({
   selector: 'app-equipment-installed-view',
@@ -17,151 +17,163 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 })
 export class EquipmentInstalledViewComponent {
   @ViewChild(MatTable)
-  table!: MatTable<EquipmentInstalled>;
+  table!: MatTable<InstalledEquipment>; 
 
-  @Input()projectId:string='';
+  @Input() projectId:string='';
   @Input() operationId:string='';
   @Input() operationActivityId:string='';
+  @Input() trackRecordIdFromParent:number=0;
 
-  well: Well = new Well();
+  @Output() equimentEvent= new EventEmitter<boolean>();
 
-  catalogNodeList: CatalogNode[] = [
-    { id: 103354908, name: "CLAMP" }
-  ];
+  installedEquipment:InstalledEquipment=new InstalledEquipment();
+    
+  installedCatalogNodeList:CatalogNode[]=[ ];  
 
-  isEquipmentFinished: boolean = false;
+  isInstalledEquipmentFinished:boolean=false;
 
+  filteredCatalogNodes!:Observable<CatalogNode[]>;
 
-  filteredCatalogNodes!: Observable<CatalogNode[]>;
+  step:number=0;
 
-  step: number = 0;
-
-  equipmentList: EquipmentInstalled[] = [
-  ];
+  installedEquipmentList:InstalledEquipment[]=[];  
 
   columns: string[] = ['Product-Number', 'Catalog-Node',
     'Serial', 'Deviation', 'MD', 'TVD', 'Is-Key-Component', 'Is-Third-Part', 'Action'];
 
   //Form Controls
-  productNumberFormControl = new FormControl('');
-  catalogNodeFormControl = new FormControl('');
-  descriptionFormControl = new FormControl('');
-  serialFormControl = new FormControl('');
-  deviationFormControl = new FormControl('');
-  mdFormControl = new FormControl('');
-  tvdFormControl = new FormControl('');
-  keyComponentFormControl = new FormControl('');
-  thirdPartComponentFormControl = new FormControl('');
+  productNumberFormControl:FormControl = new FormControl(0);
+  catalogNodeFormControl:FormControl = new FormControl('');
+  descriptionFormControl:FormControl = new FormControl('');
+  serialFormControl:FormControl = new FormControl('');
+  deviationFormControl:FormControl = new FormControl(0);
+  mdFormControl:FormControl = new FormControl(0);
+  tvdFormControl:FormControl = new FormControl(0);
+  isKeyComponentFormControl:FormControl = new FormControl(false);
+  isThirdPartComponentFormControl:FormControl = new FormControl(false);
 
-  public constructor(private dialogRef: MatDialog) { }
+  public constructor(private typesService: TypesService
+                    ,private installedEquipmentService: InstalledEquipmentService
+                    ,private dialogWindow: MatDialog){}
 
-  ngOnInit(): void {
-    this.filteredCatalogNodes = this.catalogNodeFormControl.valueChanges.pipe(
-      startWith(''), map(value => this.GetFilteredCatalogNodes(value || '')));
- 
+  ngOnInit(): void {      
+    this.installedEquipment.trackRecordId=this.trackRecordIdFromParent;    
+    
+    this.typesService.GetCatalogNodes()
+                             .subscribe(response =>{
+                              this.installedCatalogNodeList=response
+                             });
+
+    this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
+      startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 
+  }  
+
+  private GetFilteredCatalogNodes(filter:string):CatalogNode[]{
+    let searchValue=filter.toLocaleLowerCase();    
+    return this.installedCatalogNodeList.filter(option =>
+       option.name.toLocaleLowerCase().includes(searchValue));
   }
 
-  setStep(index: number) { this.step = index; }
-  nextStep() { this.step++; }
-  prevStep() { this.step--; }
 
-  private GetFilteredCatalogNodes(filter: string): CatalogNode[] {
-    let searchValue = filter.toLocaleLowerCase();
-    return this.catalogNodeList.filter(option =>
-      option.name.toLocaleLowerCase().includes(searchValue));
-  }
-
-  //Event methods
-  onChangeCatalogNodeEvent(event: MatOptionSelectionChange, CatalogNode: CatalogNode) {
-    if (event.source.selected == true) {
-    }
-  }
   //Save Events
+  Save(){
+    this.installedEquipment.productNumber=parseInt(this.productNumberFormControl.value);
+    this.installedEquipment.description=this.descriptionFormControl.value;
+    this.installedEquipment.serial=this.serialFormControl.value ;
+    this.installedEquipment.deviation=this.deviationFormControl.value;
+    this.installedEquipment.md=this.mdFormControl.value;
+    this.installedEquipment.tvd=this.tvdFormControl.value;
+    this.installedEquipment.isThirdPart=this.isThirdPartComponentFormControl.value;
+    this.installedEquipment.isKeyComponent=this.isKeyComponentFormControl.value;
 
-  SaveEquipment() {
-    let index = this.equipmentList.findIndex(
-      e => e.productNumber == parseInt(this.productNumberFormControl.value ?? ''));
+    if(this.trackRecordIdFromParent==0)
+      this.SendPopupNotification
+      ('The Well data need to be created first');
 
-    if (index !== -1) {
-      this.equipmentList[index].productNumber =
-        parseFloat(this.productNumberFormControl.value ?? '');
-      this.equipmentList[index].catalogNode.name =
-        this.catalogNodeFormControl.value ?? '';
-      this.equipmentList[index].description =
-        this.descriptionFormControl.value ?? '';
-      this.equipmentList[index].deviation =
-        parseFloat(this.deviationFormControl.value ?? '');
-      this.equipmentList[index].md =
-        parseFloat(this.mdFormControl.value ?? '');
-      this.equipmentList[index].tvd =
-        parseFloat(this.tvdFormControl.value ?? '');
-      this.equipmentList[index].isThirdPart =
-        this.thirdPartComponentFormControl.value?.toString() == 'true';
-      this.equipmentList[index].isKeyComponent =
-        this.keyComponentFormControl.value?.toString() == 'true';
-
-      this.SendPopupNotification('The equipmnet has been updated');
-    }
-    else {
-      let equipment: EquipmentInstalled = new EquipmentInstalled();
-      equipment.productNumber = parseFloat(this.productNumberFormControl.value ?? '');
-      equipment.catalogNode.name = this.catalogNodeFormControl.value ?? '';
-      equipment.description = this.descriptionFormControl.value ?? '';
-      equipment.serial = this.serialFormControl.value ?? '';
-      equipment.deviation = parseFloat(this.deviationFormControl.value ?? '');
-      equipment.md = parseFloat(this.mdFormControl.value ?? '');
-      equipment.tvd = parseFloat(this.tvdFormControl.value ?? '');
-      equipment.isThirdPart = this.thirdPartComponentFormControl.value?.toString() == 'true';
-      equipment.isKeyComponent = this.keyComponentFormControl.value?.toString() == 'true';
-
-      this.equipmentList.push(equipment);
-      this.SendPopupNotification('The equipmet has been added to the record');
-
-    }
-    this.isEquipmentFinished = true;
-    this.ClearEquipment();
-    this.table.renderRows();
+    else{
+      this.installedEquipment.trackRecordId=this.trackRecordIdFromParent; 
+      if(this.installedEquipment.id==0)            
+        this.Create();
+      else
+        this.Update();            
+    }   
   }
-
-  ClearEquipment() {
-    this.catalogNodeFormControl.setValue('');
-    this.productNumberFormControl.setValue('');
-    this.serialFormControl.setValue('');
-    this.deviationFormControl.setValue('');
-    this.descriptionFormControl.setValue('');
-    this.mdFormControl.setValue('');
-    this.tvdFormControl.setValue('');
+  NextStep(){
+    this.equimentEvent.emit(true);
   }
-
-  EditEquipment(productNumber: number, toggleKeyComponet: MatSlideToggle,
-    toggleThirdComponent: MatSlideToggle) {
-    let equipment: EquipmentInstalled;
-
-    equipment = this.equipmentList.find
-      (b => b.productNumber === productNumber) ?? new EquipmentInstalled();
-
+  Create(){
+    this.installedEquipmentService.CreateInstalledEquipment(this.installedEquipment)
+    .subscribe(response=> {
+      this.installedEquipment=response,
+      this.SendPopupNotification
+          ('The installed equipment has been created with the id: '
+            +this.installedEquipment.id),     
+      this.ClearFields(),     
+      this.RefreshInstalledEquipmentList()          
+    });
+  }  
+  Update(){
+    this.installedEquipmentService.UpdateInstalledEquipment(this.installedEquipment)
+    .subscribe(response=> {
+      this.installedEquipment=response,
+      this.SendPopupNotification
+          ('The InstalledEquipment with id: '+this.installedEquipment.id+' has been updated '),   
+      this.ClearFields(),
+      this.RefreshInstalledEquipmentList()                  
+    });
+  }
+  RefreshInstalledEquipmentList(){
+    this.installedEquipmentService.GetInstalledEquipmentsByTrackRecord
+      (this.installedEquipment.trackRecordId)
+    .subscribe(response => {
+      console.log(response);
+      this.installedEquipmentList=response,
+      this.table.renderRows()      
+    });  
+  }   
+  FillFields(equipment:InstalledEquipment){
+    
     this.productNumberFormControl.setValue(equipment.productNumber.toString());
     this.catalogNodeFormControl.setValue(equipment.catalogNode.name);
     this.descriptionFormControl.setValue(equipment.description);
     this.serialFormControl.setValue(equipment.serial);
-    this.deviationFormControl.setValue(equipment.deviation.toString());
-    this.mdFormControl.setValue(equipment.md.toString());
-    this.tvdFormControl.setValue(equipment.tvd.toString());
-    toggleKeyComponet.checked = equipment.isKeyComponent;
-    toggleThirdComponent.checked = equipment.isThirdPart;
-  }
+    this.deviationFormControl.setValue(equipment.deviation);
+    this.mdFormControl.setValue(equipment.md);
+    this.tvdFormControl.setValue(equipment.tvd);
+    this.isThirdPartComponentFormControl.setValue(equipment.isThirdPart); 
+    this.isKeyComponentFormControl.setValue(equipment.isKeyComponent); 
+  }  
+  ClearFields(){
+    this.installedEquipment=new InstalledEquipment();
+    this.installedEquipment.trackRecordId=this.trackRecordIdFromParent;
 
-  private SendPopupNotification(message: string) {
-    this.dialogRef.open(PopupViewComponent, {
-      data: {
-        message: message
-      }
-    });
+    this.productNumberFormControl=new FormControl('');
+    this.catalogNodeFormControl.setValue('');
+    this.descriptionFormControl=new FormControl('');
+    this.serialFormControl=new FormControl('');
+    this.deviationFormControl=new FormControl('');
+    this.mdFormControl=new FormControl('');
+    this.tvdFormControl=new FormControl('');
+    this.isThirdPartComponentFormControl=new FormControl(false);
+    this.isKeyComponentFormControl=new FormControl(false);   
   }
-
-  OnCatalogChange(event: MatOptionSelectionChange, catalogNode: CatalogNode) {
-    if (event.source.selected == true) {
+  OnCatalogChangeEvent(event:MatOptionSelectionChange, catalogNode:CatalogNode){
+    if(event.source.selected==true){
+      this.installedEquipment.catalogNode=catalogNode;
       this.productNumberFormControl.setValue(catalogNode.id.toString());
     }
+      
   }
+  OnClickEquipmentItem(id:number){   
+    this.installedEquipment=this.installedEquipmentList
+          .find(p=>p.id===id)?? new InstalledEquipment();
+    this.FillFields(this.installedEquipment);
+  }  
+  private SendPopupNotification(message:string){
+    this.dialogWindow.open(PopupViewComponent,{
+      data:{
+        message:message
+      }
+    });
+  }  
 }

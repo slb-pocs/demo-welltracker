@@ -16,6 +16,9 @@ export class TrackrecordViewComponent {
   operationActivityId:string='';
   trackRecordId:number=0;
 
+  isSurfaceEquipmentFinished:boolean=false;
+  isInstalledEquipmentFinished:boolean=false;
+
   message:string='Track Record';  
 
   constructor(private route: ActivatedRoute){
@@ -36,5 +39,11 @@ export class TrackrecordViewComponent {
   }
   ReceiveTrackRecordData(data:number){
     this.trackRecordId=data;
+  }
+  ReceiveSurfaceEquipmentEvent(data:boolean){
+    this.isSurfaceEquipmentFinished=true;
+  }
+  ReceiveInstalledEquipmentEvent(data:boolean){
+    this.isInstalledEquipmentFinished=true;
   }
 }

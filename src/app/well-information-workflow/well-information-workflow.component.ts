@@ -18,7 +18,7 @@ export class WellInformationWorkflowComponent implements OnInit {
   isWellDataFinished:boolean=false;
   isStemDataFinished:boolean=false;
   isCompletionHistoryFinished:boolean=false;
-  isCompletionDataFinished=false;
+  isCompletionDataFinished:boolean=false;
 
   ngOnInit(): void {
     

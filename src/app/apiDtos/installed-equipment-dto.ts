@@ -1,10 +1,8 @@
-import { CatalogNode } from "./catalog-node";
-
-export class EquipmentInstalled {
+export class InstalledEquipmentDto {
     id:number=0;
+    trackRecordId:number=0;
     productNumber:number=0;
-    catalogNode:CatalogNode=new CatalogNode();
-    description:string='';
+    catalogNodeId:number=0;    
     serial:string='';
     deviation:number=0;
     md:number=0;

@@ -14,7 +14,10 @@
 
     </mat-step>
     <mat-step label="Equipment">
-        <app-equipment-workflow>
+        <app-equipment-workflow 
+        (surfaceEquipmentEvent)="ReceiveSurfaceEquipmentEvent($event)"
+         (installedEquipmentEvent)="ReceiveInstalledEquipmentEvent($event)"
+         [trackRecordId]="trackRecordId">
 
         </app-equipment-workflow>
     </mat-step>
