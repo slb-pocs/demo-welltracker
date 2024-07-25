@@ -8,7 +8,7 @@ import { SurfaceEquipmentDto } from '../apiDtos/surface-equipment-dto';
   providedIn: 'root'
 })
 export class SurfaceEquipmentService {
-  apiUrl='http://localhost:5124/api/surfaceequipment';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/surfaceequipment';
 
   constructor(private http: HttpClient) { }
 

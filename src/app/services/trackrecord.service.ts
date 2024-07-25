@@ -8,7 +8,7 @@ import { response } from 'express';
   providedIn: 'root'
 })
 export class TrackrecordService {
-  apiUrl:string='http://localhost:5124/api/trackrecord';
+  apiUrl:string='https://welltracker-backend.azurewebsites.net/api/trackrecord';
   trackRecord:TrackRecord=new TrackRecord();
 
   constructor(private httpClient:HttpClient) { }
@@ -18,6 +18,9 @@ export class TrackrecordService {
   }
   public GetTrackRecord(id:number):Observable<TrackRecord>{
     return this.httpClient.get<TrackRecord>(this.apiUrl+'/'+id);
+  }
+  public GetTrackRecords():Observable<TrackRecord[]>{
+    return this.httpClient.get<TrackRecord[]>(this.apiUrl);
   }
   public UpdateTrackRecord(trackRecord:TrackRecord):Observable<TrackRecord>{
     return this.httpClient.put<TrackRecord>(this.apiUrl,trackRecord);

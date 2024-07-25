@@ -8,7 +8,7 @@ import { StemDto } from '../apiDtos/stem-dto';
   providedIn: 'root'
 })
 export class StemService {
-  apiUrl='http://localhost:5124/api/stem';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/stem';
 
   constructor(private http: HttpClient) { }
 

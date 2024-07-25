@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CompletionInitialDataService {
-  apiUrl='http://localhost:5124/api/completionInitialData';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/completionInitialData';
   
 
   constructor(private http: HttpClient) { }

@@ -9,7 +9,7 @@ import { WellReference } from '../models/well-reference';
 export class WellReferenceService {
 
   wellReferences:WellReference[]=[];
-  apiUrl='http://localhost:5124/api/wellreference';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/wellreference';
 
   constructor(private http: HttpClient) { }
 

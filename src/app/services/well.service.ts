@@ -9,7 +9,7 @@ import { WellDto } from '../apiDtos/well-dto';
 })
 export class WellService {
 
-  apiUrl='http://localhost:5124/api/well';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/well';
 
   constructor(private http:HttpClient) { }
 

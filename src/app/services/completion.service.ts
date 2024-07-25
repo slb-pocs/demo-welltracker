@@ -8,7 +8,7 @@ import { CompletionDto } from '../apiDtos/completion-dto';
   providedIn: 'root'
 })
 export class CompletionService {
-  apiUrl='http://localhost:5124/api/completion';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/completion';
 
   constructor(private http: HttpClient) { }
 

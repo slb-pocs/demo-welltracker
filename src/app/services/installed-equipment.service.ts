@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class InstalledEquipmentService {
-  apiUrl='http://localhost:5124/api/installedequipment';
+  apiUrl='https://welltracker-backend.azurewebsites.net/api/installedequipment';
 
   constructor(private http: HttpClient) { }
 

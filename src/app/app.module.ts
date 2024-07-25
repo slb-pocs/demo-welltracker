@@ -47,6 +47,7 @@ import { ManagementDataComponent } from './management-data/management-data.compo
 import { SearchingComponent } from './searching/searching.component';
 import { CustomerDataComponent } from './customer-data/customer-data.component';
 import { EquipmentWorkflowComponent } from './equipment-workflow/equipment-workflow.component';
+import { MyRecordsViewComponent } from './my-records-view/my-records-view.component';
 
 
 
@@ -67,7 +68,8 @@ import { EquipmentWorkflowComponent } from './equipment-workflow/equipment-workf
     ManagementDataComponent,
     SearchingComponent,
     CustomerDataComponent,
-    EquipmentWorkflowComponent
+    EquipmentWorkflowComponent,
+    MyRecordsViewComponent
   ],
   imports: [
     BrowserModule,

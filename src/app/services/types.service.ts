@@ -42,7 +42,7 @@ import { CatalogNode } from '../models/catalog-node';
 })
 export class TypesService {
   
-  apiUrl:string="http://localhost:5124/api/types/";
+  apiUrl:string="https://welltracker-backend.azurewebsites.net/api/types/";
 
   constructor(private http:HttpClient) { }
 
