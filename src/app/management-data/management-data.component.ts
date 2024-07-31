@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { TrackrecordService } from '../services/trackrecord.service';
@@ -6,13 +6,14 @@ import { TrackRecord } from '../models/track-record';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { response } from 'express';
+import { Well } from '../models/well';
 
 @Component({
   selector: 'app-management-data',
   templateUrl: './management-data.component.html',
   styleUrl: './management-data.component.css'
 })
-export class ManagementDataComponent {
+export class ManagementDataComponent implements OnChanges{
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
@@ -20,6 +21,8 @@ export class ManagementDataComponent {
 
   @Output() trackRecordEvent=new EventEmitter<number>();
   @Input() trackRecordIdFromParent:number=0;
+  @Input() wellFromParent:Well=new Well();
+
 
   supervisorFormControl:FormControl=new FormControl('');
   validatorUserFormControl:FormControl=new FormControl('');
@@ -31,6 +34,10 @@ export class ManagementDataComponent {
   public constructor(private trackrecordService: TrackrecordService
                     ,private dialogWindow: MatDialog
   ){}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    
+  }
 
   ngOnInit(){
     if (this.trackRecordIdFromParent!=0){

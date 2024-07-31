@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, ViewChild, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { Well } from '../models/well';
@@ -26,17 +26,15 @@ import { PopupViewComponent } from '../popup-view/popup-view.component';
   templateUrl: './customer-data.component.html',
   styleUrl: './customer-data.component.css'
 })
-export class CustomerDataComponent implements OnInit {
+export class CustomerDataComponent implements OnInit, OnChanges {
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
   @Output() wellEvent =new EventEmitter<number>();
 
-  @Input() projectEvent:string='';
-  @Input() operationtEvent:string='';
-  @Input() operationActivityEvent:string='';
   @Input() trackRecordIdFromParent:number=0;
   @Input() wellIdFromParent:number=0;
+  @Input() wellFromParent:Well=new Well();
 
   well:Well=new Well();
 
@@ -73,9 +71,15 @@ export class CustomerDataComponent implements OnInit {
   ){
 
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.wellFromParent.id!=0){
+      this.well=this.wellFromParent;
+      this.FillFields(this.well)
+    }
+  }
 
   ngOnInit(){
-    this.well.trackRecordId=this.trackRecordIdFromParent;
+    this.well.trackRecordId=this.trackRecordIdFromParent;   
     
     if (this.wellIdFromParent!=0){    
       this.wellService.GetWell(this.wellIdFromParent).subscribe(response => {
@@ -190,15 +194,15 @@ export class CustomerDataComponent implements OnInit {
     this.environmentFormControl=new FormControl('');
   }
   FillFields(well:Well){
-    this.wellFormControl.setValue(well.name);
-    this.wellTypeFormControl.setValue(well.wellType.name);
-    this.customerFormControl.setValue(well.customer.name);
+    this.wellFormControl.setValue(well?.name);
+    this.wellTypeFormControl.setValue(well.wellType?.name);
+    this.customerFormControl.setValue(well.customer?.name);
 
-    this.countryFormControl.setValue(well.country.name);
-    this.basinFormControl.setValue(well.basin.name);
-    this.fieldFormControl.setValue(well.field);
-    this.geoUnitFormControl.setValue(well.geoUnit.name);
-    this.environmentFormControl.setValue(well.environment.name);
+    this.countryFormControl.setValue(well.country?.name);
+    this.basinFormControl.setValue(well.basin?.name);
+    this.fieldFormControl.setValue(well?.field);
+    this.geoUnitFormControl.setValue(well.geoUnit?.name);
+    this.environmentFormControl.setValue(well.environment?.name);
   }  
 
   public OnChangeWellEvent(event: MatOptionSelectionChange, wellReference: WellReference) {

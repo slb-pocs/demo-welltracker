@@ -36,6 +36,7 @@ import { TubeType } from '../models/tube-type';
 import { TvdUnit } from '../models/tvd-unit';
 import { UppercompletionType } from '../models/uppercompletion-type';
 import { CatalogNode } from '../models/catalog-node';
+import { RockType } from '../models/rock-type';
 
 @Injectable({
   providedIn: 'root'
@@ -64,11 +65,20 @@ export class TypesService {
   public GetCountries():Observable<Country[]>{
     return this.http.get<Country[]>(this.apiUrl+"Countries");   
   }
+  public GetCountryByName(name:string):Observable<Country>{
+    return this.http.get<Country>(this.apiUrl+"Countries/name?name="+name);   
+  }
   public GetEnvironments():Observable<Environment[]>{
     return this.http.get<Environment[]>(this.apiUrl+"Environments");   
   }
+  public GetEnvironmentByName(name:string):Observable<Environment>{
+    return this.http.get<Environment>(this.apiUrl+"Environments/name?name="+name);   
+  }
   public GetFields():Observable<Field[]>{
     return this.http.get<Field[]>(this.apiUrl+"Fields");   
+  }
+  public GetFieldByName(name:string):Observable<Field>{
+    return this.http.get<Field>(this.apiUrl+"Fields/name?name="+name);   
   }
   public GetFilterTypes():Observable<FilterType[]>{
     return this.http.get<FilterType[]>(this.apiUrl+"FilterTypes");   
@@ -78,6 +88,9 @@ export class TypesService {
   }
   public GetGeoUnits():Observable<GeoUnit[]>{
     return this.http.get<GeoUnit[]>(this.apiUrl+"GeoUnits");   
+  }
+  public GetGeoUnitByName(name:string):Observable<GeoUnit>{
+    return this.http.get<GeoUnit>(this.apiUrl+"GeoUnits/name?name="+name);   
   }
   public GetInjectedFluidTypes():Observable<InjectedFluidType[]>{
     return this.http.get<InjectedFluidType[]>(this.apiUrl+"InjectedFluidTypes");   
@@ -148,8 +161,11 @@ export class TypesService {
   public GetWellTypes():Observable<WellType[]>{
     return this.http.get<WellType[]>(this.apiUrl+"WellTypes");   
   }
-  public GetReservoirRockTypes():Observable<WellType[]>{
-    return this.http.get<WellType[]>(this.apiUrl+"RockTypes");   
+  public GetWellTypeByName(name:string):Observable<WellType>{
+    return this.http.get<WellType>(this.apiUrl+"WellTypes/name?name="+name);   
+  }
+  public GetReservoirRockTypes():Observable<RockType[]>{
+    return this.http.get<RockType[]>(this.apiUrl+"RockTypes");   
   }
   public GetCatalogNodes():Observable<CatalogNode[]>{
     return this.http.get<CatalogNode[]>(this.apiUrl+"CatalogNodes");   

@@ -1,0 +1,9 @@
+{
+  "/api/**": {
+    "target": "https://apigateway.evq.it.slb.com",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+    
+  }
+}

@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
+import { OperationActivityService } from '../services/operation-activity.service';
+import { OperationActivityDto } from '../apiDtos/operation-activity-dto';
+import { Customer } from '../models/customer';
+import { response } from 'express';
+import { Well } from '../models/well';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupViewComponent } from '../popup-view/popup-view.component';
 
 @Component({
   selector: 'app-searching',
@@ -13,29 +20,62 @@ export class SearchingComponent {
 
   @Output() projectEvent=new EventEmitter<string>();
   @Output() operationtEvent=new EventEmitter<string>();
-  @Output() operationActivityEvent=new EventEmitter<string>();
+  @Output() operationActivityEvent=new EventEmitter<Well>();
 
   projectFormControl:FormControl=new FormControl('');
   operationFormControl:FormControl=new FormControl('');
   operationActivityFormControl:FormControl=new FormControl('');
 
-  step:number=0;
+  eventCount:number=1;
+
+  operationActivity:OperationActivityDto=new OperationActivityDto();
+
+  customer:Customer=new Customer();
+
+  well:Well=new Well();
+
+  public constructor(private operationService: OperationActivityService,
+                     private dialogRef: MatDialog
+  ){}
 
   ngOnInit(){
-
+    
   }
 
-  SearchData(){
+  async SearchData(){   
+    this.eventCount++;
+    this.well=new Well();
+    
 
+    if (this.operationActivityFormControl.value!=''){
+     this.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 
+     
+     if(this.well.name=='' || this.well.name==null)
+      this.SendPopupNotification('There is no data associated with the operational activity');
+     else{
+      this.well.id=this.eventCount;
+      this.operationActivityEvent.emit(this.well);
+      this.SendPopupNotification('The data associated with the operational activity has been fecthed');       
+     }
+     
+    } 
   }
   ClearFields(){
-
+    this.projectFormControl=new FormControl('');
+    this.operationFormControl=new FormControl('');
+    this.operationActivityFormControl=new FormControl('');  
   }
-
-  setStep(stepNumber:number){
-    this.step=stepNumber;
+  private SendPopupNotification(message: string) {
+    this.dialogRef.open(PopupViewComponent, {
+      data: {
+        message: message
+      }
+    });
   }
-
 
 
 }
+
+
+
+

@@ -8,7 +8,7 @@
                 <mat-icon>search</mat-icon>   
         </mat-expansion-panel-header>
 
-        <app-searching>            
+        <app-searching (operationActivityEvent)="OnSearchingEvent($event)">            
         </app-searching>
 
     </mat-expansion-panel>
@@ -30,7 +30,7 @@
 
     </mat-expansion-panel>
 
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 2" (opened)="SetStep(2)">
+    <mat-expansion-panel hideToggle="true" [expanded]="step === 2" (opened)="SetStep(2)"    >
         <mat-expansion-panel-header>
           <mat-panel-title>2. Customer Information</mat-panel-title>
           <div *ngIf="isCustomerDataFinished">
@@ -43,7 +43,8 @@
 
         <app-customer-data (wellEvent)="OnCustomerInfoEvent($event)"
         [trackRecordIdFromParent]="trackRecordId"
-        [wellIdFromParent]="wellId">
+        [wellIdFromParent]="wellId"
+        [wellFromParent]="well">
         </app-customer-data>        
 
     </mat-expansion-panel>

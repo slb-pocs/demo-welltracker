@@ -14,4 +14,10 @@ export class CustomerService {
   public GetCustomers():Observable<Customer[]>{
     return this.http.get<Customer[]>(this.apiUrl);
   }
+  public GetCustomer(id:number):Observable<Customer>{
+    return this.http.get<Customer>(this.apiUrl+'/id?id='+id);
+  }
+  public GetCustomerByName(name:string):Observable<Customer>{
+    return this.http.get<Customer>(this.apiUrl+'/name?name='+name);
+  }
 }
