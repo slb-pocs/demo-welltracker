@@ -5,9 +5,8 @@ import { TrackrecordViewComponent } from './trackrecord-view/trackrecord-view.co
 import { MyRecordsViewComponent } from './my-records-view/my-records-view.component';
 
 const routes: Routes = [
-  {path:'',component:TrackrecordViewComponent},
+  {path:'',component:MyRecordsViewComponent},
   {path:'home', component:TrackrecordViewComponent},
-  {path:'create-well', component:WellViewComponent},
   {path:'track-record/:id', component:TrackrecordViewComponent},
   {path:'my-records', component: MyRecordsViewComponent}
 

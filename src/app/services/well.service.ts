@@ -43,12 +43,12 @@ export class WellService {
     
     wellDto.waterDepth=well.waterDepth;
     wellDto.maxDeviationId=well.maxDeviation.id;
-    wellDto.mdMeassuredFromId=well.mdMeasuredFrom.id;
-    wellDto.tvdMeassuredFromId=well.tvdMeasuredFrom.id;
+    wellDto.mdMeassuredFromId=well.mdMeassuredFrom.id;
+    wellDto.tvdMeassuredFromId=well.tvdMeassuredFrom.id;
     wellDto.mdDistance=well.mdDistance;
     wellDto.tvdDistance=well.tvdDistance;
-    wellDto.mdUnitId=well.mdUnits.id;
-    wellDto.tvdUnitId=well.tvdUnits.id;
+    wellDto.mdUnitId=well.mdUnit.id;
+    wellDto.tvdUnitId=well.tvdUnit.id;
     wellDto.upperCompletionTypeId=well.upperCompletionType.id;
     wellDto.artificialLiftTypeId=well.artificialLiftType.id;
     wellDto.multiLateralTypeId=well.multiLateralType.id;

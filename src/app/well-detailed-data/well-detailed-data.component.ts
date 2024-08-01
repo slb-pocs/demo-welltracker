@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Well } from '../models/well';
 import { FormControl } from '@angular/forms';
@@ -18,25 +18,20 @@ import { WellService } from '../services/well.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
+import { TrackRecord } from '../models/track-record';
 
 @Component({
   selector: 'app-well-detailed-data',
   templateUrl: './well-detailed-data.component.html',
   styleUrl: './well-detailed-data.component.css'
 })
-export class WellDetailedDataComponent {
+export class WellDetailedDataComponent implements OnChanges {
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
-  @Output() wellEvent =new EventEmitter<number>();
+  @Output() welldDetailedDataEvent =new EventEmitter<TrackRecord>();
 
-  @Input() projectEvent:string='';
-  @Input() operationtEvent:string='';
-  @Input() operationActivityEvent:string='';
-  @Input() trackRecordIdFromParent:number=0;
-  @Input() wellIdFromParent:number=0;
-
-  well:Well=new Well();
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord();
 
   waterDepthFormControl:FormControl=new FormControl('');
   maxDeviationFormControl:FormControl=new FormControl('');
@@ -69,14 +64,18 @@ export class WellDetailedDataComponent {
   ){
 
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.trackRecordFromParent.well.id!=0){
+      this.FillFields(this.trackRecordFromParent.well);
+    }
+  }
 
   ngOnInit(){
-    this.well.trackRecordId=this.trackRecordIdFromParent;
-    this.well.id=this.wellIdFromParent;
+    this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;    
     
-    if (this.wellIdFromParent!=0){    
-      this.wellService.GetWell(this.wellIdFromParent).subscribe(response => {
-            this.well=response
+    if (this.trackRecordFromParent.well.id!=0){    
+      this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(response => {
+            this.trackRecordFromParent.well=response
           });
     }
    
@@ -120,11 +119,11 @@ export class WellDetailedDataComponent {
 
   
   Save(){
-    this.well.waterDepth=this.waterDepthFormControl.value;
-    this.well.mdDistance=this.mdDistanceFormControl.value;
-    this.well.tvdDistance=this.tvdDistanceFormControl.value;
+    this.trackRecordFromParent.well.waterDepth=this.waterDepthFormControl.value;
+    this.trackRecordFromParent.well.mdDistance=this.mdDistanceFormControl.value;
+    this.trackRecordFromParent.well.tvdDistance=this.tvdDistanceFormControl.value;
 
-    if(this.wellIdFromParent==0)
+    if(this.trackRecordFromParent.well.id==0)
       this.SendPopupNotification
       ('The customer information needs to be added first.');
 
@@ -136,29 +135,29 @@ export class WellDetailedDataComponent {
   Update(){
     let updatedWell:Well=new Well();
     
-    this.wellService.GetWell(this.wellIdFromParent).subscribe(
+    this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(
       response=> {
         updatedWell=response,
-        updatedWell.waterDepth=this.well.waterDepth,
-        updatedWell.maxDeviation=this.well.maxDeviation,
-        updatedWell.mdMeasuredFrom=this.well.mdMeasuredFrom,
-        updatedWell.mdDistance=this.well.mdDistance,
-        updatedWell.mdUnits=this.well.mdUnits,
-        updatedWell.tvdMeasuredFrom=this.well.tvdMeasuredFrom,
-        updatedWell.tvdUnits=this.well.tvdUnits,
-        updatedWell.tvdDistance=this.well.tvdDistance,
-        updatedWell.upperCompletionType=this.well.upperCompletionType,
-        updatedWell.artificialLiftType=this.well.artificialLiftType,
-        updatedWell.multiLateralType=this.well.multiLateralType,
-        updatedWell.multiLateralType=this.well.multiLateralType,
-        updatedWell.linerHangerSystem=this.well.linerHangerSystem,
+        updatedWell.waterDepth=this.trackRecordFromParent.well.waterDepth,
+        updatedWell.maxDeviation=this.trackRecordFromParent.well.maxDeviation,
+        updatedWell.mdMeassuredFrom=this.trackRecordFromParent.well.mdMeassuredFrom,
+        updatedWell.mdDistance=this.trackRecordFromParent.well.mdDistance,
+        updatedWell.mdUnit=this.trackRecordFromParent.well.mdUnit,
+        updatedWell.tvdMeassuredFrom=this.trackRecordFromParent.well.tvdMeassuredFrom,
+        updatedWell.tvdUnit=this.trackRecordFromParent.well.tvdUnit,
+        updatedWell.tvdDistance=this.trackRecordFromParent.well.tvdDistance,
+        updatedWell.upperCompletionType=this.trackRecordFromParent.well.upperCompletionType,
+        updatedWell.artificialLiftType=this.trackRecordFromParent.well.artificialLiftType,
+        updatedWell.multiLateralType=this.trackRecordFromParent.well.multiLateralType,
+        updatedWell.multiStageType=this.trackRecordFromParent.well.multiStageType,
+        updatedWell.linerHangerSystem=this.trackRecordFromParent.well.linerHangerSystem,
         console.log(updatedWell),
         this.wellService.UpdateWell(updatedWell)
         .subscribe(response=> {
-          this.well=response,
+          this.trackRecordFromParent.well=response,
           this.SendPopupNotification
-              ('The Well with id: '+this.well.id+' has been updated '),
-          this.wellEvent.emit(this.well.id)              
+              ('The Well with id: '+this.trackRecordFromParent.well.id+' has been updated '),
+          this.welldDetailedDataEvent.emit(this.trackRecordFromParent)              
         });        
       }
         
@@ -167,9 +166,19 @@ export class WellDetailedDataComponent {
    
   }
   ClearFields(){
-    this.well=new Well();
-    this.well.id=this.wellIdFromParent;
-    this.well.trackRecordId=this.trackRecordIdFromParent;
+    this.trackRecordFromParent.well.waterDepth=0;
+    this.trackRecordFromParent.well.maxDeviation=new MaxDeviation();
+    this.trackRecordFromParent.well.mdMeassuredFrom=new MeassuredFrom();
+    this.trackRecordFromParent.well.mdDistance=0;
+    this.trackRecordFromParent.well.mdUnit=new MdUnit();
+    this.trackRecordFromParent.well.tvdMeassuredFrom=new MeassuredFrom();
+    this.trackRecordFromParent.well.tvdDistance=0;
+    this.trackRecordFromParent.well.tvdUnit=new TvdUnit();
+    this.trackRecordFromParent.well.upperCompletionType=new UppercompletionType();
+    this.trackRecordFromParent.well.artificialLiftType=new ArtificialliftType();
+    this.trackRecordFromParent.well.multiLateralType=new Multilateral();
+    this.trackRecordFromParent.well.linerHangerSystem=new LinerhangerSystem();
+    this.trackRecordFromParent.well.multiStageType=new MultistageSimulation();
 
     this.waterDepthFormControl=new FormControl('');
     this.maxDeviationFormControl=new FormControl('');
@@ -187,59 +196,59 @@ export class WellDetailedDataComponent {
   }
   FillFields(well:Well){
     this.waterDepthFormControl.setValue(well.waterDepth);
-    this.maxDeviationFormControl.setValue(well.maxDeviation.name);
-    this.mdMeasuredFormControl.setValue(well.mdMeasuredFrom.name);
+    this.maxDeviationFormControl.setValue(well.maxDeviation?.name);
+    this.mdMeasuredFormControl.setValue(well.mdMeassuredFrom?.name);
     this.mdDistanceFormControl.setValue(well.mdDistance);
-    this.mdUnitsFormControl.setValue(well.mdUnits.name);
-    this.tvdMeasuredFormControl.setValue(well.tvdMeasuredFrom.name);
+    this.mdUnitsFormControl.setValue(well.mdUnit?.name);
+    this.tvdMeasuredFormControl.setValue(well.tvdMeassuredFrom?.name);
     this.tvdDistanceFormControl.setValue(well.tvdDistance);
-    this.tvdUnitsFormControl.setValue(well.tvdUnits.name);
-    this.upperCompletionFormControl.setValue(well.upperCompletionType.name);
-    this.artificalLiftFormControl.setValue(well.artificialLiftType.name);
-    this.linerHangerFormControl.setValue(well.linerHangerSystem.name);
-    this.multiLateralFormControl.setValue(well.multiLateralType.name);
-    this.multiStageFormControl.setValue(well.multiLateralType.name);   
+    this.tvdUnitsFormControl.setValue(well.tvdUnit?.name);
+    this.upperCompletionFormControl.setValue(well.upperCompletionType?.name);
+    this.artificalLiftFormControl.setValue(well.artificialLiftType?.name);
+    this.linerHangerFormControl.setValue(well.linerHangerSystem?.name);
+    this.multiLateralFormControl.setValue(well.multiLateralType?.name);
+    this.multiStageFormControl.setValue(well.multiStageType?.name);   
   }  
 
   public OnChangeMaxDeviationEvent(event: MatOptionSelectionChange, maxDeviation: MaxDeviation) {
     if (event.source.selected == true)
-      this.well.maxDeviation = maxDeviation;
+      this.trackRecordFromParent.well.maxDeviation = maxDeviation;
   }
   public OnChangeMDMeassuredFrom(event: MatOptionSelectionChange, meassured: MeassuredFrom) {
     if (event.source.selected == true)
-      this.well.mdMeasuredFrom = meassured;
+      this.trackRecordFromParent.well.mdMeassuredFrom = meassured;
   }
   public OnChangeTVDMeassuredFrom(event: MatOptionSelectionChange, meassured: MeassuredFrom) {
     if (event.source.selected == true)
-      this.well.tvdMeasuredFrom = meassured;
+      this.trackRecordFromParent.well.tvdMeassuredFrom = meassured;
   }
   public OnChangeMDUnitEvent(event: MatOptionSelectionChange, mdUnit: MdUnit) {
     if (event.source.selected == true)
-      this.well.mdUnits = mdUnit;
+      this.trackRecordFromParent.well.mdUnit = mdUnit;
   }
   public OnChangeTVDUnitEvent(event: MatOptionSelectionChange, tvdUnit: TvdUnit) {
     if (event.source.selected == true)
-      this.well.tvdUnits = tvdUnit;
+      this.trackRecordFromParent.well.tvdUnit = tvdUnit;
   }
   public OnChangeUpperCompletionEvent(event: MatOptionSelectionChange, upperCompletion: UppercompletionType) {
     if (event.source.selected == true)
-      this.well.upperCompletionType = upperCompletion;
+      this.trackRecordFromParent.well.upperCompletionType = upperCompletion;
   }
   public OnChangeArtificialLiftEvent(event: MatOptionSelectionChange, artificialLift: ArtificialliftType) {
     if (event.source.selected == true)
-      this.well.artificialLiftType = artificialLift;
+      this.trackRecordFromParent.well.artificialLiftType = artificialLift;
   }
   public OnChangeMultiLateralEvent(event: MatOptionSelectionChange, multiLateral: Multilateral) {
     if (event.source.selected == true)
-      this.well.multiLateralType = multiLateral;
+      this.trackRecordFromParent.well.multiLateralType = multiLateral;
   }
   public OnChangeLinerHangerEvent(event: MatOptionSelectionChange, linerHanger: LinerhangerSystem) {
     if (event.source.selected == true)
-      this.well.linerHangerSystem = linerHanger;
+      this.trackRecordFromParent.well.linerHangerSystem = linerHanger;
   }
   public OnChangeMultiStageEvent(event: MatOptionSelectionChange, multiStage: MultistageSimulation) {
     if (event.source.selected == true)
-      this.well.multiLateralType = multiStage;
+      this.trackRecordFromParent.well.multiLateralType = multiStage;
   }
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {

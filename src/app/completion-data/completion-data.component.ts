@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatTable } from '@angular/material/table';
 import { Completion } from '../models/completion';
@@ -14,21 +14,23 @@ import { CompletionService } from '../services/completion.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
+import { TrackRecord } from '../models/track-record';
+import { response } from 'express';
 
 @Component({
   selector: 'app-completion-data',
   templateUrl: './completion-data.component.html',
   styleUrl: './completion-data.component.css'
 })
-export class CompletionDataComponent {
+export class CompletionDataComponent implements OnChanges {
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
   @ViewChild(MatTable)
   table!: MatTable<Completion>; 
 
-  @Output() wellEvent=new EventEmitter<number>();
-  @Input() wellIdFromParent:number=0;
+  @Output() completionDataEvent=new EventEmitter<TrackRecord>();
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord();
 
   completion:Completion=new Completion();
 
@@ -62,8 +64,18 @@ export class CompletionDataComponent {
                     ,private dialogWindow: MatDialog
   ){}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.trackRecordFromParent.well.id!=0){
+      this.completionService.GetCompletionsByWell(this.trackRecordFromParent.well.id)
+      .subscribe(response => {
+        this.completionList=response,
+        this.table?.renderRows();
+      });
+    }
+  }
+
   ngOnInit(){ 
-    this.completion.wellId=this.wellIdFromParent;    
+    this.completion.wellId=this.trackRecordFromParent.well.id;    
     
     this.typesService.GetCompletionTypes()
                              .subscribe(response =>{
@@ -97,12 +109,12 @@ export class CompletionDataComponent {
     this.completion.corrosiveCompCCO2=parseInt(this.corrosiveCCO2FormControl.value ?? '');
     this.completion.corrosiveCompH25=parseInt(this.corrosiveH25FormControl.value ?? '');
 
-    if(this.wellIdFromParent==0)
+    if(this.trackRecordFromParent.well.id==0)
       this.SendPopupNotification
       ('You need to enter the customer data first');
 
     else{
-      this.completion.wellId=this.wellIdFromParent; 
+      this.completion.wellId=this.trackRecordFromParent.well.id; 
       if(this.completion.id==0)            
         this.Create();
       else
@@ -110,7 +122,7 @@ export class CompletionDataComponent {
     }   
   }
   NextStep(){
-    this.wellEvent.emit(this.completion.wellId);
+    this.completionDataEvent.emit(this.trackRecordFromParent);
   }
   Create(){
     this.completionService.CreateCompletion(this.completion)
@@ -120,7 +132,7 @@ export class CompletionDataComponent {
           ('The completion has been created with the id: '
             +this.completion.id),     
       this.completion=new Completion(),
-      this.completion.wellId=this.wellIdFromParent,
+      this.completion.wellId=this.trackRecordFromParent.well.id,
       this.ClearFields(),     
       this.RefreshCompletionList()          
     });
@@ -132,7 +144,7 @@ export class CompletionDataComponent {
       this.SendPopupNotification
           ('The Completion with id: '+this.completion.id+' has been updated '),      
       this.completion=new Completion(),
-      this.completion.wellId=this.wellIdFromParent,
+      this.completion.wellId=this.trackRecordFromParent.well.id,
       this.ClearFields(),
       this.RefreshCompletionList()                  
     });
@@ -147,7 +159,7 @@ export class CompletionDataComponent {
 
   ClearFields(){
     this.completion=new Completion();
-    this.completion.wellId=this.wellIdFromParent;
+    this.completion.wellId=this.trackRecordFromParent.well.id;
     this.completionNumberFormControl = new FormControl('');
     this.completionTypeFormControl = new FormControl('');
     this.producedFluidTypeFormControl = new FormControl('');

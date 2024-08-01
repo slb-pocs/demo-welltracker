@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { OperationActivityService } from '../services/operation-activity.service';
@@ -44,8 +44,7 @@ export class SearchingComponent {
 
   async SearchData(){   
     this.eventCount++;
-    this.well=new Well();
-    
+    this.well=new Well();    
 
     if (this.operationActivityFormControl.value!=''){
      this.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 

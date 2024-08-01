@@ -24,8 +24,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-management-data (trackRecordEvent)="OnManagementInfoEvent($event)"
-        [trackRecordIdFromParent]="trackRecordId">    
+        <app-management-data (trackRecordEvent)="OnManagementInfoEvent($event)"     
+        [trackRecordFromParent]="trackRecord">    
         </app-management-data>
 
     </mat-expansion-panel>
@@ -41,10 +41,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-customer-data (wellEvent)="OnCustomerInfoEvent($event)"
-        [trackRecordIdFromParent]="trackRecordId"
-        [wellIdFromParent]="wellId"
-        [wellFromParent]="well">
+        <app-customer-data (customerInfoEvent)="OnCustomerInfoEvent($event)"
+       [trackRecordFromParent]="trackRecord">
         </app-customer-data>        
 
     </mat-expansion-panel>
@@ -60,9 +58,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-well-detailed-data (wellEvent)="OnWellInfoEvent($event)"
-        [trackRecordIdFromParent]="trackRecordId"
-        [wellIdFromParent]="wellId">
+        <app-well-detailed-data (welldDetailedDataEvent)="OnWellInfoEvent($event)"
+       [trackRecordFromParent]="trackRecord">
         </app-well-detailed-data>
 
     </mat-expansion-panel>
@@ -78,8 +75,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-stem-data (wellEvent)="OnStemInfoEvent($event)"
-        [wellIdFromParent]="wellId">
+        <app-stem-data (stemInfoEvent)="OnStemInfoEvent($event)"
+        [trackRecordFromParent]="trackRecord">
         </app-stem-data>
 
     </mat-expansion-panel>
@@ -95,8 +92,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-completion-history (wellEvent)="OnHistoryDataCompletion($event)"
-        [wellIdFromParent]="wellId">
+        <app-completion-history (initialCompletionDataEvent)="OnHistoryDataCompletion($event)"
+        [TrackRecordFromParent]="trackRecord">
         </app-completion-history>
 
     </mat-expansion-panel>
@@ -112,8 +109,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-completion-data (wellEvent)="OnCompletionInfo($event)"
-        [wellIdFromParent]="wellId">    
+        <app-completion-data (completionDataEvent)="OnCompletionInfo($event)"
+        [trackRecordFromParent]="trackRecord">    
         </app-completion-data>       
 
     </mat-expansion-panel>    

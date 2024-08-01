@@ -1,6 +1,7 @@
-import { Well } from "./well";
+import { Well } from "../models/well";
+import { WellDto } from "./well-dto";
 
-export class TrackRecord {
+export class TrackRecordDto {
     id:number=0;
     supervisorUser:string='';
     validatorUser:string='';
@@ -10,9 +11,5 @@ export class TrackRecord {
     installationEndDate:Date=new Date();
     validationDate:Date=new Date();   
 
-    well:Well=new Well();
-
-    public constructor(){
-       
-    }
+    well:WellDto=new WellDto();
 }

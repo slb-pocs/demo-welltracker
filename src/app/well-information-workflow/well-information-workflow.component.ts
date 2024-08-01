@@ -1,18 +1,25 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Well } from '../models/well';
+import { TrackRecord } from '../models/track-record';
+import { Console } from 'console';
 @Component({
   selector: 'app-well-information-workflow',
   templateUrl: './well-information-workflow.component.html',
   styleUrl: './well-information-workflow.component.css'
 })
-export class WellInformationWorkflowComponent implements OnInit { 
+export class WellInformationWorkflowComponent implements OnInit, OnChanges {
+  
   step:number=0;
-  trackRecordId:number=0;
+  
   wellId:number=0;
-  well:Well=new Well();
+  
 
   @Output() trackRecordEvent=new EventEmitter<number>();
+  @Input() trackRecordId:number=0;
+  @Input() well:Well=new Well();
+  @Input() trackRecord:TrackRecord=new TrackRecord();
+
 
   isSearchingFinished:boolean=false;  
   isManagementInfoFinished:boolean=false;
@@ -22,37 +29,46 @@ export class WellInformationWorkflowComponent implements OnInit {
   isCompletionHistoryFinished:boolean=false;
   isCompletionDataFinished:boolean=false;
 
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id);    
+  } 
+
   ngOnInit(): void {
+  
     
   }
 
   SetStep(step:number){
     this.step=step;
   }
-  OnManagementInfoEvent(message:number){
+  OnManagementInfoEvent(message:number){   
     this.trackRecordId=message;
     this.trackRecordEvent.emit(this.trackRecordId);
     this.isManagementInfoFinished=true;
     this.step=2;
   } 
-  OnCustomerInfoEvent(message:number){
-    this.wellId=message;
+  OnCustomerInfoEvent(trackRecord:TrackRecord){
+    this.UpdateTrackRecord(trackRecord);
     this.isCustomerDataFinished=true;
     this.step=3;
   } 
-  OnWellInfoEvent(message:number){   
+  OnWellInfoEvent(trackRecord:TrackRecord){ 
+    this.UpdateTrackRecord(trackRecord);      
     this.isWellDataFinished=true;
     this.step=4;
   }
-  OnStemInfoEvent(message:number){   
+  OnStemInfoEvent(trackRecord:TrackRecord){   
+    this.UpdateTrackRecord(trackRecord); 
     this.isStemDataFinished=true;
     this.step=5;
   }
-  OnHistoryDataCompletion(message:number){   
+  OnHistoryDataCompletion(trackRecord:TrackRecord){   
+    this.UpdateTrackRecord(trackRecord); 
     this.isCompletionHistoryFinished=true;
     this.step=6;
   }
-  OnCompletionInfo(message:number){   
+  OnCompletionInfo(trackRecord:TrackRecord){   
+    this.UpdateTrackRecord(trackRecord);
     this.isCompletionDataFinished=true;
     this.step=7;
   }
@@ -74,12 +90,12 @@ export class WellInformationWorkflowComponent implements OnInit {
       geoUnit:well.geoUnit,
       waterDepth:well.waterDepth,
       maxDeviation:well.maxDeviation,
-      mdMeasuredFrom:well.mdMeasuredFrom,
-      tvdMeasuredFrom:well.tvdMeasuredFrom,
+      mdMeassuredFrom:well.mdMeassuredFrom,
+      tvdMeassuredFrom:well.tvdMeassuredFrom,
       mdDistance:well.mdDistance,
       tvdDistance:well.tvdDistance,
-      mdUnits:well.mdUnits,
-      tvdUnits:well.tvdUnits,
+      mdUnit:well.mdUnit,
+      tvdUnit:well.tvdUnit,
       upperCompletionType:well.upperCompletionType,
       artificialLiftType:well.artificialLiftType,
       multiLateralType:well.multiLateralType,
@@ -89,7 +105,23 @@ export class WellInformationWorkflowComponent implements OnInit {
       projectId:well.projectId,
       operationId:well.operationId,
       operationActivityId:well.operationActivityId,
-      activityJob:well.activityJob
+      activityJob:well.activityJob,
+      stems:well.stems,
+      completionInitialData:well.completionInitialData,
+      completions:well.completions
+    }
+  }
+  private UpdateTrackRecord(trackRecord:TrackRecord){
+    this.trackRecord={
+      id:trackRecord.id,
+      supervisorUser:trackRecord.supervisorUser,
+      assignedUser:trackRecord.assignedUser,
+      validatorUser:trackRecord.validatorUser,
+      dataEntryUser:trackRecord.dataEntryUser,
+      installationStartDate:trackRecord.installationEndDate,
+      installationEndDate:trackRecord.installationEndDate,
+      validationDate:trackRecord.validationDate,
+      well:trackRecord.well      
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
@@ -14,21 +14,22 @@ import { Weight } from '../models/weight';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { MatTable } from '@angular/material/table';
+import { TrackRecord } from '../models/track-record';
 
 @Component({
   selector: 'app-stem-data',
   templateUrl: './stem-data.component.html',
   styleUrl: './stem-data.component.css'
 })
-export class StemDataComponent {
+export class StemDataComponent implements OnChanges{
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
   @ViewChild(MatTable)
   table!: MatTable<Stem>; 
 
-  @Output() wellEvent=new EventEmitter<number>();
-  @Input() wellIdFromParent:number=0;
+  @Output() stemInfoEvent=new EventEmitter<TrackRecord>();
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord();
 
   stem:Stem=new Stem();
 
@@ -61,9 +62,21 @@ export class StemDataComponent {
                     ,private stemService: StemService
                     ,private dialogWindow: MatDialog
   ){}
+  ngOnChanges(changes: SimpleChanges): void {    
+    
+    if(this.trackRecordFromParent.well.id!=0){
+    
+      this.stemService.GetStemsByWell(this.trackRecordFromParent.well.id)
+      .subscribe(response => {
+        this.stemList=response,
+        this.table?.renderRows();
+            });     
+    }
+      
+  }
 
   ngOnInit(){  
-    this.stem.wellId=this.wellIdFromParent;    
+    this.stem.wellId=this.trackRecordFromParent.well.id;    
     
     this.typesService.GetStringTypes()
                              .subscribe(response =>{
@@ -92,12 +105,12 @@ export class StemDataComponent {
     this.stem.mdTop=parseFloat(this.stemMDTopFormControl.value);
     this.stem.stringNumber=parseFloat(this.stringNumberFormControl.value);
 
-    if(this.wellIdFromParent==0)
+    if(this.trackRecordFromParent.well.id==0)
       this.SendPopupNotification
       ('The well information has not been created');
 
     else{
-      this.stem.wellId=this.wellIdFromParent; 
+      this.stem.wellId=this.trackRecordFromParent.well.id; 
       if(this.stem.id==0)            
         this.Create();
       else
@@ -105,7 +118,7 @@ export class StemDataComponent {
     }   
   }
   NextStep(){
-    this.wellEvent.emit(this.stem.wellId)
+    this.stemInfoEvent.emit(this.trackRecordFromParent)
   }
   Create(){
     this.stemService.CreateStem(this.stem)
@@ -137,7 +150,7 @@ export class StemDataComponent {
   }
   ClearFields(){
   this.stem=new Stem();
-  this.stem.wellId=this.wellIdFromParent;
+  this.stem.wellId=this.trackRecordFromParent.well.id;
   this.stringNumberFormControl=new FormControl('');
   this.stringTypeFormControl=new FormControl('');
   this.stemSizeFormControl=new FormControl('');

@@ -17,12 +17,9 @@ export class ManagementDataComponent implements OnChanges{
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
-  trackrecord:TrackRecord=new TrackRecord();
-
-  @Output() trackRecordEvent=new EventEmitter<number>();
-  @Input() trackRecordIdFromParent:number=0;
+  @Output() trackRecordEvent=new EventEmitter<number>();  
   @Input() wellFromParent:Well=new Well();
-
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord();
 
   supervisorFormControl:FormControl=new FormControl('');
   validatorUserFormControl:FormControl=new FormControl('');
@@ -35,27 +32,22 @@ export class ManagementDataComponent implements OnChanges{
                     ,private dialogWindow: MatDialog
   ){}
 
-  ngOnChanges(changes: SimpleChanges): void {
-    
+  ngOnChanges(changes: SimpleChanges): void {    
+    if (this.trackRecordFromParent.id!=0)  
+      this.FillFields(this.trackRecordFromParent);
   }
 
-  ngOnInit(){
-    if (this.trackRecordIdFromParent!=0){
-      this.trackrecordService.GetTrackRecord(this.trackRecordIdFromParent)
-        .subscribe(response =>{
-          this.trackrecord=response,
-          this.FillFields(this.trackrecord)
-        });
-    }
+  ngOnInit(){  
+   
   }
 
   SaveManagementData(){
-    this.trackrecord.supervisorUser=this.supervisorFormControl.value;
-    this.trackrecord.validatorUser=this.validatorUserFormControl.value;
-    this.trackrecord.dataEntryUser=this.dataEntryUserFormControl.value;
-    this.trackrecord.assignedUser=this.assignedUserFormControl.value;
+    this.trackRecordFromParent.supervisorUser=this.supervisorFormControl.value;
+    this.trackRecordFromParent.validatorUser=this.validatorUserFormControl.value;
+    this.trackRecordFromParent.dataEntryUser=this.dataEntryUserFormControl.value;
+    this.trackRecordFromParent.assignedUser=this.assignedUserFormControl.value;
 
-    if (this.trackRecordIdFromParent==0){
+    if (this.trackRecordFromParent.id==0){
       this.CreateTrackRecord();
     }
     else{
@@ -64,23 +56,23 @@ export class ManagementDataComponent implements OnChanges{
   }
 
   private CreateTrackRecord(){
-    this.trackrecordService.CreateTrackRecord(this.trackrecord)
+    this.trackrecordService.CreateTrackRecord(this.trackRecordFromParent)
         .subscribe(response=> {
-          this.trackrecord=response,
+          this.trackRecordFromParent=response,
           this.SendPopupNotification
               ('The Trackrecord has been created with the id: '
-                +this.trackrecord.id),
-          this.trackRecordEvent.emit(this.trackrecord.id),
+                +this.trackRecordFromParent.id),
+          this.trackRecordEvent.emit(this.trackRecordFromParent.id),
           this.isManagementInfoFinished=true;         
         });   
   }
   private UpdateTrackRecord(){
-    this.trackrecordService.UpdateTrackRecord(this.trackrecord)
+    this.trackrecordService.UpdateTrackRecord(this.trackRecordFromParent)
         .subscribe(response=> {
-          this.trackrecord=response,
+          this.trackRecordFromParent=response,
           this.SendPopupNotification
               ('The Trackrecord with id: '
-                +this.trackRecordIdFromParent+' has been updated')          
+                +this.trackRecordFromParent+' has been updated')          
         });   
   }
 
@@ -92,9 +84,9 @@ export class ManagementDataComponent implements OnChanges{
   }
 
   ClearFields(){
-    this.trackrecord=new TrackRecord();
-    this.FillFields(this.trackrecord);
-    this.trackrecord.id=this.trackRecordIdFromParent;
+    this.trackRecordFromParent=new TrackRecord();
+    this.FillFields(this.trackRecordFromParent);
+    this.trackRecordFromParent.id=this.trackRecordFromParent.id;
   }
 
   private SendPopupNotification(message: string) {

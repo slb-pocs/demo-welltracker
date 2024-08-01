@@ -1,5 +1,7 @@
 import { ArtificialliftType } from "./artificiallift-type";
 import { Basin } from "./basin";
+import { Completion } from "./completion";
+import { CompletionInitialData } from "./completion-initial-data";
 
 import { Country } from "./country";
 import { Customer } from "./customer";
@@ -12,6 +14,7 @@ import { MdUnit } from "./md-unit";
 import { MeassuredFrom } from "./meassured-from";
 import { Multilateral } from "./multilateral";
 import { MultistageSimulation } from "./multistage-simulation";
+import { Stem } from "./stem";
 
 
 import { TvdUnit } from "./tvd-unit";
@@ -32,12 +35,12 @@ export class Well {
 
     public waterDepth:number=1;
     public maxDeviation:MaxDeviation=new MaxDeviation;
-    public mdMeasuredFrom:MeassuredFrom=new MeassuredFrom();
-    public tvdMeasuredFrom:MeassuredFrom=new MeassuredFrom();
+    public mdMeassuredFrom:MeassuredFrom=new MeassuredFrom();
+    public tvdMeassuredFrom:MeassuredFrom=new MeassuredFrom();
     public mdDistance:number=0;
     public tvdDistance:number=0;
-    public mdUnits:MdUnit=new MdUnit();
-    public tvdUnits:TvdUnit=new TvdUnit();
+    public mdUnit:MdUnit=new MdUnit();
+    public tvdUnit:TvdUnit=new TvdUnit();
     public upperCompletionType:UppercompletionType=new UppercompletionType;
     public artificialLiftType:ArtificialliftType=new ArtificialliftType();
     public multiLateralType:Multilateral=new Multilateral();
@@ -45,6 +48,9 @@ export class Well {
     public multiStageType:MultistageSimulation=new MultistageSimulation();  
    
     public trackRecordId:number=0;
+    public stems:Stem[]=[];
+    public completionInitialData:CompletionInitialData=new CompletionInitialData();
+    public completions:Completion[]=[];
 
     public projectId:string='';
     public operationId:string='';

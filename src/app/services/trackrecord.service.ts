@@ -17,7 +17,7 @@ export class TrackrecordService {
     return this.httpClient.post<TrackRecord>(this.apiUrl,trackRecord);     
   }
   public GetTrackRecord(id:number):Observable<TrackRecord>{
-    return this.httpClient.get<TrackRecord>(this.apiUrl+'/'+id);
+    return this.httpClient.get<TrackRecord>(this.apiUrl+'/id?id='+id);
   }
   public GetTrackRecords():Observable<TrackRecord[]>{
     return this.httpClient.get<TrackRecord[]>(this.apiUrl);

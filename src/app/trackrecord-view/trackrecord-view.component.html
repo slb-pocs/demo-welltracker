@@ -5,9 +5,11 @@
 </div>
 <mat-horizontal-stepper>
     <mat-step label="Well Information">
-       <app-well-information-workflow (trackRecordEvent)="ReceiveTrackRecordData($event)">
+       <app-well-information-workflow (trackRecordEvent)="ReceiveTrackRecordData($event)"
+       [trackRecordId]="trackRecordId"
+       [trackRecord]="trackRecord">
         
-       </app-well-information-workflow>
+       </app-well-information-workflow >
         <div style="text-align: right; margin-top: 3%;">
             <button mat-stroked-button class="action-button" matStepperNext>Equipment</button>
         </div>

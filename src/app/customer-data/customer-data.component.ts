@@ -19,6 +19,7 @@ import { FieldService } from '../services/field.service';
 import { WellService } from '../services/well.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
+import { TrackRecord } from '../models/track-record';
 
 
 @Component({
@@ -30,13 +31,10 @@ export class CustomerDataComponent implements OnInit, OnChanges {
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
-  @Output() wellEvent =new EventEmitter<number>();
+  @Output() customerInfoEvent =new EventEmitter<TrackRecord>();
 
-  @Input() trackRecordIdFromParent:number=0;
-  @Input() wellIdFromParent:number=0;
-  @Input() wellFromParent:Well=new Well();
 
-  well:Well=new Well();
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord(); 
 
   wellFormControl:FormControl=new FormControl('');
   wellTypeFormControl:FormControl=new FormControl('');
@@ -72,18 +70,17 @@ export class CustomerDataComponent implements OnInit, OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.wellFromParent.id!=0){
-      this.well=this.wellFromParent;
-      this.FillFields(this.well)
+    if(this.trackRecordFromParent.well.id!=0){
+      this.FillFields(this.trackRecordFromParent.well)
     }
   }
 
   ngOnInit(){
-    this.well.trackRecordId=this.trackRecordIdFromParent;   
+    this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;   
     
-    if (this.wellIdFromParent!=0){    
-      this.wellService.GetWell(this.wellIdFromParent).subscribe(response => {
-            this.well=response
+    if (this.trackRecordFromParent.well.id!=0){    
+      this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(response => {
+            this.trackRecordFromParent.well=response
           });
     }
     this.wellReferenceService.GetWellReferences()
@@ -142,47 +139,46 @@ export class CustomerDataComponent implements OnInit, OnChanges {
     return this.fieldList.filter(option => option.name.toLocaleLowerCase().includes(searchValue));
   }
   SaveCustomerData(){
-    if(this.trackRecordIdFromParent==0)
+    if(this.trackRecordFromParent.well.trackRecordId==0)
       this.SendPopupNotification
       ('The management information has not been created');
 
-    else{
-      this.well.trackRecordId=this.trackRecordIdFromParent;
-      if (this.wellIdFromParent!=0){    
-        this.wellService.GetWell(this.wellIdFromParent)
+    else{     
+      if (this.trackRecordFromParent.well.id!=0){    
+        this.wellService.GetWell(this.trackRecordFromParent.well.id)
             .subscribe(response => {
-              this.well=response
+              this.trackRecordFromParent.well=response
             });
       }     
   
-      if (this.wellIdFromParent==0)
+      if (this.trackRecordFromParent.well.id==0)
         this.Create();      
       else
         this.Update();      
     }   
   }
   Create(){
-    this.wellService.CreateWell(this.well)
+    this.wellService.CreateWell(this.trackRecordFromParent.well)
     .subscribe(response=> {
-      this.well=response,
+      this.trackRecordFromParent.well=response,
       this.SendPopupNotification
           ('The Well has been created with the id: '
-            +this.well.id),
-      this.wellEvent.emit(this.well.id)              
+            +this.trackRecordFromParent.well.id),
+      this.customerInfoEvent.emit(this.trackRecordFromParent)              
     });
   }
   Update(){
-    this.wellService.UpdateWell(this.well)
+    this.wellService.UpdateWell(this.trackRecordFromParent.well)
     .subscribe(response=> {
-      this.well=response,
+      this.trackRecordFromParent.well=response,
       this.SendPopupNotification
-          ('The Well with id: '+this.well.id+' has been updated '),
-      this.wellEvent.emit(this.well.id)              
+          ('The Well with id: '+this.trackRecordFromParent.well.id+' has been updated '),
+      this.customerInfoEvent.emit(this.trackRecordFromParent)              
     });
   }
   ClearFields(){
-    this.well=new Well();
-    this.well.trackRecordId=this.trackRecordIdFromParent;
+    this.trackRecordFromParent.well=new Well();
+    this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;
     this.wellFormControl=new FormControl('');
     this.wellTypeFormControl=new FormControl('');
     this.customerFormControl=new FormControl('');
@@ -197,6 +193,7 @@ export class CustomerDataComponent implements OnInit, OnChanges {
     this.wellFormControl.setValue(well?.name);
     this.wellTypeFormControl.setValue(well.wellType?.name);
     this.customerFormControl.setValue(well.customer?.name);
+    this.accountFormControl.setValue(well.customer?.accountName);
 
     this.countryFormControl.setValue(well.country?.name);
     this.basinFormControl.setValue(well.basin?.name);
@@ -207,36 +204,36 @@ export class CustomerDataComponent implements OnInit, OnChanges {
 
   public OnChangeWellEvent(event: MatOptionSelectionChange, wellReference: WellReference) {
     if (event.source.selected == true) 
-      this.well.name = wellReference.name;       
+      this.trackRecordFromParent.well.name = wellReference.name;       
   }
   public OnChangeWellTypeEvent(event: MatOptionSelectionChange, wellType: WellType) {
     if (event.source.selected == true)
-      this.well.wellType = wellType;
+      this.trackRecordFromParent.well.wellType = wellType;
   }
   public OnChangeCustomerEvent(event: MatOptionSelectionChange, customer: Customer) {
     if (event.source.selected == true)
-      this.well.customer = customer;
+      this.trackRecordFromParent.well.customer = customer;
       this.accountFormControl.setValue(customer.name);
   } 
   public OnChangeBasinEvent(event: MatOptionSelectionChange, basin: Basin) {
     if (event.source.selected == true)
-      this.well.basin = basin;
+      this.trackRecordFromParent.well.basin = basin;
   }
   public OnChangeGeoUnitEvent(event: MatOptionSelectionChange, geoUnit: GeoUnit) {
     if (event.source.selected == true)
-      this.well.geoUnit = geoUnit;
+      this.trackRecordFromParent.well.geoUnit = geoUnit;
   }
   public OnChangeMgtCountryEvent(event: MatOptionSelectionChange, country: Country) {
     if (event.source.selected == true)
-      this.well.country = country;
+      this.trackRecordFromParent.well.country = country;
   }
   public OnChangeFieldEvent(event: MatOptionSelectionChange, field: Field) {
     if (event.source.selected == true)
-      this.well.field = field.name;
+      this.trackRecordFromParent.well.field = field.name;
   }
   public OnChangeEnvironmentEvent(event: MatOptionSelectionChange, environment: Environment) {
     if (event.source.selected == true)
-      this.well.environment = environment;
+      this.trackRecordFromParent.well.environment = environment;
   }
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {

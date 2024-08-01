@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { CompletionInitialData } from '../models/completion-initial-data';
@@ -9,23 +9,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { response } from 'express';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { MatOptionSelectionChange } from '@angular/material/core';
+import { TrackRecord } from '../models/track-record';
 
 @Component({
   selector: 'app-completion-history',
   templateUrl: './completion-history.component.html',
   styleUrl: './completion-history.component.css'
 })
-export class CompletionHistoryComponent {
+export class CompletionHistoryComponent implements OnChanges{
 
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
-  @Output() wellEvent =new EventEmitter<number>();
+  @Output() initialCompletionDataEvent =new EventEmitter<TrackRecord>();
 
-  @Input() wellIdFromParent:number=0;
-
-  completionInitialData:CompletionInitialData=new CompletionInitialData();
-
+  @Input() TrackRecordFromParent:TrackRecord=new TrackRecord();
+  
   isCompletionPulledFormControl:FormControl=new FormControl('');
   isInitialCompletionFormControl:FormControl=new FormControl('');
   completionPulledDateFormControl:FormControl=new FormControl('');
@@ -43,9 +42,14 @@ export class CompletionHistoryComponent {
   ){
 
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.TrackRecordFromParent.well.completionInitialData.id!=0)
+      this.FillFields(this.TrackRecordFromParent.well.completionInitialData);
+  }
 
   ngOnInit(){
-    this.completionInitialData.wellId=this.wellIdFromParent;    
+    this.TrackRecordFromParent.well.completionInitialData.wellId
+                            =this.TrackRecordFromParent.well.id;    
 
     this.isCompletionPulledFormControl.setValue(false);
     this.isInitialCompletionFormControl.setValue(false);
@@ -61,13 +65,13 @@ export class CompletionHistoryComponent {
   }
  
   Save(){
-    this.completionInitialData.isInitialCompletion=this.isInitialCompletionFormControl.value==='true';
-    this.completionInitialData.isCompletionPulled=this.isCompletionPulledFormControl.value;
-    this.completionInitialData.hasIpmWell=this.hasIpmWellFormControl.value;
-    this.completionInitialData.hasLinerHangerInstallation=this.hasLinerHangerInstallationFormControl.value;    
-    this.completionInitialData.wellId=this.wellIdFromParent;
+    this.TrackRecordFromParent.well.completionInitialData.isInitialCompletion=this.isInitialCompletionFormControl.value==='true';
+    this.TrackRecordFromParent.well.completionInitialData.isCompletionPulled=this.isCompletionPulledFormControl.value;
+    this.TrackRecordFromParent.well.completionInitialData.hasIpmWell=this.hasIpmWellFormControl.value;
+    this.TrackRecordFromParent.well.completionInitialData.hasLinerHangerInstallation=this.hasLinerHangerInstallationFormControl.value;    
+    this.TrackRecordFromParent.well.completionInitialData.wellId=this.TrackRecordFromParent.well.id;
 
-    if(this.completionInitialData.id==0){
+    if(this.TrackRecordFromParent.well.completionInitialData.id==0){
       this.Create();
     }
     else{
@@ -75,28 +79,28 @@ export class CompletionHistoryComponent {
     }        
   }
   Create(){
-    this.completionInitialService.CreateCompletionInitialData(this.completionInitialData)
+    this.completionInitialService.CreateCompletionInitialData(this.TrackRecordFromParent.well.completionInitialData)
       .subscribe(response =>{
-        this.completionInitialData=response,
+        this.TrackRecordFromParent.well.completionInitialData=response,
         this.SendPopupNotification
         ('The completion history data has been saved with the id: '
-          +this.completionInitialData.id),
-    this.wellEvent.emit(this.completionInitialData.id)  
+          +this.TrackRecordFromParent.well.completionInitialData.id),
+        this.initialCompletionDataEvent.emit(this.TrackRecordFromParent)  
       });
   }
   Update(){
-    this.completionInitialService.UpdateCompletionInitialData(this.completionInitialData)
+    this.completionInitialService.UpdateCompletionInitialData(this.TrackRecordFromParent.well.completionInitialData)
     .subscribe(response =>{
-      this.completionInitialData=response,
+      this.TrackRecordFromParent.well.completionInitialData=response,
       this.SendPopupNotification
       ('The completion history data has been updated: '
-        +this.completionInitialData.id),
-  this.wellEvent.emit(this.completionInitialData.id)  
+        +this.TrackRecordFromParent.well.completionInitialData.id),
+        this.initialCompletionDataEvent.emit(this.TrackRecordFromParent) 
     });
   }
   ClearFields(){
-    this.completionInitialData=new CompletionInitialData();
-    this.completionInitialData.wellId=this.wellIdFromParent
+    this.TrackRecordFromParent.well.completionInitialData=new CompletionInitialData();
+    this.TrackRecordFromParent.well.completionInitialData.wellId=this.TrackRecordFromParent.well.id
 
     this.isCompletionPulledFormControl=new FormControl('');
     this.isInitialCompletionFormControl=new FormControl('');
@@ -108,25 +112,25 @@ export class CompletionHistoryComponent {
   }
   FillFields(completionInitialData:CompletionInitialData){
     this.isCompletionPulledFormControl.setValue
-            (this.completionInitialData.isCompletionPulled==true);
+            (this.TrackRecordFromParent.well.completionInitialData.isCompletionPulled==true);
     this.isInitialCompletionFormControl.setValue
-            (this.completionInitialData.isInitialCompletion==true);
+            (this.TrackRecordFromParent.well.completionInitialData.isInitialCompletion==true);
     this.completionPulledDateFormControl.setValue
-            (this.completionInitialData.completionPulledDate);
+            (this.TrackRecordFromParent.well.completionInitialData.completionPulledDate);
     this.completionPulledReasonFormControl.setValue
-            (this.completionInitialData.completionPulledReason.name);
+            (this.TrackRecordFromParent.well.completionInitialData.completionPulledReason.name);
     this.lastValidatedFormControl.setValue
-            (this.completionInitialData.equipmentLastValidated);
+            (this.TrackRecordFromParent.well.completionInitialData.equipmentLastValidated);
     this.hasIpmWellFormControl.setValue
-            (this.completionInitialData.hasIpmWell);
+            (this.TrackRecordFromParent.well.completionInitialData.hasIpmWell);
     this.hasLinerHangerInstallationFormControl.setValue
-            (this.completionInitialData.hasLinerHangerInstallation);  
+            (this.TrackRecordFromParent.well.completionInitialData.hasLinerHangerInstallation);  
   }  
  
 
   public OnChangeWellEvent(event: MatOptionSelectionChange, completionPulledReason: CompletionpulledReason) {
     if (event.source.selected == true) 
-      this.completionInitialData.completionPulledReason = completionPulledReason;       
+      this.TrackRecordFromParent.well.completionInitialData.completionPulledReason = completionPulledReason;       
   }
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {
