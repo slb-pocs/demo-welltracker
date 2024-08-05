@@ -1,3 +1,5 @@
+import { InstalledEquipment } from "./installed-equipment";
+import { SurfaceEquipment } from "./surface-equipment";
 import { Well } from "./well";
 
 export class TrackRecord {
@@ -11,6 +13,9 @@ export class TrackRecord {
     validationDate:Date=new Date();   
 
     well:Well=new Well();
+
+    public surfaceEquipment:SurfaceEquipment[]=[];
+    public installedEquipment:InstalledEquipment[]=[];
 
     public constructor(){
        

@@ -64,7 +64,7 @@ export class StemDataComponent implements OnChanges{
   ){}
   ngOnChanges(changes: SimpleChanges): void {    
     
-    if(this.trackRecordFromParent.well.id!=0){
+    if(this.trackRecordFromParent.well?.id!=0 && this.trackRecordFromParent.well!=null){
     
       this.stemService.GetStemsByWell(this.trackRecordFromParent.well.id)
       .subscribe(response => {
@@ -76,7 +76,8 @@ export class StemDataComponent implements OnChanges{
   }
 
   ngOnInit(){  
-    this.stem.wellId=this.trackRecordFromParent.well.id;    
+    if(this.trackRecordFromParent.well!=null)
+      this.stem.wellId=this.trackRecordFromParent.well.id;    
     
     this.typesService.GetStringTypes()
                              .subscribe(response =>{
@@ -136,7 +137,7 @@ export class StemDataComponent implements OnChanges{
     .subscribe(response=> {
       this.stem=response,
       this.SendPopupNotification
-          ('The Well with id: '+this.stem.id+' has been updated '),      
+          ('The Stem with id: '+this.stem.id+' has been updated '),      
       this.ClearFields(),
       this.RefreshStemList()
     });

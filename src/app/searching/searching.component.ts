@@ -8,6 +8,7 @@ import { response } from 'express';
 import { Well } from '../models/well';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
+import { TrackRecord } from '../models/track-record';
 
 @Component({
   selector: 'app-searching',
@@ -20,7 +21,7 @@ export class SearchingComponent {
 
   @Output() projectEvent=new EventEmitter<string>();
   @Output() operationtEvent=new EventEmitter<string>();
-  @Output() operationActivityEvent=new EventEmitter<Well>();
+  @Output() operationActivityEvent=new EventEmitter<TrackRecord>();
 
   projectFormControl:FormControl=new FormControl('');
   operationFormControl:FormControl=new FormControl('');
@@ -32,7 +33,7 @@ export class SearchingComponent {
 
   customer:Customer=new Customer();
 
-  well:Well=new Well();
+  trackRecord:TrackRecord=new TrackRecord();
 
   public constructor(private operationService: OperationActivityService,
                      private dialogRef: MatDialog
@@ -44,16 +45,16 @@ export class SearchingComponent {
 
   async SearchData(){   
     this.eventCount++;
-    this.well=new Well();    
+       
 
     if (this.operationActivityFormControl.value!=''){
-     this.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 
+     this.trackRecord.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 
      
-     if(this.well.name=='' || this.well.name==null)
+     if(this.trackRecord.well.name=='' || this.trackRecord.well.name==null)
       this.SendPopupNotification('There is no data associated with the operational activity');
      else{
-      this.well.id=this.eventCount;
-      this.operationActivityEvent.emit(this.well);
+      this.trackRecord.well.id=-1;
+      this.operationActivityEvent.emit(this.trackRecord);
       this.SendPopupNotification('The data associated with the operational activity has been fecthed');       
      }
      

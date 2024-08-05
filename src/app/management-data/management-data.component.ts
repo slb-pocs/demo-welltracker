@@ -17,16 +17,13 @@ export class ManagementDataComponent implements OnChanges{
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
-  @Output() trackRecordEvent=new EventEmitter<number>();  
-  @Input() wellFromParent:Well=new Well();
+  @Output() trackRecordEvent=new EventEmitter<TrackRecord>(); 
   @Input() trackRecordFromParent:TrackRecord=new TrackRecord();
 
   supervisorFormControl:FormControl=new FormControl('');
   validatorUserFormControl:FormControl=new FormControl('');
   dataEntryUserFormControl:FormControl=new FormControl('');
   assignedUserFormControl:FormControl=new FormControl('');
-
-  isManagementInfoFinished:boolean=false;
 
   public constructor(private trackrecordService: TrackrecordService
                     ,private dialogWindow: MatDialog
@@ -59,17 +56,17 @@ export class ManagementDataComponent implements OnChanges{
     this.trackrecordService.CreateTrackRecord(this.trackRecordFromParent)
         .subscribe(response=> {
           this.trackRecordFromParent=response,
+          this.trackRecordFromParent.well=new Well(),
           this.SendPopupNotification
               ('The Trackrecord has been created with the id: '
                 +this.trackRecordFromParent.id),
-          this.trackRecordEvent.emit(this.trackRecordFromParent.id),
-          this.isManagementInfoFinished=true;         
+          this.trackRecordEvent.emit(this.trackRecordFromParent)
+             
         });   
   }
   private UpdateTrackRecord(){
     this.trackrecordService.UpdateTrackRecord(this.trackRecordFromParent)
-        .subscribe(response=> {
-          this.trackRecordFromParent=response,
+        .subscribe(response=> {          
           this.SendPopupNotification
               ('The Trackrecord with id: '
                 +this.trackRecordFromParent+' has been updated')          

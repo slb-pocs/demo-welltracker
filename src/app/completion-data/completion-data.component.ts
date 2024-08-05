@@ -65,7 +65,7 @@ export class CompletionDataComponent implements OnChanges {
   ){}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well.id!=0){
+    if(this.trackRecordFromParent.well!=null && this.trackRecordFromParent.well.id!=0){
       this.completionService.GetCompletionsByWell(this.trackRecordFromParent.well.id)
       .subscribe(response => {
         this.completionList=response,
@@ -75,7 +75,8 @@ export class CompletionDataComponent implements OnChanges {
   }
 
   ngOnInit(){ 
-    this.completion.wellId=this.trackRecordFromParent.well.id;    
+    if(this.trackRecordFromParent.well!=null)
+      this.completion.wellId=this.trackRecordFromParent.well.id;    
     
     this.typesService.GetCompletionTypes()
                              .subscribe(response =>{

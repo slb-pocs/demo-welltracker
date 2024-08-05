@@ -65,19 +65,23 @@ export class WellDetailedDataComponent implements OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well.id!=0){
+    if(this.trackRecordFromParent.well?.id!=0 && this,this.trackRecordFromParent.well!=null){
       this.FillFields(this.trackRecordFromParent.well);
     }
   }
 
   ngOnInit(){
-    this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;    
+
+    if(this.trackRecordFromParent.well!=null){
+      this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;    
     
-    if (this.trackRecordFromParent.well.id!=0){    
-      this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(response => {
-            this.trackRecordFromParent.well=response
-          });
+      if (this.trackRecordFromParent.well.id!=0){    
+        this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(response => {
+                this.trackRecordFromParent.well=response
+              });
+      }
     }
+   
    
     this.typesService.GetMaxDeviations()
                     .subscribe(response=>{

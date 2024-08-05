@@ -15,10 +15,12 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
   wellId:number=0;
   
 
-  @Output() trackRecordEvent=new EventEmitter<number>();
+  @Output() wellInfoEvent=new EventEmitter<TrackRecord>();
+
   @Input() trackRecordId:number=0;
   @Input() well:Well=new Well();
   @Input() trackRecord:TrackRecord=new TrackRecord();
+  @Input() isQuery:boolean=false;
 
 
   isSearchingFinished:boolean=false;  
@@ -30,51 +32,63 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
   isCompletionDataFinished:boolean=false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id);    
+    console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id); 
+    
+      
+   
   } 
 
   ngOnInit(): void {
-  
+    if(this.isQuery)  {
+      this.step=1;   
+      this.isQuery=false;
+    }
     
   }
 
   SetStep(step:number){
     this.step=step;
   }
-  OnManagementInfoEvent(message:number){   
-    this.trackRecordId=message;
-    this.trackRecordEvent.emit(this.trackRecordId);
+  OnManagementInfoEvent(trackRecord:TrackRecord){   
+    this.UpdateTrackRecord(trackRecord);
+    this.wellInfoEvent.emit(this.trackRecord);
     this.isManagementInfoFinished=true;
     this.step=2;
   } 
   OnCustomerInfoEvent(trackRecord:TrackRecord){
     this.UpdateTrackRecord(trackRecord);
+    this.wellInfoEvent.emit(this.trackRecord);
     this.isCustomerDataFinished=true;
     this.step=3;
   } 
   OnWellInfoEvent(trackRecord:TrackRecord){ 
-    this.UpdateTrackRecord(trackRecord);      
+    this.UpdateTrackRecord(trackRecord); 
+    this.wellInfoEvent.emit(this.trackRecord);     
     this.isWellDataFinished=true;
     this.step=4;
   }
   OnStemInfoEvent(trackRecord:TrackRecord){   
     this.UpdateTrackRecord(trackRecord); 
+    this.wellInfoEvent.emit(this.trackRecord);
     this.isStemDataFinished=true;
     this.step=5;
   }
   OnHistoryDataCompletion(trackRecord:TrackRecord){   
     this.UpdateTrackRecord(trackRecord); 
+    this.wellInfoEvent.emit(this.trackRecord);
     this.isCompletionHistoryFinished=true;
     this.step=6;
   }
   OnCompletionInfo(trackRecord:TrackRecord){   
     this.UpdateTrackRecord(trackRecord);
+    this.wellInfoEvent.emit(this.trackRecord);
     this.isCompletionDataFinished=true;
     this.step=7;
   }
-  OnSearchingEvent(well:Well){
-    this.UpdateWell(well);  
-    console.log('OnSearchingEvent: '+ well.name);      
+  OnSearchingEvent(trackRecord:TrackRecord){
+    this.UpdateTrackRecord(trackRecord);  
+    this.wellInfoEvent.emit(this.trackRecord);
+    console.log('OnSearchingEvent: '+ trackRecord.well.name);      
     this.step=1;
   }
   private UpdateWell(well:Well){
@@ -121,7 +135,9 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
       installationStartDate:trackRecord.installationEndDate,
       installationEndDate:trackRecord.installationEndDate,
       validationDate:trackRecord.validationDate,
-      well:trackRecord.well      
+      well:trackRecord.well ,
+      surfaceEquipment:trackRecord.surfaceEquipment,
+      installedEquipment:trackRecord.installedEquipment     
     }
   }
 

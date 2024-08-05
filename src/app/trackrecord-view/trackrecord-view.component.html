@@ -5,8 +5,7 @@
 </div>
 <mat-horizontal-stepper>
     <mat-step label="Well Information">
-       <app-well-information-workflow (trackRecordEvent)="ReceiveTrackRecordData($event)"
-       [trackRecordId]="trackRecordId"
+       <app-well-information-workflow (wellInfoEvent)="ReceiveTrackRecordData($event)"     
        [trackRecord]="trackRecord">
         
        </app-well-information-workflow >
@@ -19,7 +18,7 @@
         <app-equipment-workflow 
         (surfaceEquipmentEvent)="ReceiveSurfaceEquipmentEvent($event)"
          (installedEquipmentEvent)="ReceiveInstalledEquipmentEvent($event)"
-         [trackRecordId]="trackRecordId">
+         [trackRecordFromParent]="trackRecord">
 
         </app-equipment-workflow>
     </mat-step>

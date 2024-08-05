@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { CatalogNode } from '../models/catalog-node';
 import { Observable, map, startWith } from 'rxjs';
@@ -9,22 +9,24 @@ import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { InstalledEquipment } from '../models/installed-equipment';
 import { TypesService } from '../services/types.service';
 import { InstalledEquipmentService } from '../services/installed-equipment.service';
+import { TrackRecord } from '../models/track-record';
 
 @Component({
   selector: 'app-equipment-installed-view',
   templateUrl: './equipment-installed-view.component.html',
   styleUrl: './equipment-installed-view.component.css'
 })
-export class EquipmentInstalledViewComponent {
+export class EquipmentInstalledViewComponent implements OnChanges {
   @ViewChild(MatTable)
   table!: MatTable<InstalledEquipment>; 
 
   @Input() projectId:string='';
   @Input() operationId:string='';
   @Input() operationActivityId:string='';
-  @Input() trackRecordIdFromParent:number=0;
 
-  @Output() equimentEvent= new EventEmitter<boolean>();
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord;
+
+  @Output() installedEquimentEvent= new EventEmitter<TrackRecord>();
 
   installedEquipment:InstalledEquipment=new InstalledEquipment();
     
@@ -54,15 +56,25 @@ export class EquipmentInstalledViewComponent {
 
   public constructor(private typesService: TypesService
                     ,private installedEquipmentService: InstalledEquipmentService
-                    ,private dialogWindow: MatDialog){}
+                    ,private dialogWindow: MatDialog){
+    this.typesService.GetCatalogNodes()
+    .subscribe(response =>{
+      this.installedCatalogNodeList=response
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.trackRecordFromParent?.id!=0 && this.installedEquipmentList?.length==0){
+      this.installedEquipmentService.GetInstalledEquipmentsByTrackRecord(this.trackRecordFromParent.id)
+        .subscribe(response => {
+          this.installedEquipmentList=response,
+          this.table?.renderRows();
+        });
+    }
+  }
 
   ngOnInit(): void {      
-    this.installedEquipment.trackRecordId=this.trackRecordIdFromParent;    
-    
-    this.typesService.GetCatalogNodes()
-                             .subscribe(response =>{
-                              this.installedCatalogNodeList=response
-                             });
+    this.installedEquipment.trackRecordId=this.trackRecordFromParent.id;  
 
     this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
       startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 
@@ -86,12 +98,12 @@ export class EquipmentInstalledViewComponent {
     this.installedEquipment.isThirdPart=this.isThirdPartComponentFormControl.value;
     this.installedEquipment.isKeyComponent=this.isKeyComponentFormControl.value;
 
-    if(this.trackRecordIdFromParent==0)
+    if(this.trackRecordFromParent.id==0)
       this.SendPopupNotification
       ('The Well data need to be created first');
 
     else{
-      this.installedEquipment.trackRecordId=this.trackRecordIdFromParent; 
+      this.installedEquipment.trackRecordId=this.trackRecordFromParent.id; 
       if(this.installedEquipment.id==0)            
         this.Create();
       else
@@ -99,7 +111,7 @@ export class EquipmentInstalledViewComponent {
     }   
   }
   NextStep(){
-    this.equimentEvent.emit(true);
+    this.installedEquimentEvent.emit(this.trackRecordFromParent);
   }
   Create(){
     this.installedEquipmentService.CreateInstalledEquipment(this.installedEquipment)
@@ -117,7 +129,7 @@ export class EquipmentInstalledViewComponent {
     .subscribe(response=> {
       this.installedEquipment=response,
       this.SendPopupNotification
-          ('The InstalledEquipment with id: '+this.installedEquipment.id+' has been updated '),   
+          ('The Installed Equipment with id: '+this.installedEquipment.id+' has been updated '),   
       this.ClearFields(),
       this.RefreshInstalledEquipmentList()                  
     });
@@ -145,7 +157,7 @@ export class EquipmentInstalledViewComponent {
   }  
   ClearFields(){
     this.installedEquipment=new InstalledEquipment();
-    this.installedEquipment.trackRecordId=this.trackRecordIdFromParent;
+    this.installedEquipment.trackRecordId=this.trackRecordFromParent.id;
 
     this.productNumberFormControl=new FormControl('');
     this.catalogNodeFormControl.setValue('');

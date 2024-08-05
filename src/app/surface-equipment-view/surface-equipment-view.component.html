@@ -39,7 +39,8 @@
 <div>
     <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
     <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
-    <button mat-stroked-button class="primary-action-button" (click)="NextStep()">Next Step</button>
+    <button (click)="NextStep()" mat-stroked-button class="primary-action-button">Next Step</button>
+   
 </div>
 
 <!-----------------------------------------TABLE------------------------------------------------------->
@@ -60,7 +61,7 @@
 
 <ng-container matColumnDef="Catalog Node">
     <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
-    <td mat-cell *matCellDef="let element">{{element.catalogNode.name}} </td>
+    <td mat-cell *matCellDef="let element">{{element.catalogNode?.name}} </td>
 </ng-container>
 
 <ng-container matColumnDef="Serial">

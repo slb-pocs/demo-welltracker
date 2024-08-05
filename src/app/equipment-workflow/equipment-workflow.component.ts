@@ -1,5 +1,6 @@
 import { Component, Input, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { TrackRecord } from '../models/track-record';
 
 @Component({
   selector: 'app-equipment-workflow',
@@ -13,23 +14,41 @@ export class EquipmentWorkflowComponent {
   isSurfaceEquipmentFinished:boolean=false;
   isInstalledEquipmentFinished:boolean=false;
 
-  @Input() trackRecordId:number=0;
-  @Output() surfaceEquipmentEvent=new EventEmitter<boolean>();
-  @Output() installedEquipmentEvent=new EventEmitter<boolean>();
+  @Input() trackRecordFromParent:TrackRecord=new TrackRecord();
+  @Output() surfaceEquipmentEvent=new EventEmitter<TrackRecord>();
+  @Output() installedEquipmentEvent=new EventEmitter<TrackRecord>();
 
   SetStep(step:number){
     this.step=step;
   }
-  ReceiveSurfaceEquipmentEvent(message:boolean){
-    this.isSurfaceEquipmentFinished=message;    
+  ReceiveSurfaceEquipmentEvent(trackRecord:TrackRecord){
+    this.UpdateTrackRecord(trackRecord);
+    this.isSurfaceEquipmentFinished=true;    
     this.step++;
-    this.surfaceEquipmentEvent.emit(this.isSurfaceEquipmentFinished);
+    this.surfaceEquipmentEvent.emit(this.trackRecordFromParent);
   }
-  ReceiveInstalledEquipmentEvent(message:boolean){
-    this.isInstalledEquipmentFinished=message;
+  ReceiveInstalledEquipmentEvent(trackRecord:TrackRecord){
+    this.UpdateTrackRecord(trackRecord);
+    this.isInstalledEquipmentFinished=true;
     this.step++;
-    this.installedEquipmentEvent.emit(this.isInstalledEquipmentFinished);
+    this.installedEquipmentEvent.emit(this.trackRecordFromParent);
     
+  }
+
+  UpdateTrackRecord(trackRecord:TrackRecord){
+    this.trackRecordFromParent={
+      id:trackRecord.id,
+      supervisorUser:trackRecord.supervisorUser,
+      assignedUser:trackRecord.assignedUser,
+      validatorUser:trackRecord.validatorUser,
+      dataEntryUser:trackRecord.dataEntryUser,
+      installationStartDate:trackRecord.installationEndDate,
+      installationEndDate:trackRecord.installationEndDate,
+      validationDate:trackRecord.validationDate,
+      well:trackRecord.well,
+      surfaceEquipment:trackRecord.surfaceEquipment,
+      installedEquipment:trackRecord.installedEquipment            
+    }
   }
 
 

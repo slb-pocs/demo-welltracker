@@ -12,8 +12,8 @@
           </div>
         </mat-expansion-panel-header>
 
-        <app-surface-equipment-view (equimentEvent)="ReceiveSurfaceEquipmentEvent($event)"
-        [trackRecordIdFromParent]="trackRecordId">
+        <app-surface-equipment-view (surfaceEquimentEvent)="ReceiveSurfaceEquipmentEvent($event)"
+        [trackRecordFromParent]="trackRecordFromParent">
         </app-surface-equipment-view>
 
     </mat-expansion-panel>
@@ -29,8 +29,8 @@
           </div>
         </mat-expansion-panel-header>
             
-        <app-equipment-installed-view (equimentEvent)="ReceiveInstalledEquipmentEvent($event)"
-        [trackRecordIdFromParent]="trackRecordId">
+        <app-equipment-installed-view (installedEquimentEvent)="ReceiveInstalledEquipmentEvent($event)"
+        [trackRecordFromParent]="trackRecordFromParent">
             
         </app-equipment-installed-view>
 

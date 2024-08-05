@@ -31,4 +31,8 @@ export class MyRecordsViewComponent {
     this.router.navigate(['/track-record',id]);
   }
 
+  CleanTableNullValues(){
+    
+  }
+
 }

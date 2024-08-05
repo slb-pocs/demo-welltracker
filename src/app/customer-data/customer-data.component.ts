@@ -70,19 +70,22 @@ export class CustomerDataComponent implements OnInit, OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well.id!=0){
+    if(this.trackRecordFromParent.well?.id!=0 && this.trackRecordFromParent.well !=null){
       this.FillFields(this.trackRecordFromParent.well)
     }
   }
 
   ngOnInit(){
-    this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;   
+    if (this.trackRecordFromParent.well!=null){
+      this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;   
     
-    if (this.trackRecordFromParent.well.id!=0){    
-      this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(response => {
-            this.trackRecordFromParent.well=response
-          });
+      if (this.trackRecordFromParent.well.id!!=0){    
+        this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(response => {
+              this.trackRecordFromParent.well=response
+            });
+      }
     }
+   
     this.wellReferenceService.GetWellReferences()
                              .subscribe(response =>{
                               this.wellReferenceList=response
@@ -139,11 +142,12 @@ export class CustomerDataComponent implements OnInit, OnChanges {
     return this.fieldList.filter(option => option.name.toLocaleLowerCase().includes(searchValue));
   }
   SaveCustomerData(){
-    if(this.trackRecordFromParent.well.trackRecordId==0)
+    if(this.trackRecordFromParent.id==0 || this.trackRecordFromParent.id==-1)
       this.SendPopupNotification
       ('The management information has not been created');
 
     else{     
+      this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;
       if (this.trackRecordFromParent.well.id!=0){    
         this.wellService.GetWell(this.trackRecordFromParent.well.id)
             .subscribe(response => {
@@ -191,15 +195,15 @@ export class CustomerDataComponent implements OnInit, OnChanges {
   }
   FillFields(well:Well){
     this.wellFormControl.setValue(well?.name);
-    this.wellTypeFormControl.setValue(well.wellType?.name);
-    this.customerFormControl.setValue(well.customer?.name);
-    this.accountFormControl.setValue(well.customer?.accountName);
+    this.wellTypeFormControl.setValue(well?.wellType?.name);
+    this.customerFormControl.setValue(well?.customer?.name);
+    this.accountFormControl.setValue(well?.customer?.accountName);
 
-    this.countryFormControl.setValue(well.country?.name);
-    this.basinFormControl.setValue(well.basin?.name);
+    this.countryFormControl.setValue(well?.country?.name);
+    this.basinFormControl.setValue(well?.basin?.name);
     this.fieldFormControl.setValue(well?.field);
-    this.geoUnitFormControl.setValue(well.geoUnit?.name);
-    this.environmentFormControl.setValue(well.environment?.name);
+    this.geoUnitFormControl.setValue(well?.geoUnit?.name);
+    this.environmentFormControl.setValue(well?.environment?.name);
   }  
 
   public OnChangeWellEvent(event: MatOptionSelectionChange, wellReference: WellReference) {

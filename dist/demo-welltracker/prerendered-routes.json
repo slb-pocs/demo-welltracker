@@ -1,7 +1,6 @@
 {
   "routes": [
     "/",
-    "/create-well",
     "/home",
     "/my-records"
   ]

@@ -19,16 +19,16 @@
 
             <ng-container matColumnDef="Well">
                 <th mat-header-cell *matHeaderCellDef>Well</th>
-                <td mat-cell *matCellDef="let element">{{element.well.name}} </td>
+                <td mat-cell *matCellDef="let element">{{element.well?.name}} </td>
             </ng-container>
 
             <ng-container matColumnDef="Field">
                 <th mat-header-cell *matHeaderCellDef>Field</th>
-                <td mat-cell *matCellDef="let element">{{element.well.field}} </td>
+                <td mat-cell *matCellDef="let element">{{element.well?.field}} </td>
             </ng-container>  
             <ng-container matColumnDef="Country">
                 <th mat-header-cell *matHeaderCellDef>Country</th>
-                <td mat-cell *matCellDef="let element">{{element.well.country.name}} </td>
+                <td mat-cell *matCellDef="let element">{{element.well?.country.name}} </td>
             </ng-container>            
 
             <ng-container matColumnDef="Action">

@@ -11,13 +11,15 @@ import { StemService } from '../services/stem.service';
   styleUrl: './trackrecord-view.component.css'
 })
 export class TrackrecordViewComponent {
-  trackRecord:TrackRecord;
+  trackRecord:TrackRecord=new TrackRecord();
+  
   @Input() id:string='';
   
   projectId:string='';
   operationId:string='';
   operationActivityId:string='';
   trackRecordId:number=0;
+
 
   isSurfaceEquipmentFinished:boolean=false;
   isInstalledEquipmentFinished:boolean=false;
@@ -50,13 +52,15 @@ export class TrackrecordViewComponent {
   ReceiveOperationActivityData(data:string){
     this.operationActivityId=data;
   }
-  ReceiveTrackRecordData(data:number){
-    this.trackRecordId=data;
+  ReceiveTrackRecordData(trackRecord:TrackRecord){
+    this.trackRecord=trackRecord;
   }
-  ReceiveSurfaceEquipmentEvent(data:boolean){
+  ReceiveSurfaceEquipmentEvent(trackRecord:TrackRecord){
+    this.trackRecord=trackRecord;
     this.isSurfaceEquipmentFinished=true;
   }
-  ReceiveInstalledEquipmentEvent(data:boolean){
+  ReceiveInstalledEquipmentEvent(trackRecord:TrackRecord){
+    this.trackRecord=trackRecord;
     this.isInstalledEquipmentFinished=true;
   }
 }

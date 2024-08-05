@@ -8,6 +8,7 @@ import { Customer } from "./customer";
 import { Environment } from "./environment";
 
 import { GeoUnit } from "./geo-unit";
+import { InstalledEquipment } from "./installed-equipment";
 import { LinerhangerSystem } from "./linerhanger-system";
 import { MaxDeviation } from "./max-deviation";
 import { MdUnit } from "./md-unit";
@@ -15,6 +16,7 @@ import { MeassuredFrom } from "./meassured-from";
 import { Multilateral } from "./multilateral";
 import { MultistageSimulation } from "./multistage-simulation";
 import { Stem } from "./stem";
+import { SurfaceEquipment } from "./surface-equipment";
 
 
 import { TvdUnit } from "./tvd-unit";
@@ -33,7 +35,7 @@ export class Well {
     public environment:Environment=new Environment;    
     public geoUnit:GeoUnit=new GeoUnit();
 
-    public waterDepth:number=1;
+    public waterDepth:number=0;
     public maxDeviation:MaxDeviation=new MaxDeviation;
     public mdMeassuredFrom:MeassuredFrom=new MeassuredFrom();
     public tvdMeassuredFrom:MeassuredFrom=new MeassuredFrom();
@@ -51,7 +53,7 @@ export class Well {
     public stems:Stem[]=[];
     public completionInitialData:CompletionInitialData=new CompletionInitialData();
     public completions:Completion[]=[];
-
+    
     public projectId:string='';
     public operationId:string='';
     public operationActivityId='';
