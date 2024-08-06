@@ -9,6 +9,9 @@ import { response } from 'express';
 import { TypesService } from './types.service';
 import { WellType } from '../models/well-type';
 import { subscribe } from 'diagnostics_channel';
+import { GeoUnit } from '../models/geo-unit';
+import { Country } from '../models/country';
+import { Environment } from '../models/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -41,21 +44,27 @@ well:Well=new Well();
     let oActivity=new OperationActivityDto();
 
     oActivity=await firstValueFrom(this.GetOperationActivity(operationActivityId));
-    this.well.name=oActivity.value.wells[0].name;
-    this.well.wellType=await this.GetWellTypeByName(oActivity.value.wells[0].drillfor);
-    this.well.customer=await firstValueFrom( this.customerService.
-      GetCustomerByName(oActivity.value.customer.name));
-    this.well.geoUnit=await firstValueFrom( this.typesService.
-        GetGeoUnitByName(oActivity.value.geounitinfo.code));
-    this.well.country=await firstValueFrom( this.typesService.
-          GetCountryByName(oActivity.value.managementcountryinfo.name));
 
-    this.well.field=oActivity.value.wells[0].field;
+    if(oActivity==null || oActivity?.value==null ||oActivity?.value?.wells[0]==null){
+      return this.well;
+    }
+    else{
+      this.well.name=oActivity.value.wells[0].name?? '';
+      this.well.wellType=await this.GetWellTypeByName(oActivity.value.wells[0].drillfor?? 'OIL');
+      this.well.customer=await firstValueFrom( this.customerService.
+        GetCustomerByName(oActivity.value.customer.name))?? new Customer();
+      this.well.geoUnit=await firstValueFrom( this.typesService.
+          GetGeoUnitByName(oActivity.value.geounitinfo.code))?? new GeoUnit();
+      this.well.country=await firstValueFrom( this.typesService.
+            GetCountryByName(oActivity.value.managementcountryinfo.name))?? new Country();
 
-    this.well.environment=await firstValueFrom( this.typesService.
-              GetEnvironmentByName(oActivity.value.wells[0].wellenvironment));
-    
-    return this.well;    
+      this.well.field=oActivity.value.wells[0].field?? '';
+
+      this.well.environment=await firstValueFrom( this.typesService.
+                GetEnvironmentByName(oActivity.value.wells[0].wellenvironment))?? new Environment();
+      
+      return this.well;  
+    }      
   }
 
   async GetWellTypeByName(wellTypeName:string):Promise<WellType>{

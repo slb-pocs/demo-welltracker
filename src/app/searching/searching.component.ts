@@ -48,14 +48,16 @@ export class SearchingComponent {
        
 
     if (this.operationActivityFormControl.value!=''){
+    this.SendPopupNotification('We are prepopulating your data from Field Delivery Platform <br>' 
+      +' to enhance your experience and save you time. Please review and <br>'
+      +' confirm the information to ensure accuracy. '); 
      this.trackRecord.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 
      
      if(this.trackRecord.well.name=='' || this.trackRecord.well.name==null)
       this.SendPopupNotification('There is no data associated with the operational activity');
-     else{
+     else{    
       this.trackRecord.well.id=-1;
-      this.operationActivityEvent.emit(this.trackRecord);
-      this.SendPopupNotification('The data associated with the operational activity has been fecthed');       
+      this.operationActivityEvent.emit(this.trackRecord);             
      }
      
     } 

@@ -57,10 +57,7 @@ export class EquipmentInstalledViewComponent implements OnChanges {
   public constructor(private typesService: TypesService
                     ,private installedEquipmentService: InstalledEquipmentService
                     ,private dialogWindow: MatDialog){
-    this.typesService.GetCatalogNodes()
-    .subscribe(response =>{
-      this.installedCatalogNodeList=response
-    });
+   
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -75,6 +72,11 @@ export class EquipmentInstalledViewComponent implements OnChanges {
 
   ngOnInit(): void {      
     this.installedEquipment.trackRecordId=this.trackRecordFromParent.id;  
+
+    this.typesService.GetCatalogNodes()
+    .subscribe(response =>{
+      this.installedCatalogNodeList=response
+    });
 
     this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
       startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TrackRecord } from '../models/track-record';
 import { Init } from 'v8';
 import { TrackrecordService } from '../services/trackrecord.service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './my-records-view.component.html',
   styleUrl: './my-records-view.component.css'
 })
-export class MyRecordsViewComponent {
+export class MyRecordsViewComponent implements OnInit{
 
   trackRecordList:TrackRecord[]=[];
   
@@ -20,7 +20,10 @@ export class MyRecordsViewComponent {
   public constructor(private trackRecordService: TrackrecordService
                     ,private router: Router
   ){
-    trackRecordService.GetTrackRecords()
+ 
+  }
+  ngOnInit(): void {
+    this.trackRecordService.GetTrackRecords()
     .subscribe(response=>{      
       console.log(response),
       this.trackRecordList=response

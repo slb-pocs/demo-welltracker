@@ -1,7 +1,6 @@
 {
   "routes": [
     "/",
-    "/home",
     "/my-records"
   ]
 }

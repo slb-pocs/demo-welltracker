@@ -30,7 +30,7 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
 
   surfaceEquipment:SurfaceEquipment=new SurfaceEquipment();
     
-  surfaceCatalogNodeList:CatalogNode[];  
+  surfaceCatalogNodeList:CatalogNode[]=[];  
 
   isSurfaceEquipmentFinished:boolean=false;
 
@@ -54,11 +54,7 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
   public constructor(private typesService: TypesService
                     ,private surfaceEquipmentService: SurfaceEquipmentService
                     ,private dialogWindow: MatDialog){
-    this.surfaceCatalogNodeList=[];
-    this.typesService.GetCatalogNodes()
-    .subscribe(response2 =>{
-      this.surfaceCatalogNodeList=response2
-    });
+   
 
   }
 
@@ -74,7 +70,12 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {     
     if(this.trackRecordFromParent.id!=0)
-      this.surfaceEquipment.trackRecordId=this.trackRecordFromParent.id;       
+      this.surfaceEquipment.trackRecordId=this.trackRecordFromParent.id;      
+    
+    this.typesService.GetCatalogNodes()
+    .subscribe(response2 =>{
+      this.surfaceCatalogNodeList=response2
+    });
 
     this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
       startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 

@@ -6,7 +6,6 @@ import { MyRecordsViewComponent } from './my-records-view/my-records-view.compon
 
 const routes: Routes = [
   {path:'',component:MyRecordsViewComponent},
-  {path:'home', component:TrackrecordViewComponent},
   {path:'track-record/:id', component:TrackrecordViewComponent},
   {path:'my-records', component: MyRecordsViewComponent}
 
