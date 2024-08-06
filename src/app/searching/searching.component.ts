@@ -56,7 +56,7 @@ export class SearchingComponent {
      if(this.trackRecord.well.name=='' || this.trackRecord.well.name==null)
       this.SendPopupNotification('There is no data associated with the operational activity');
      else{    
-      this.trackRecord.well.id=-1;
+      this.trackRecord.id=-1;
       this.operationActivityEvent.emit(this.trackRecord);             
      }
      

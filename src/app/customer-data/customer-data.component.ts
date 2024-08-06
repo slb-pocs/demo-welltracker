@@ -70,7 +70,7 @@ export class CustomerDataComponent implements OnInit, OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well?.id!=0 && this.trackRecordFromParent.well !=null){
+    if(this.trackRecordFromParent.id!=0 && this.trackRecordFromParent.well !=null){
       this.FillFields(this.trackRecordFromParent.well)
     }
   }
@@ -148,14 +148,14 @@ export class CustomerDataComponent implements OnInit, OnChanges {
 
     else{     
       this.trackRecordFromParent.well.trackRecordId=this.trackRecordFromParent.id;
-      if (this.trackRecordFromParent.well.id!=0){    
+      if (this.trackRecordFromParent.well.id>0){    
         this.wellService.GetWell(this.trackRecordFromParent.well.id)
             .subscribe(response => {
               this.trackRecordFromParent.well=response
             });
       }     
   
-      if (this.trackRecordFromParent.well.id==0)
+      if (this.trackRecordFromParent.well.id<=0)
         this.Create();      
       else
         this.Update();      

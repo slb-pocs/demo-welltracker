@@ -3,6 +3,8 @@ import { TrackRecord } from '../models/track-record';
 import { Init } from 'v8';
 import { TrackrecordService } from '../services/trackrecord.service';
 import { Router } from '@angular/router'; 
+import { MatDialog } from '@angular/material/dialog';
+import { PopupViewComponent } from '../popup-view/popup-view.component';
 
 @Component({
   selector: 'app-my-records-view',
@@ -19,6 +21,7 @@ export class MyRecordsViewComponent implements OnInit{
 
   public constructor(private trackRecordService: TrackrecordService
                     ,private router: Router
+                    ,private dialogRef: MatDialog
   ){
  
   }
@@ -34,8 +37,20 @@ export class MyRecordsViewComponent implements OnInit{
     this.router.navigate(['/track-record',id]);
   }
 
+  OnDeleteItem(id:number){
+   this.SendPopupNotification('This option is not available in this demo');
+  }
+
   CleanTableNullValues(){
     
+  }
+
+  private SendPopupNotification(message: string) {
+    this.dialogRef.open(PopupViewComponent, {
+      data: {
+        message: message
+      }
+    });
   }
 
 }

@@ -4,19 +4,24 @@
       <button mat-icon-button (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
       <span id="menuTitle">WellTracker Demo</span>
       <span class="example-spacer"></span>    
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <button mat-icon-button class="example-icon" (click)="ShowMessage()"
+    aria-label="Example icon-button with share icon">
         <mat-icon>wifi</mat-icon>
       </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <button mat-icon-button class="example-icon" (click)="ShowMessage()"
+     aria-label="Example icon-button with share icon">
         <mat-icon>refresh</mat-icon>
       </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <button mat-icon-button class="example-icon" (click)="ShowMessage()"
+    aria-label="Example icon-button with share icon">
         <mat-icon>notifications</mat-icon>
       </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <button mat-icon-button class="example-icon" (click)="ShowMessage()"
+     aria-label="Example icon-button with share icon">
         <mat-icon>dark_mode</mat-icon>
       </button>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with dark icon">
+    <button mat-icon-button class="example-icon" (click)="ShowMessage()"
+    aria-label="Example icon-button with dark icon">
         <mat-icon>person</mat-icon>
       </button>    
     </mat-toolbar>
@@ -26,12 +31,12 @@
         <mat-sidenav #sidenav mode="side" opened [fixedInViewport]="true" [fixedTopGap]="60">
           <mat-list >
             <mat-list-item>
-              <button mat-button style="color: white;">
+              <button mat-button style="color: white;" (click)="ShowMessage()">
                 <mat-icon>home</mat-icon>Home
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button routerLink="/track-record/0" style="color: white;">
+              <button mat-button routerLink="/track-record/0" style="color: white;" >
                 <mat-icon>description</mat-icon>New Record
               </button>          
             </mat-list-item>
@@ -41,27 +46,27 @@
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button style="color: white;">
+              <button mat-button style="color: white;" (click)="ShowMessage()">
                 <mat-icon>search</mat-icon>Search Record
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button style="color: white;">
+              <button mat-button style="color: white;" (click)="ShowMessage()">
                 <mat-icon>calculate</mat-icon>UOM Settings
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button style="color: white;">
+              <button mat-button style="color: white;" (click)="ShowMessage()">
                 <mat-icon>subscriptions</mat-icon>What's New
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button style="color: white;">
+              <button mat-button style="color: white;" (click)="ShowMessage()">
                 <mat-icon>sync_alt</mat-icon>Feedback
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button style="color: white;">
+              <button mat-button style="color: white;" (click)="ShowMessage()">
                 <mat-icon>info</mat-icon>Notice
               </button>          
             </mat-list-item>

@@ -44,7 +44,7 @@ export class ManagementDataComponent implements OnChanges{
     this.trackRecordFromParent.dataEntryUser=this.dataEntryUserFormControl.value;
     this.trackRecordFromParent.assignedUser=this.assignedUserFormControl.value;
 
-    if (this.trackRecordFromParent.id==0){
+    if (this.trackRecordFromParent.id<=0){
       this.CreateTrackRecord();
     }
     else{
@@ -53,10 +53,12 @@ export class ManagementDataComponent implements OnChanges{
   }
 
   private CreateTrackRecord(){
+    let populatedWell=new Well();
+    populatedWell=this.trackRecordFromParent.well?? new Well();
     this.trackrecordService.CreateTrackRecord(this.trackRecordFromParent)
         .subscribe(response=> {
           this.trackRecordFromParent=response,
-          this.trackRecordFromParent.well=new Well(),
+          this.trackRecordFromParent.well=populatedWell,
           this.SendPopupNotification
               ('The Trackrecord has been created with the id: '
                 +this.trackRecordFromParent.id),
