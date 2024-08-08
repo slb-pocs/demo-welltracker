@@ -43,7 +43,7 @@ export class CompletionHistoryComponent implements OnChanges{
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well!=null && this.trackRecordFromParent.well?.completionInitialData.id!=0)
+    if(this.trackRecordFromParent.well!=null && this.trackRecordFromParent.well?.completionInitialData?.id!=0)
       this.FillFields(this.trackRecordFromParent.well.completionInitialData);
   }
 

@@ -20,4 +20,7 @@ export class CustomerService {
   public GetCustomerByName(name:string):Observable<Customer>{
     return this.http.get<Customer>(this.apiUrl+'/name?name='+name);
   }
+  public CreateCustomer(customer:Customer):Observable<Customer>{
+    return this.http.post<Customer>(this.apiUrl,customer);
+  }
 }

@@ -48,6 +48,7 @@ import { SearchingComponent } from './searching/searching.component';
 import { CustomerDataComponent } from './customer-data/customer-data.component';
 import { EquipmentWorkflowComponent } from './equipment-workflow/equipment-workflow.component';
 import { MyRecordsViewComponent } from './my-records-view/my-records-view.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 
@@ -98,7 +99,8 @@ import { MyRecordsViewComponent } from './my-records-view/my-records-view.compon
     MatRadioModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginator
   ],
   providers: [
     provideClientHydration(),

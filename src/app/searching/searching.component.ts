@@ -53,8 +53,11 @@ export class SearchingComponent {
       +' confirm the information to ensure accuracy. '); 
      this.trackRecord.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 
      
-     if(this.trackRecord.well.name=='' || this.trackRecord.well.name==null)
+     if((this.trackRecord.well.name=='' || this.trackRecord.well.name==null)
+      && (this.trackRecord.well.customer?.name=='' || this.trackRecord.well.customer?.name==null)){
       this.SendPopupNotification('There is no data associated with the operational activity');
+     }
+      
      else{    
       this.trackRecord.id=-1;
       this.operationActivityEvent.emit(this.trackRecord);             
