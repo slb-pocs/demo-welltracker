@@ -77,6 +77,9 @@ export class CustomerDataComponent implements OnInit, OnChanges {
     if(this.trackRecordFromParent.id!=0 && this.trackRecordFromParent.well !=null){
       this.FillFields(this.trackRecordFromParent.well)
     }
+    else if(this.trackRecordFromParent.well ==null){
+      this.trackRecordFromParent.well=new Well();
+    }
   }
 
   ngOnInit(){
@@ -88,7 +91,7 @@ export class CustomerDataComponent implements OnInit, OnChanges {
               this.trackRecordFromParent.well=response
             });
       }
-    }
+    }   
    
     this.wellReferenceService.GetWellReferences()
                              .subscribe(response =>{
@@ -232,8 +235,14 @@ export class CustomerDataComponent implements OnInit, OnChanges {
       this.trackRecordFromParent.well.geoUnit = geoUnit;
   }
   public OnChangeMgtCountryEvent(event: MatOptionSelectionChange, country: Country) {
-    if (event.source.selected == true)
+    if (event.source.selected == true){
       this.trackRecordFromParent.well.country = country;
+      this.geoUnitFormControl.setValue(country.geoUnit.name);
+      this.trackRecordFromParent.well.geoUnit=country.geoUnit
+      this.basinFormControl.setValue(country.geoUnit.basin.name);
+      this.trackRecordFromParent.well.basin=country.geoUnit.basin;
+    }
+      
   }
   public OnChangeFieldEvent(event: MatOptionSelectionChange, field: Field) {
     if (event.source.selected == true)

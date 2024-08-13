@@ -36,11 +36,11 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Basin</mat-label>
-    <mat-select [formControl]="basinFormControl">
-      <mat-option *ngFor="let basinItem of basinList" [value]="basinItem.name"
-        (onSelectionChange)="OnChangeBasinEvent($event,basinItem)">
-        {{basinItem.name}}
+    <mat-label>Mgt Country</mat-label>
+    <mat-select [formControl]="countryFormControl">
+      <mat-option *ngFor="let countryItem of countryList" [value]="countryItem.name"
+        (onSelectionChange)="OnChangeMgtCountryEvent($event,countryItem)">
+        {{countryItem.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
@@ -56,14 +56,14 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Mgt Country</mat-label>
-    <mat-select [formControl]="countryFormControl">
-      <mat-option *ngFor="let countryItem of countryList" [value]="countryItem.name"
-        (onSelectionChange)="OnChangeMgtCountryEvent($event,countryItem)">
-        {{countryItem.name}}
+    <mat-label>Basin</mat-label>
+    <mat-select [formControl]="basinFormControl">
+      <mat-option *ngFor="let basinItem of basinList" [value]="basinItem.name"
+        (onSelectionChange)="OnChangeBasinEvent($event,basinItem)">
+        {{basinItem.name}}
       </mat-option>
     </mat-select>
-  </mat-form-field>
+  </mat-form-field>  
 
   <mat-form-field appearance="outline" class="mat-form-field">
     <mat-label>Field</mat-label>
