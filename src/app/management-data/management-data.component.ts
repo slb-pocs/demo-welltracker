@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Form, FormControl } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { TrackrecordService } from '../services/trackrecord.service';
 import { TrackRecord } from '../models/track-record';
@@ -7,13 +7,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { response } from 'express';
 import { Well } from '../models/well';
+import { MatOptionSelectionChange } from '@angular/material/core';
+import { ManagementCountry } from '../models/management-country';
+import { ManagementCountryServiceService } from '../services/management-country-service.service';
 
 @Component({
   selector: 'app-management-data',
   templateUrl: './management-data.component.html',
   styleUrl: './management-data.component.css'
 })
-export class ManagementDataComponent implements OnChanges{
+export class ManagementDataComponent implements OnChanges, OnInit{
   @ViewChild(MatAccordion)
   accordion: MatAccordion = new MatAccordion;
 
@@ -24,8 +27,12 @@ export class ManagementDataComponent implements OnChanges{
   validatorUserFormControl:FormControl=new FormControl('');
   dataEntryUserFormControl:FormControl=new FormControl('');
   assignedUserFormControl:FormControl=new FormControl('');
+  managementCountryFormControl:FormControl=new FormControl('');
+
+  managementCountryList:ManagementCountry[]=[];
 
   public constructor(private trackrecordService: TrackrecordService
+                    ,private managementCountryService: ManagementCountryServiceService
                     ,private dialogWindow: MatDialog
   ){}
 
@@ -35,7 +42,11 @@ export class ManagementDataComponent implements OnChanges{
   }
 
   ngOnInit(){  
-   
+
+    this.managementCountryService.GetManagementCountries()
+    .subscribe(response =>{
+      this.managementCountryList=response;
+    });   
   }
 
   SaveManagementData(){
@@ -80,6 +91,7 @@ export class ManagementDataComponent implements OnChanges{
     this.assignedUserFormControl.setValue(trackrecord.assignedUser);
     this.dataEntryUserFormControl.setValue(trackrecord.dataEntryUser);
     this.validatorUserFormControl.setValue(trackrecord.validatorUser);
+    this.managementCountryFormControl.setValue(trackrecord.managementCountry?.name);
   }
 
   ClearFields(){
@@ -95,6 +107,11 @@ export class ManagementDataComponent implements OnChanges{
       }
     }
     );
+  }
+  public OnChangeMgtCountryEvent(event: MatOptionSelectionChange,
+     managementCountry: ManagementCountry) {
+    if (event.source.selected == true)
+      this.trackRecordFromParent.managementCountry = managementCountry;
   }
 
 

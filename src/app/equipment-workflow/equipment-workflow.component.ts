@@ -42,6 +42,7 @@ export class EquipmentWorkflowComponent {
       assignedUser:trackRecord.assignedUser,
       validatorUser:trackRecord.validatorUser,
       dataEntryUser:trackRecord.dataEntryUser,
+      managementCountry:trackRecord.managementCountry,
       installationStartDate:trackRecord.installationEndDate,
       installationEndDate:trackRecord.installationEndDate,
       validationDate:trackRecord.validationDate,

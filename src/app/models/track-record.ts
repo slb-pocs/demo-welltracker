@@ -1,4 +1,5 @@
 import { InstalledEquipment } from "./installed-equipment";
+import { ManagementCountry } from "./management-country";
 import { SurfaceEquipment } from "./surface-equipment";
 import { Well } from "./well";
 
@@ -8,6 +9,9 @@ export class TrackRecord {
     validatorUser:string='';
     dataEntryUser:string='';
     assignedUser:string='';
+
+    managementCountry:ManagementCountry=new ManagementCountry();
+    
     installationStartDate:Date=new Date();
     installationEndDate:Date=new Date();
     validationDate:Date=new Date();   

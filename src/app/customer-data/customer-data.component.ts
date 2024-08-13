@@ -20,6 +20,8 @@ import { WellService } from '../services/well.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from '../popup-view/popup-view.component';
 import { TrackRecord } from '../models/track-record';
+import { CountryServiceService } from '../services/country-service.service';
+import { ManagementCountryServiceService } from '../services/management-country-service.service';
 
 
 @Component({
@@ -63,6 +65,8 @@ export class CustomerDataComponent implements OnInit, OnChanges {
   public constructor(private wellReferenceService: WellReferenceService
                     ,private typesService: TypesService
                     ,private customerService: CustomerService
+                    ,private countryService:CountryServiceService
+                    ,private managementCountryService: ManagementCountryServiceService
                     ,private fieldService:FieldService
                     ,private wellService:WellService
                     ,private dialogWindow:MatDialog
@@ -102,9 +106,9 @@ export class CustomerDataComponent implements OnInit, OnChanges {
                     .subscribe(response=>{
                       this.geoUnitList=response
                     });
-    this.typesService.GetCountries()
+    this.countryService.GetCountries()
                     .subscribe(response=>{
-                      this.countryList=response
+                      this.countryList=response                   
                     });
     this.typesService.GetEnvironments()
                     .subscribe(response=>{

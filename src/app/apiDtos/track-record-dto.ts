@@ -7,6 +7,7 @@ export class TrackRecordDto {
     validatorUser:string='';
     dataEntryUser:string='';
     assignedUser:string='';
+    managementCountryId=1;
     installationStartDate:Date=new Date();
     installationEndDate:Date=new Date();
     validationDate:Date=new Date();   
