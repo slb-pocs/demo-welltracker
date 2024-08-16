@@ -10,18 +10,14 @@ import { Console } from 'console';
 })
 export class WellInformationWorkflowComponent implements OnInit, OnChanges {
   
-  step:number=0;
+  step:number=1;
   
-  wellId:number=0;
-  
+  wellId:number=0;  
 
   @Output() wellInfoEvent=new EventEmitter<TrackRecord>();
 
-  @Input() trackRecordId:number=0;
   @Input() well:Well=new Well();
   @Input() trackRecord:TrackRecord=new TrackRecord();
-  @Input() isQuery:boolean=false;
-
 
   isSearchingFinished:boolean=false;  
   isManagementInfoFinished:boolean=false;
@@ -32,17 +28,16 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
   isCompletionDataFinished:boolean=false;
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id); 
-    
-      
-   
+    console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id);   
+    if (this.trackRecord.id>0){
+      this.SetStep(1);
+    }   
   } 
 
-  ngOnInit(): void {
-    if(this.isQuery)  {
-      this.step=1;   
-      this.isQuery=false;
-    }
+  ngOnInit(): void {  
+    if (this.trackRecord.id>0){
+      this.SetStep(1);
+    }   
     
   }
 
