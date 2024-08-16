@@ -10,6 +10,7 @@ import { InstalledEquipment } from '../models/installed-equipment';
 import { TypesService } from '../services/types.service';
 import { InstalledEquipmentService } from '../services/installed-equipment.service';
 import { TrackRecord } from '../models/track-record';
+import { CatalogPartService } from '../services/catalog-part.service';
 
 @Component({
   selector: 'app-equipment-installed-view',
@@ -28,9 +29,8 @@ export class EquipmentInstalledViewComponent implements OnChanges {
 
   @Output() installedEquimentEvent= new EventEmitter<TrackRecord>();
 
-  installedEquipment:InstalledEquipment=new InstalledEquipment();
-    
-  installedCatalogNodeList:CatalogNode[]=[ ];  
+  installedEquipment:InstalledEquipment=new InstalledEquipment();   
+  
 
   isInstalledEquipmentFinished:boolean=false;
 
@@ -44,7 +44,7 @@ export class EquipmentInstalledViewComponent implements OnChanges {
     'Serial', 'Deviation', 'MD', 'TVD', 'Is-Key-Component', 'Is-Third-Part', 'Action'];
 
   //Form Controls
-  productNumberFormControl:FormControl = new FormControl(0);
+  partNumberFormControl:FormControl = new FormControl('');
   catalogNodeFormControl:FormControl = new FormControl('');
   descriptionFormControl:FormControl = new FormControl('');
   serialFormControl:FormControl = new FormControl('');
@@ -54,7 +54,7 @@ export class EquipmentInstalledViewComponent implements OnChanges {
   isKeyComponentFormControl:FormControl = new FormControl(false);
   isThirdPartComponentFormControl:FormControl = new FormControl(false);
 
-  public constructor(private typesService: TypesService
+  public constructor(private catalogPartService: CatalogPartService
                     ,private installedEquipmentService: InstalledEquipmentService
                     ,private dialogWindow: MatDialog){
    
@@ -72,27 +72,14 @@ export class EquipmentInstalledViewComponent implements OnChanges {
 
   ngOnInit(): void {      
     this.installedEquipment.trackRecordId=this.trackRecordFromParent.id;  
-
-    this.typesService.GetCatalogNodes()
-    .subscribe(response =>{
-      this.installedCatalogNodeList=response
-    });
-
-    this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
-      startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 
+   
   }  
 
-  private GetFilteredCatalogNodes(filter:string):CatalogNode[]{
-    let searchValue=filter.toLocaleLowerCase();    
-    return this.installedCatalogNodeList.filter(option =>
-       option.name.toLocaleLowerCase().includes(searchValue));
-  }
+ 
 
 
   //Save Events
-  Save(){
-    this.installedEquipment.productNumber=parseInt(this.productNumberFormControl.value);
-    this.installedEquipment.description=this.descriptionFormControl.value;
+  Save(){    
     this.installedEquipment.serial=this.serialFormControl.value ;
     this.installedEquipment.deviation=this.deviationFormControl.value;
     this.installedEquipment.md=this.mdFormControl.value;
@@ -147,9 +134,9 @@ export class EquipmentInstalledViewComponent implements OnChanges {
   }   
   FillFields(equipment:InstalledEquipment){
     
-    this.productNumberFormControl.setValue(equipment.productNumber.toString());
-    this.catalogNodeFormControl.setValue(equipment.catalogNode.name);
-    this.descriptionFormControl.setValue(equipment.description);
+    this.partNumberFormControl.setValue(equipment.catalogPart.partNumber);
+    this.catalogNodeFormControl.setValue(equipment.catalogPart.nodeLevel1.name);
+    this.descriptionFormControl.setValue(equipment.catalogPart.name);
     this.serialFormControl.setValue(equipment.serial);
     this.deviationFormControl.setValue(equipment.deviation);
     this.mdFormControl.setValue(equipment.md);
@@ -161,7 +148,7 @@ export class EquipmentInstalledViewComponent implements OnChanges {
     this.installedEquipment=new InstalledEquipment();
     this.installedEquipment.trackRecordId=this.trackRecordFromParent.id;
 
-    this.productNumberFormControl=new FormControl('');
+    this.partNumberFormControl=new FormControl('');
     this.catalogNodeFormControl.setValue('');
     this.descriptionFormControl=new FormControl('');
     this.serialFormControl=new FormControl('');
@@ -171,13 +158,14 @@ export class EquipmentInstalledViewComponent implements OnChanges {
     this.isThirdPartComponentFormControl=new FormControl(false);
     this.isKeyComponentFormControl=new FormControl(false);   
   }
+  /*
   OnCatalogChangeEvent(event:MatOptionSelectionChange, catalogNode:CatalogNode){
     if(event.source.selected==true){
       this.installedEquipment.catalogNode=catalogNode;
       this.productNumberFormControl.setValue(catalogNode.id.toString());
-    }
-      
+    }      
   }
+*/
   OnClickEquipmentItem(id:number){   
     this.installedEquipment=this.installedEquipmentList
           .find(p=>p.id===id)?? new InstalledEquipment();
@@ -190,4 +178,18 @@ export class EquipmentInstalledViewComponent implements OnChanges {
       }
     });
   }  
+  OnPartNumberKeyDown(event: KeyboardEvent){
+    this.catalogNodeFormControl.setValue('');
+    this.descriptionFormControl=new FormControl('');
+
+    this.catalogPartService.GetCatalogPart(this.partNumberFormControl.value)
+      .subscribe(response =>{
+        this.installedEquipment.catalogPart=response,
+        this.catalogNodeFormControl.setValue(this.installedEquipment.catalogPart.nodeLevel3.name
+                                        +'/'+this.installedEquipment.catalogPart.nodeLevel4.name
+                                        +'/'+this.installedEquipment.catalogPart.nodeLevel5.name
+        ),
+        this.descriptionFormControl.setValue(this.installedEquipment.catalogPart.name);
+      });
+  }
 }

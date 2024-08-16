@@ -12,6 +12,9 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { TypesService } from '../services/types.service';
 import { SurfaceEquipmentService } from '../services/surface-equipment.service';
 import { TrackRecord } from '../models/track-record';
+import { CatalogPart } from '../models/catalog-part';
+import { CatalogPartService } from '../services/catalog-part.service';
+import { response } from 'express';
 @Component({
   selector: 'app-surface-equipment-view',
   templateUrl: './surface-equipment-view.component.html',
@@ -30,7 +33,7 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
 
   surfaceEquipment:SurfaceEquipment=new SurfaceEquipment();
     
-  surfaceCatalogNodeList:CatalogNode[]=[];  
+  catalogPart:CatalogPart=new CatalogPart();
 
   isSurfaceEquipmentFinished:boolean=false;
 
@@ -44,17 +47,16 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
    'Is Key Component','Action'];
 
   //Form Controls
-  productNumberFormControl:FormControl=new FormControl('');
+  partNumberFormControl:FormControl=new FormControl('');
   catalogNodeFormControl:FormControl=new FormControl('');
   descriptionFormControl:FormControl=new FormControl('');
   serialFormControl:FormControl=new FormControl('');
   quantityFormControl:FormControl=new FormControl('');
   isKeyComponentFormControl:FormControl=new FormControl(false);  
 
-  public constructor(private typesService: TypesService
+  public constructor(private catalogPartService: CatalogPartService
                     ,private surfaceEquipmentService: SurfaceEquipmentService
-                    ,private dialogWindow: MatDialog){
-   
+                    ,private dialogWindow: MatDialog){   
 
   }
 
@@ -70,28 +72,17 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {     
     if(this.trackRecordFromParent.id!=0)
-      this.surfaceEquipment.trackRecordId=this.trackRecordFromParent.id;      
-    
-    this.typesService.GetCatalogNodes()
-    .subscribe(response2 =>{
-      this.surfaceCatalogNodeList=response2
-    });
-
-    this.filteredCatalogNodes=this.catalogNodeFormControl.valueChanges.pipe(
-      startWith(''), map(value => this.GetFilteredCatalogNodes(value||''))); 
+      this.surfaceEquipment.trackRecordId=this.trackRecordFromParent.id;  
+  
   }  
 
-  private GetFilteredCatalogNodes(filter:string):CatalogNode[]{
-    let searchValue=filter.toLocaleLowerCase();    
-    return this.surfaceCatalogNodeList.filter(option =>
-       option.name.toLocaleLowerCase().includes(searchValue));
-  }
+  
 
 
   //Save Events
   Save(){
-    this.surfaceEquipment.productNumber=parseInt(this.productNumberFormControl.value);
-    this.surfaceEquipment.description=this.descriptionFormControl.value;
+    this.surfaceEquipment.catalogPart.partNumber=this.partNumberFormControl.value;
+    //this.surfaceEquipment.catalogPart.name=this.descriptionFormControl.value;
     this.surfaceEquipment.serial=this.serialFormControl.value ;
     this.surfaceEquipment.quantity=parseInt(this.quantityFormControl.value);
     this.surfaceEquipment.isKeyComponent=this.isKeyComponentFormControl.value;
@@ -144,9 +135,9 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
   }   
   FillFields(equipment:SurfaceEquipment){
     
-    this.productNumberFormControl.setValue(equipment.productNumber.toString());
-    this.catalogNodeFormControl.setValue(equipment.catalogNode.name);
-    this.descriptionFormControl.setValue(equipment.description);
+    this.partNumberFormControl.setValue(equipment.catalogPart.partNumber);
+    this.catalogNodeFormControl.setValue(equipment.catalogPart.nodeLevel1.name);
+    this.descriptionFormControl.setValue(equipment.catalogPart.name);
     this.serialFormControl.setValue(equipment.serial);
     this.quantityFormControl.setValue(equipment.quantity.toString());  
     this.isKeyComponentFormControl.setValue(equipment.isKeyComponent); 
@@ -155,26 +146,39 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
     this.surfaceEquipment=new SurfaceEquipment();
     this.surfaceEquipment.trackRecordId=this.trackRecordFromParent.id;
 
-    this.productNumberFormControl=new FormControl('');
+    this.partNumberFormControl=new FormControl('');
     this.catalogNodeFormControl.setValue('');
     this.descriptionFormControl=new FormControl('');
     this.serialFormControl=new FormControl('');
     this.quantityFormControl=new FormControl('');
     this.isKeyComponentFormControl=new FormControl(false);   
   }
-
+/*
   OnCatalogChangeEvent(event:MatOptionSelectionChange, catalogNode:CatalogNode){
     if(event.source.selected==true){
       this.surfaceEquipment.catalogNode=catalogNode;
-      this.productNumberFormControl.setValue(catalogNode.id.toString());
+      this.partNumberFormControl.setValue(catalogNode.id.toString());
     }      
   }
+    */
 
   OnClickEquipmentItem(id:number){   
     this.surfaceEquipment=this.surfaceEquipmentList
           .find(p=>p.id===id)?? new SurfaceEquipment();
     this.FillFields(this.surfaceEquipment);
   }  
+  OnPartNumberKeyDown(event: KeyboardEvent){    
+    this.catalogNodeFormControl.setValue('');
+    this.descriptionFormControl=new FormControl('');
+
+    this.catalogPartService.GetCatalogPart(this.partNumberFormControl.value)
+      .subscribe(response =>{
+        this.surfaceEquipment.catalogPart=response,
+        this.catalogNodeFormControl.setValue(this.surfaceEquipment.catalogPart.nodeLevel1.name),
+        this.descriptionFormControl.setValue(this.surfaceEquipment.catalogPart.name);
+      });
+
+  }
 
   private SendPopupNotification(message:string){
     this.dialogWindow.open(PopupViewComponent,{
@@ -182,10 +186,7 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
         message:message
       }
     });
-  }  
-
-
-
+  } 
 }
 
 

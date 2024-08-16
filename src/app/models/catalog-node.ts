@@ -1,5 +1,5 @@
 export class CatalogNode {
-    public id:number=1;
+    public id:number=2;
     public name:string='';
 
     public constructor(){

@@ -38,8 +38,7 @@ export class InstalledEquipmentService {
     let installedEquipmentDto:InstalledEquipmentDto=new InstalledEquipmentDto();
     installedEquipmentDto.id=installedEquipment.id;
     installedEquipmentDto.trackRecordId=installedEquipment.trackRecordId;
-    installedEquipmentDto.productNumber=installedEquipment.productNumber;
-    installedEquipmentDto.catalogNodeId=installedEquipment.catalogNode.id;
+    installedEquipmentDto.catalogPartNumber=installedEquipment.catalogPart.partNumber;    
     installedEquipmentDto.serial=installedEquipment.serial;
     installedEquipmentDto.deviation=installedEquipment.deviation;
     installedEquipmentDto.md=installedEquipment.md;

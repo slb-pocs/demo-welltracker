@@ -1,23 +1,17 @@
-<mat-form-field appearance="outline" class="mat-form-field" style="width: 864px;">
+<mat-form-field appearance="outline" class="mat-form-field">
+    <mat-label>Part Number</mat-label>
+    <input (keyup)="OnPartNumberKeyDown($event)" matInput [formControl]="partNumberFormControl">
+</mat-form-field>
+
+<mat-form-field appearance="outline" class="mat-form-field" style="width: 862px;">
     <mat-label>Catalog Node</mat-label>
-    <input matInput [matAutocomplete]="node" [formControl]="catalogNodeFormControl" />
-    <mat-autocomplete autoActiveFirstOption #node>
-        <mat-option *ngFor="let item of filteredCatalogNodes | async" [value]="item.name"
-            (onSelectionChange)="OnCatalogChangeEvent($event, item)">
-            {{item.name}}
-        </mat-option>
-    </mat-autocomplete>
+    <input matInput [formControl]="catalogNodeFormControl"  >
 </mat-form-field>
 
 <mat-form-field appearance="outline" class="mat-form-field" style="width: 862px;">
     <mat-label>Description</mat-label>
     <textarea matInput [formControl]="descriptionFormControl">
     </textarea>
-</mat-form-field>
-
-<mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Product number</mat-label>
-    <input matInput [formControl]="productNumberFormControl" type="number">
 </mat-form-field>
 
 <mat-form-field appearance="outline" class="mat-form-field">
@@ -65,13 +59,13 @@
         <table mat-table [dataSource]="installedEquipmentList" class="mat-elevation-z8 demo-table">
 
             <ng-container matColumnDef="Product-Number">
-                <th mat-header-cell *matHeaderCellDef>Product Number</th>
-                <td mat-cell *matCellDef="let element">{{element.productNumber}} </td>
+                <th mat-header-cell *matHeaderCellDef>Part Number</th>
+                <td mat-cell *matCellDef="let element">{{element.catalogPart?.partNumber}} </td>
             </ng-container>
 
             <ng-container matColumnDef="Catalog-Node">
                 <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
-                <td mat-cell *matCellDef="let element">{{element.catalogNode.name}} </td>
+                <td mat-cell *matCellDef="let element">{{element.catalogPart?.nodeLevel1.name}} </td>
             </ng-container>
 
             <ng-container matColumnDef="Serial">

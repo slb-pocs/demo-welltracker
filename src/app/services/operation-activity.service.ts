@@ -12,6 +12,9 @@ import { subscribe } from 'diagnostics_channel';
 import { GeoUnit } from '../models/geo-unit';
 import { Country } from '../models/country';
 import { Environment } from '../models/environment';
+import { CountryServiceService } from './country-service.service';
+import { ManagementCountryServiceService } from './management-country-service.service';
+import { ManagementCountry } from '../models/management-country';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +28,8 @@ well:Well=new Well();
 
   constructor(private http:HttpClient
               ,private customerService: CustomerService
+              ,private countryService:CountryServiceService
+              ,private managementCountryService:ManagementCountryServiceService
               ,private typesService:TypesService
   ) { }
 
@@ -68,9 +73,11 @@ well:Well=new Well();
       }        
       this.well.geoUnit=await firstValueFrom( this.typesService.
           GetGeoUnitByName(oActivity.value?.geounitinfo.code))?? new GeoUnit();
-      this.well.country=await firstValueFrom( this.typesService.
-            GetCountryByName(oActivity.value?.managementcountryinfo.name))?? new Country();
 
+      let managementCountry:ManagementCountry=new ManagementCountry();    
+      managementCountry=await firstValueFrom( this.managementCountryService.
+            GetManagementCountryByName(oActivity.value?.managementcountryinfo.name))?? new Country();
+      this.well.country=managementCountry.country;
       this.well.field=oActivity.value.wells[0]?.field?? '';
 
       this.well.environment=await firstValueFrom( this.typesService.
