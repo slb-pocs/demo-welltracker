@@ -15,6 +15,10 @@ class Value{
     wells:wells[]=[];
     geounitinfo:GeoUnit=new GeoUnit();
     managementcountryinfo:ManagementCountry=new ManagementCountry();
+    createdby:string='';
+    createddate:Date=new Date();
+    lastmodifiedby:string='';
+    lastmodifieddate:Date=new Date();
 
     constructor(){}
 }

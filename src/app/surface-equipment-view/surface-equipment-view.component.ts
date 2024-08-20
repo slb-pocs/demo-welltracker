@@ -43,7 +43,7 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
 
   surfaceEquipmentList:SurfaceEquipment[]=[];  
 
-  columns:string[]=['Id','Product Number','Catalog Node','Serial','Quantity',
+  columns:string[]=['Product Number','Catalog Node','Serial','Quantity',
    'Is Key Component','Action'];
 
   //Form Controls
@@ -174,7 +174,10 @@ export class SurfaceEquipmentViewComponent implements OnInit, OnChanges {
     this.catalogPartService.GetCatalogPart(this.partNumberFormControl.value)
       .subscribe(response =>{
         this.surfaceEquipment.catalogPart=response,
-        this.catalogNodeFormControl.setValue(this.surfaceEquipment.catalogPart.nodeLevel1.name),
+        this.catalogNodeFormControl.setValue(this.surfaceEquipment?.catalogPart?.nodeLevel3?.name
+                                            +'/'+this.surfaceEquipment?.catalogPart?.nodeLevel4?.name
+                                            +'/'+this.surfaceEquipment?.catalogPart?.nodeLevel5?.name
+        ),
         this.descriptionFormControl.setValue(this.surfaceEquipment.catalogPart.name);
       });
 

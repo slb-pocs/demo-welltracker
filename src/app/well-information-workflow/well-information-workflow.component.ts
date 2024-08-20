@@ -29,9 +29,7 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id);   
-    if (this.trackRecord.id>0){
-      this.SetStep(1);
-    }   
+       
   } 
 
   ngOnInit(): void {  

@@ -117,19 +117,19 @@ export class CompletionHistoryComponent implements OnChanges{
   }
   FillFields(completionInitialData:CompletionInitialData){
     this.isCompletionPulledFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.isCompletionPulled==true);
+            (this.trackRecordFromParent.well?.completionInitialData?.isCompletionPulled==true);
     this.isInitialCompletionFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.isInitialCompletion==true);
+            (this.trackRecordFromParent.well?.completionInitialData?.isInitialCompletion==true);
     this.completionPulledDateFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.completionPulledDate);
+            (this.trackRecordFromParent.well?.completionInitialData?.completionPulledDate);
     this.completionPulledReasonFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.completionPulledReason.name);
+            (this.trackRecordFromParent.well?.completionInitialData?.completionPulledReason.name);
     this.lastValidatedFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.equipmentLastValidated);
+            (this.trackRecordFromParent.well?.completionInitialData?.equipmentLastValidated);
     this.hasIpmWellFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.hasIpmWell);
+            (this.trackRecordFromParent.well?.completionInitialData?.hasIpmWell);
     this.hasLinerHangerInstallationFormControl.setValue
-            (this.trackRecordFromParent.well.completionInitialData.hasLinerHangerInstallation);  
+            (this.trackRecordFromParent.well?.completionInitialData?.hasLinerHangerInstallation);  
   }  
  
 

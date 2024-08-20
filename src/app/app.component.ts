@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupViewComponent } from './popup-view/popup-view.component';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,9 @@ import { PopupViewComponent } from './popup-view/popup-view.component';
 export class AppComponent {
   title = 'demo-welltracker';
 
-  public constructor(private dialogRef:MatDialog){}
+  public constructor(private dialogRef:MatDialog
+                    ,private router:Router
+  ){}
 
   ShowMessage(){
     this.SendPopupNotification('This option is not available in this demo');
@@ -22,5 +25,12 @@ export class AppComponent {
         message: message
       }
     });
+  }
+  GoToMyRecords(){
+    window.location.href='/my-records';
+  }
+  GoToNewRecord(){
+    this.router.navigate(['/temp-url']);
+    window.location.href='/track-record/0';
   }
 }

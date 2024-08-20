@@ -27,6 +27,9 @@ export class ManagementDataComponent implements OnChanges, OnInit{
   validatorUserFormControl:FormControl=new FormControl('');
   dataEntryUserFormControl:FormControl=new FormControl('');
   assignedUserFormControl:FormControl=new FormControl('');
+  installationStartDateFormControl:FormControl=new FormControl(new Date());
+  installationEndDateFormControl:FormControl=new FormControl(new Date());
+  installationValidationDateFormControl:FormControl=new FormControl(new Date());
   managementCountryFormControl:FormControl=new FormControl('');
 
   managementCountryList:ManagementCountry[]=[];
@@ -42,6 +45,9 @@ export class ManagementDataComponent implements OnChanges, OnInit{
   }
 
   ngOnInit(){  
+    this.installationStartDateFormControl.setValue('');
+    this.installationEndDateFormControl.setValue('');
+    this.installationValidationDateFormControl.setValue('');
 
     this.managementCountryService.GetManagementCountries()
     .subscribe(response =>{
@@ -91,12 +97,18 @@ export class ManagementDataComponent implements OnChanges, OnInit{
     this.assignedUserFormControl.setValue(trackrecord.assignedUser);
     this.dataEntryUserFormControl.setValue(trackrecord.dataEntryUser);
     this.validatorUserFormControl.setValue(trackrecord.validatorUser);
+    this.installationStartDateFormControl.setValue(trackrecord.installationStartDate);
+    this.installationEndDateFormControl.setValue(trackrecord.installationEndDate);
+    this.installationValidationDateFormControl.setValue(trackrecord.validationDate);
     this.managementCountryFormControl.setValue(trackrecord.managementCountry?.name);
   }
 
   ClearFields(){
     this.trackRecordFromParent=new TrackRecord();
     this.FillFields(this.trackRecordFromParent);
+    this.installationStartDateFormControl.setValue('');
+    this.installationEndDateFormControl.setValue('');
+    this.installationValidationDateFormControl.setValue('');
     this.trackRecordFromParent.id=this.trackRecordFromParent.id;
   }
 
@@ -113,7 +125,4 @@ export class ManagementDataComponent implements OnChanges, OnInit{
     if (event.source.selected == true)
       this.trackRecordFromParent.managementCountry = managementCountry;
   }
-
-
-
 }

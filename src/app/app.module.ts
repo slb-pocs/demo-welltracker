@@ -50,9 +50,6 @@ import { EquipmentWorkflowComponent } from './equipment-workflow/equipment-workf
 import { MyRecordsViewComponent } from './my-records-view/my-records-view.component';
 import { MatPaginator } from '@angular/material/paginator';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +68,7 @@ import { MatPaginator } from '@angular/material/paginator';
     CustomerDataComponent,
     EquipmentWorkflowComponent,
     MyRecordsViewComponent
+
   ],
   imports: [
     BrowserModule,
@@ -101,6 +99,7 @@ import { MatPaginator } from '@angular/material/paginator';
     MatSlideToggleModule,
     HttpClientModule,
     MatPaginator
+
   ],
   providers: [
     provideClientHydration(),

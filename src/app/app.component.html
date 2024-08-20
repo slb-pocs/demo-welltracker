@@ -36,12 +36,12 @@
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button routerLink="/track-record/0" style="color: white;" >
+              <button mat-button (click)="GoToNewRecord()" style="color: white;" >
                 <mat-icon>description</mat-icon>New Record
               </button>          
             </mat-list-item>
             <mat-list-item>
-              <button mat-button routerLink="/my-records" style="color: white;">
+              <button mat-button (click)="GoToMyRecords()" style="color: white;">
                 <mat-icon>menu_book</mat-icon>My Records
               </button>          
             </mat-list-item>

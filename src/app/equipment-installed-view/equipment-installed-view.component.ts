@@ -185,9 +185,9 @@ export class EquipmentInstalledViewComponent implements OnChanges {
     this.catalogPartService.GetCatalogPart(this.partNumberFormControl.value)
       .subscribe(response =>{
         this.installedEquipment.catalogPart=response,
-        this.catalogNodeFormControl.setValue(this.installedEquipment.catalogPart.nodeLevel3.name
-                                        +'/'+this.installedEquipment.catalogPart.nodeLevel4.name
-                                        +'/'+this.installedEquipment.catalogPart.nodeLevel5.name
+        this.catalogNodeFormControl.setValue(this.installedEquipment?.catalogPart?.nodeLevel3?.name
+                                        +'/'+this.installedEquipment?.catalogPart?.nodeLevel4?.name
+                                        +'/'+this.installedEquipment?.catalogPart?.nodeLevel5?.name
         ),
         this.descriptionFormControl.setValue(this.installedEquipment.catalogPart.name);
       });

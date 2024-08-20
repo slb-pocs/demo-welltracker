@@ -15,6 +15,7 @@ import { Environment } from '../models/environment';
 import { CountryServiceService } from './country-service.service';
 import { ManagementCountryServiceService } from './management-country-service.service';
 import { ManagementCountry } from '../models/management-country';
+import { TrackRecord } from '../models/track-record';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ apikey:string='?x-apikey=A5c73bVnAbgu5hRQzAUOl42x9Ayx3KId'
 
 customer:Customer=new Customer();
 well:Well=new Well();
+trackRecord:TrackRecord=new TrackRecord();
 
   constructor(private http:HttpClient
               ,private customerService: CustomerService
@@ -37,53 +39,54 @@ well:Well=new Well();
     return this.http.get<OperationActivityDto>(this.apiUrl+operationActivity+this.apikey);
   }
 
-  GetCustomerByName(name:string):Observable<Customer>{
-    let customer:Observable<Customer>=new Observable<Customer>();
-    if(name=='AGIP OIL ECUADOR B.V.'){
-      customer=this.customerService.GetCustomer(3);    
-    }
-    return customer;
-  }
-
-  async GetWellByOperationActivity(operationActivityId:string):Promise<Well>{
+  async GetTrackRecordByOperationActivity(operationActivityId:string):Promise<TrackRecord>{
     let oActivity=new OperationActivityDto();
 
     oActivity=await firstValueFrom(this.GetOperationActivity(operationActivityId));
 
     if((oActivity==null || oActivity?.value==null) &&
        (oActivity?.value?.wells[0]==null && oActivity?.value?.customer==null)){
-      return this.well;
+      return this.trackRecord;
     }
     else{
-      this.well.name=oActivity.value.wells[0]?.name?? '';
-      this.well.wellType=await this.GetWellTypeByName(oActivity.value.wells[0]?.drillfor?? 'OIL');
-
-  
-      this.well.customer=await firstValueFrom( this.customerService.
-        GetCustomerByName(oActivity.value.customer?.name));     
-
-      if (this.well.customer==null && oActivity.value.customer!=null && 
-                                      oActivity.value.customer?.name!='' ){
-        this.well.customer={
-          id:0,
-          name:oActivity.value.customer?.name.toUpperCase(),
-          accountName:oActivity.value.customer?.name.toUpperCase()
-        }
-        this.well.customer=await firstValueFrom(this.customerService.CreateCustomer(this.well.customer));
-      }        
-      this.well.geoUnit=await firstValueFrom( this.typesService.
-          GetGeoUnitByName(oActivity.value?.geounitinfo.code))?? new GeoUnit();
+      this.trackRecord.dataEntryUser=oActivity.value.createdby;
+      this.trackRecord.assignedUser=oActivity.value.createdby;
+      this.trackRecord.validatorUser=oActivity.value.lastmodifiedby;
+      this.trackRecord.supervisorUser=oActivity.value.lastmodifiedby;
+      this.trackRecord.installationStartDate=oActivity.value.createddate;
 
       let managementCountry:ManagementCountry=new ManagementCountry();    
       managementCountry=await firstValueFrom( this.managementCountryService.
             GetManagementCountryByName(oActivity.value?.managementcountryinfo.name))?? new Country();
-      this.well.country=managementCountry.country;
-      this.well.field=oActivity.value.wells[0]?.field?? '';
 
-      this.well.environment=await firstValueFrom( this.typesService.
+      this.trackRecord.managementCountry=managementCountry;      
+
+      this.trackRecord.well.name=oActivity.value.wells[0]?.name?? '';
+      this.trackRecord.well.wellType=await this.GetWellTypeByName(oActivity.value.wells[0]?.drillfor?? 'OIL');
+  
+      this.trackRecord.well.customer=await firstValueFrom( this.customerService.
+        GetCustomerByName(oActivity.value.customer?.name));     
+
+      if (this.trackRecord.well.customer==null && oActivity.value.customer!=null && 
+                                      oActivity.value.customer?.name!='' ){
+        this.trackRecord.well.customer={
+          id:0,
+          name:oActivity.value.customer?.name.toUpperCase(),
+          accountName:oActivity.value.customer?.name.toUpperCase()
+        }
+        this.trackRecord.well.customer=await firstValueFrom(this.customerService.CreateCustomer(this.well.customer));
+      }        
+      this.trackRecord.well.geoUnit=await firstValueFrom( this.typesService.
+          GetGeoUnitByName(oActivity.value?.geounitinfo.code))?? new GeoUnit();
+
+     
+      this.trackRecord.well.country=managementCountry.country;
+      this.trackRecord.well.field=oActivity.value.wells[0]?.field?? '';
+
+      this.trackRecord.well.environment=await firstValueFrom( this.typesService.
                 GetEnvironmentByName(oActivity.value.wells[0]?.wellenvironment))?? new Environment();
       
-      return this.well;  
+      return this.trackRecord;  
     }      
   }
 

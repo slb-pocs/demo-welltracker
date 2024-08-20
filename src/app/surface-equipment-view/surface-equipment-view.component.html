@@ -42,11 +42,6 @@
 <mat-card style="margin-top: 2%;">
 <table mat-table [dataSource]="surfaceEquipmentList" class="mat-elevation-z8 demo-table">
 
-<ng-container matColumnDef="Id">
-    <th mat-header-cell *matHeaderCellDef>Id Number</th>
-    <td mat-cell *matCellDef="let element">{{element.id}} </td>
-</ng-container>
-
 <ng-container matColumnDef="Product Number">
     <th mat-header-cell *matHeaderCellDef>Product Number</th>
     <td mat-cell *matCellDef="let element">{{element.catalogPart?.partNumber}} </td>

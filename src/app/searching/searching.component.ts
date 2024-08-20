@@ -44,14 +44,15 @@ export class SearchingComponent {
   }
 
   async SearchData(){   
-    this.eventCount++;
-       
+    this.eventCount++;       
 
     if (this.operationActivityFormControl.value!=''){
     this.SendPopupNotification('We are prepopulating your data from Field Delivery Platform <br>' 
       +' to enhance your experience and save you time. Please review and <br>'
       +' confirm the information to ensure accuracy. '); 
-     this.trackRecord.well=await this.operationService.GetWellByOperationActivity(this.operationActivityFormControl.value); 
+
+     this.trackRecord=await this.operationService
+              .GetTrackRecordByOperationActivity(this.operationActivityFormControl.value); 
      
      if((this.trackRecord.well.name=='' || this.trackRecord.well.name==null)
       && (this.trackRecord.well.customer?.name=='' || this.trackRecord.well.customer?.name==null)){
