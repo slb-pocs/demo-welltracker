@@ -28,9 +28,13 @@ export class AppComponent {
   }
   GoToMyRecords(){
     window.location.href='/my-records';
+    //this.router.navigate(['/my-records']);
   }
   GoToNewRecord(){
+    
     this.router.navigate(['/temp-url']);
     window.location.href='/track-record/0';
+    
+   // this.router.navigate(['/track-record/0']);
   }
 }

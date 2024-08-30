@@ -29,7 +29,7 @@ export class ManagementDataComponent implements OnChanges, OnInit{
   assignedUserFormControl:FormControl=new FormControl('');
   installationStartDateFormControl:FormControl=new FormControl(new Date());
   installationEndDateFormControl:FormControl=new FormControl(new Date());
-  installationValidationDateFormControl:FormControl=new FormControl(new Date());
+  validationDateFormControl:FormControl=new FormControl(new Date());
   managementCountryFormControl:FormControl=new FormControl('');
 
   managementCountryList:ManagementCountry[]=[];
@@ -47,7 +47,7 @@ export class ManagementDataComponent implements OnChanges, OnInit{
   ngOnInit(){  
     this.installationStartDateFormControl.setValue('');
     this.installationEndDateFormControl.setValue('');
-    this.installationValidationDateFormControl.setValue('');
+    this.validationDateFormControl.setValue('');
 
     this.managementCountryService.GetManagementCountries()
     .subscribe(response =>{
@@ -60,6 +60,11 @@ export class ManagementDataComponent implements OnChanges, OnInit{
     this.trackRecordFromParent.validatorUser=this.validatorUserFormControl.value;
     this.trackRecordFromParent.dataEntryUser=this.dataEntryUserFormControl.value;
     this.trackRecordFromParent.assignedUser=this.assignedUserFormControl.value;
+
+    this.trackRecordFromParent.installationStartDate=this.installationStartDateFormControl.value;
+    this.trackRecordFromParent.installationEndDate=this.installationEndDateFormControl.value;
+    this.trackRecordFromParent.validationDate=this.validationDateFormControl.value;
+
 
     if (this.trackRecordFromParent.id<=0){
       this.CreateTrackRecord();
@@ -99,7 +104,7 @@ export class ManagementDataComponent implements OnChanges, OnInit{
     this.validatorUserFormControl.setValue(trackrecord.validatorUser);
     this.installationStartDateFormControl.setValue(trackrecord.installationStartDate);
     this.installationEndDateFormControl.setValue(trackrecord.installationEndDate);
-    this.installationValidationDateFormControl.setValue(trackrecord.validationDate);
+    this.validationDateFormControl.setValue(trackrecord.validationDate);
     this.managementCountryFormControl.setValue(trackrecord.managementCountry?.name);
   }
 
@@ -108,7 +113,7 @@ export class ManagementDataComponent implements OnChanges, OnInit{
     this.FillFields(this.trackRecordFromParent);
     this.installationStartDateFormControl.setValue('');
     this.installationEndDateFormControl.setValue('');
-    this.installationValidationDateFormControl.setValue('');
+    this.validationDateFormControl.setValue('');
     this.trackRecordFromParent.id=this.trackRecordFromParent.id;
   }
 

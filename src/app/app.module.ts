@@ -49,6 +49,8 @@ import { CustomerDataComponent } from './customer-data/customer-data.component';
 import { EquipmentWorkflowComponent } from './equipment-workflow/equipment-workflow.component';
 import { MyRecordsViewComponent } from './my-records-view/my-records-view.component';
 import { MatPaginator } from '@angular/material/paginator';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { FileManagementViewComponent } from './file-management-view/file-management-view.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { MatPaginator } from '@angular/material/paginator';
     SearchingComponent,
     CustomerDataComponent,
     EquipmentWorkflowComponent,
-    MyRecordsViewComponent
+    MyRecordsViewComponent,
+    FileManagementViewComponent
+    
 
   ],
   imports: [
@@ -98,7 +102,9 @@ import { MatPaginator } from '@angular/material/paginator';
     MatCheckboxModule,
     MatSlideToggleModule,
     HttpClientModule,
-    MatPaginator
+    MatPaginator,
+    MatSnackBarModule   
+
 
   ],
   providers: [

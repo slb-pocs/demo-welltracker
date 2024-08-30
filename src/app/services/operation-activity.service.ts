@@ -54,6 +54,7 @@ trackRecord:TrackRecord=new TrackRecord();
       this.trackRecord.validatorUser=oActivity.value.lastmodifiedby;
       this.trackRecord.supervisorUser=oActivity.value.lastmodifiedby;
       this.trackRecord.installationStartDate=oActivity.value.createddate;
+      this.trackRecord.installationEndDate=oActivity.value.lastmodifieddate;      
 
       let managementCountry:ManagementCountry=new ManagementCountry();    
       managementCountry=await firstValueFrom( this.managementCountryService.

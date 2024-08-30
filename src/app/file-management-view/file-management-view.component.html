@@ -1,0 +1,24 @@
+<mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+     
+      <mat-card-title style="margin-bottom: 6%;">
+        <mat-icon>article</mat-icon> Files Management</mat-card-title>
+    </mat-card-header>   
+    <mat-card-content>
+
+        <mat-label>Select a File</mat-label>
+        <div>
+            <input type="file" id="fileInput" name="fileInput"
+             #fileInput style="margin-top: 3%;margin-bottom: 3%;">
+        </div>    
+    
+    </mat-card-content>
+    <mat-card-actions>
+        <div>
+            <button mat-stroked-button class="primary-action-button"
+            (click)="SaveFile()">
+                Save
+            </button>
+        </div>
+    </mat-card-actions>
+  </mat-card>
