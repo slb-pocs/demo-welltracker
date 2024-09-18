@@ -10,7 +10,7 @@ import { StemService } from '../services/stem.service';
   templateUrl: './trackrecord-view.component.html',
   styleUrl: './trackrecord-view.component.css'
 })
-export class TrackrecordViewComponent {
+export class TrackrecordViewComponent implements OnInit{
   trackRecord:TrackRecord=new TrackRecord();
   
   @Input() id:string='';
@@ -53,7 +53,7 @@ export class TrackrecordViewComponent {
     this.operationActivityId=data;
   }
   ReceiveTrackRecordData(trackRecord:TrackRecord){
-    this.trackRecord=trackRecord;
+    this.UpdateTrackRecord(trackRecord);    
   }
   ReceiveSurfaceEquipmentEvent(trackRecord:TrackRecord){
     this.trackRecord=trackRecord;
@@ -62,5 +62,25 @@ export class TrackrecordViewComponent {
   ReceiveInstalledEquipmentEvent(trackRecord:TrackRecord){
     this.trackRecord=trackRecord;
     this.isInstalledEquipmentFinished=true;
+  }
+  ReceiveFileManagementEvent(trackRecord:TrackRecord){
+    this.trackRecord=trackRecord;    
+  }
+
+  private UpdateTrackRecord(trackRecord:TrackRecord){
+    this.trackRecord={
+      id:trackRecord.id,
+      supervisorUser:trackRecord.supervisorUser,
+      assignedUser:trackRecord.assignedUser,
+      validatorUser:trackRecord.validatorUser,
+      dataEntryUser:trackRecord.dataEntryUser,
+      managementCountry:trackRecord.managementCountry,
+      installationStartDate:trackRecord.installationEndDate,
+      installationEndDate:trackRecord.installationEndDate,
+      validationDate:trackRecord.validationDate,
+      well:trackRecord.well ,
+      surfaceEquipment:trackRecord.surfaceEquipment,
+      installedEquipment:trackRecord.installedEquipment     
+    }
   }
 }

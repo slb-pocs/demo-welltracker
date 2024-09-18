@@ -45,14 +45,19 @@ export class ManagementDataComponent implements OnChanges, OnInit{
   }
 
   ngOnInit(){  
-    this.installationStartDateFormControl.setValue('');
-    this.installationEndDateFormControl.setValue('');
-    this.validationDateFormControl.setValue('');
+    if (this.trackRecordFromParent.id!=0)  
+      this.FillFields(this.trackRecordFromParent);
+    else{
+      this.installationStartDateFormControl.setValue('');
+      this.installationEndDateFormControl.setValue('');
+      this.validationDateFormControl.setValue('');
 
-    this.managementCountryService.GetManagementCountries()
-    .subscribe(response =>{
-      this.managementCountryList=response;
-    });   
+      this.managementCountryService.GetManagementCountries()
+      .subscribe(response =>{
+        this.managementCountryList=response;
+      });   
+    } 
+    
   }
 
   SaveManagementData(){
@@ -105,7 +110,7 @@ export class ManagementDataComponent implements OnChanges, OnInit{
     this.installationStartDateFormControl.setValue(trackrecord.installationStartDate);
     this.installationEndDateFormControl.setValue(trackrecord.installationEndDate);
     this.validationDateFormControl.setValue(trackrecord.validationDate);
-    this.managementCountryFormControl.setValue(trackrecord.managementCountry?.name);
+    this.managementCountryFormControl.setValue(trackrecord.managementCountry.name ?? '');
   }
 
   ClearFields(){

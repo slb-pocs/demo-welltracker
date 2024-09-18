@@ -1,16 +1,16 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Well } from '../models/well';
 import { TrackRecord } from '../models/track-record';
-import { Console } from 'console';
+import { MatAccordion, MatExpansionPanel } from '@angular/material/expansion';
 @Component({
   selector: 'app-well-information-workflow',
   templateUrl: './well-information-workflow.component.html',
   styleUrl: './well-information-workflow.component.css'
 })
 export class WellInformationWorkflowComponent implements OnInit, OnChanges {
-  
-  step:number=1;
+
+  step:number=0;
   
   wellId:number=0;  
 
@@ -27,15 +27,20 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
   isCompletionHistoryFinished:boolean=false;
   isCompletionDataFinished:boolean=false;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('trackrecordId in well-informatio:OnChanges= '+this.trackRecord.id);   
-       
+  ngOnChanges(changes: SimpleChanges): void {   
+    if (this.trackRecord.id>0 && this.step===0){      
+      this.SetStep(1); 
+    }      
+    /*
+    else
+      this.SetStep(0);       
+    */
   } 
 
   ngOnInit(): void {  
-    if (this.trackRecord.id>0){
+    if (this.trackRecord.id!=0 ){    
       this.SetStep(1);
-    }   
+    }        
     
   }
 
@@ -84,40 +89,7 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
     console.log('OnSearchingEvent: '+ trackRecord.well.name);      
     this.step=1;
   }
-  private UpdateWell(well:Well){
-    this.well={
-      id:well.id,
-      name:well.name,
-      wellType:well.wellType,
-      customer:well.customer,
-      country:well.country,
-      basin:well.basin,
-      field:well.field,
-      environment:well.environment,
-      geoUnit:well.geoUnit,
-      waterDepth:well.waterDepth,
-      maxDeviation:well.maxDeviation,
-      mdMeassuredFrom:well.mdMeassuredFrom,
-      tvdMeassuredFrom:well.tvdMeassuredFrom,
-      mdDistance:well.mdDistance,
-      tvdDistance:well.tvdDistance,
-      mdUnit:well.mdUnit,
-      tvdUnit:well.tvdUnit,
-      upperCompletionType:well.upperCompletionType,
-      artificialLiftType:well.artificialLiftType,
-      multiLateralType:well.multiLateralType,
-      linerHangerSystem:well.linerHangerSystem,
-      multiStageType:well.multiStageType,
-      trackRecordId:well.trackRecordId,
-      projectId:well.projectId,
-      operationId:well.operationId,
-      operationActivityId:well.operationActivityId,
-      activityJob:well.activityJob,
-      stems:well.stems,
-      completionInitialData:well.completionInitialData,
-      completions:well.completions
-    }
-  }
+ 
   private UpdateTrackRecord(trackRecord:TrackRecord){
     this.trackRecord={
       id:trackRecord.id,

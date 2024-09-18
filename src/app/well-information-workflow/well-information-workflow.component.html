@@ -1,6 +1,6 @@
-<mat-accordion class="example-headers-align" multi>
+<mat-accordion class="example-headers-align" multi #accordion>
 <div *ngIf="trackRecord.id<=0">
-  <mat-expansion-panel [hideToggle]="true" [expanded]="step === 0" (opened)="SetStep(0)">
+  <mat-expansion-panel [hideToggle]="true" [expanded]="step === 0" (opened)="SetStep(0)" >
     <mat-expansion-panel-header>
         <mat-panel-title>Searching by Operational Activity</mat-panel-title>    
             <mat-icon>search</mat-icon>   
@@ -11,8 +11,6 @@
 
   </mat-expansion-panel>
 </div>
- 
-
 
 
     <mat-expansion-panel hideToggle="true" [expanded]="step === 1" (opened)="SetStep(1)">

@@ -11,6 +11,10 @@ import { TypesService } from '../services/types.service';
 import { InstalledEquipmentService } from '../services/installed-equipment.service';
 import { TrackRecord } from '../models/track-record';
 import { CatalogPartService } from '../services/catalog-part.service';
+import { IsolationValveJob } from '../models/isolation-valve-job';
+import { IsolationValveKeyComponent } from '../models/isolation-valve-key-component';
+import { IsolationValveKeyComponentService } from '../services/isolation-valve-key-component.service';
+import { response } from 'express';
 
 @Component({
   selector: 'app-equipment-installed-view',
@@ -56,6 +60,7 @@ export class EquipmentInstalledViewComponent implements OnChanges {
 
   public constructor(private catalogPartService: CatalogPartService
                     ,private installedEquipmentService: InstalledEquipmentService
+                    ,private isolationValveKeyComponentService: IsolationValveKeyComponentService
                     ,private dialogWindow: MatDialog){
    
   }
@@ -74,10 +79,6 @@ export class EquipmentInstalledViewComponent implements OnChanges {
     this.installedEquipment.trackRecordId=this.trackRecordFromParent.id;  
    
   }  
-
- 
-
-
   //Save Events
   Save(){    
     this.installedEquipment.serial=this.serialFormControl.value ;
@@ -108,9 +109,12 @@ export class EquipmentInstalledViewComponent implements OnChanges {
       this.installedEquipment=response,
       this.SendPopupNotification
           ('The installed equipment has been created with the id: '
-            +this.installedEquipment.id),     
-      this.ClearFields(),     
-      this.RefreshInstalledEquipmentList()          
+            +this.installedEquipment.id)
+            if(this.installedEquipment.isKeyComponent){
+              this.CreateKeyComponent(this.installedEquipment);     
+            } 
+            this.ClearFields(),     
+            this.RefreshInstalledEquipmentList()                       
     });
   }  
   Update(){
@@ -123,6 +127,27 @@ export class EquipmentInstalledViewComponent implements OnChanges {
       this.RefreshInstalledEquipmentList()                  
     });
   }
+
+  CreateKeyComponent(installedEquipment:InstalledEquipment){     
+    let isolationValveKeyComponent: IsolationValveKeyComponent=new IsolationValveKeyComponent();
+    this.isolationValveKeyComponentService.GetByInstalledEquipment(this.installedEquipment.id)
+    .subscribe(response=> {
+      isolationValveKeyComponent=response
+    
+      if(isolationValveKeyComponent==null){       
+        isolationValveKeyComponent=new IsolationValveKeyComponent();
+        isolationValveKeyComponent.installedEquipment=installedEquipment
+        isolationValveKeyComponent.trackRecordId=this.trackRecordFromParent.id;
+
+        this.isolationValveKeyComponentService.Create(isolationValveKeyComponent)
+          .subscribe(response2=> {
+              this.SendPopupNotification("The Key Component Information has been created");
+              this.NextStep();
+      });
+      }        
+    });    
+  }
+
   RefreshInstalledEquipmentList(){
     this.installedEquipmentService.GetInstalledEquipmentsByTrackRecord
       (this.installedEquipment.trackRecordId)

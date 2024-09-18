@@ -43,14 +43,15 @@ export class CompletionHistoryComponent implements OnChanges{
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well!=null && this.trackRecordFromParent.well?.completionInitialData?.id!=0)
-      this.FillFields(this.trackRecordFromParent.well.completionInitialData);
+    if(this.trackRecordFromParent?.well!=null && this.trackRecordFromParent?.well?.completionInitialData?.id!=0)
+      this.FillFields(this.trackRecordFromParent?.well.completionInitialData);
   }
 
   ngOnInit(){
-    if (this.trackRecordFromParent.well!=null)
-      this.trackRecordFromParent.well.completionInitialData.wellId
-                              =this.trackRecordFromParent.well.id;    
+    if (this.trackRecordFromParent?.well!=null && 
+      this.trackRecordFromParent.well?.completionInitialData!=null)
+        this.trackRecordFromParent.well.completionInitialData.wellId
+                                =this.trackRecordFromParent.well.id;    
 
     this.isCompletionPulledFormControl.setValue(false);
     this.isInitialCompletionFormControl.setValue(false);

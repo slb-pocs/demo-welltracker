@@ -1,16 +1,17 @@
 import { CatalogNode } from "./catalog-node";
 import { CatalogPart } from "./catalog-part";
+import { IsolationValveKeyComponent } from "./isolation-valve-key-component";
 
 export class InstalledEquipment {
-    id:number=0;
-    trackRecordId:number=0;    
-    catalogPart:CatalogPart=new CatalogPart();    
-    serial:string='';
-    deviation:number=0;
-    md:number=0;
-    tvd:number=0;
-    isThirdPart:boolean=false;
-    isKeyComponent:boolean=false;
+    public id:number=0;
+    public trackRecordId:number=0;    
+    public catalogPart:CatalogPart=new CatalogPart();    
+    public serial:string='';
+    public deviation:number=0;
+    public md:number=0;
+    public tvd:number=0;
+    public isThirdPart:boolean=false;
+    public isKeyComponent:boolean=false;
 
     public constructor(){}
 }

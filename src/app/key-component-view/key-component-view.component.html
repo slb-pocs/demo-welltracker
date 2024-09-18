@@ -1,0 +1,104 @@
+<div *ngIf="keyComponentList.length>0">
+    <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+
+            <mat-card-title style="margin-bottom: 6%;">
+                Isolation Valve key Component List
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+
+            <!-----------------------------------------TABLE------------------------------------------------------->
+            <mat-card style="margin-top: 2%;">
+                <table mat-table [dataSource]="keyComponentList" class="mat-elevation-z8 demo-table">
+
+                    <ng-container matColumnDef="Product-Number">
+                        <th mat-header-cell *matHeaderCellDef>Part Number</th>
+                        <td mat-cell *matCellDef="let element">{{element.installedEquipment?.catalogPart?.partNumber}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Catalog-Node">
+                        <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.installedEquipment?.catalogPart?.nodeLevel3.name
+                            +'/'+ element.installedEquipment?.catalogPart?.nodeLevel4.name
+                            +'/'+ element.installedEquipment?.catalogPart?.nodeLevel5.name}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Temperature">
+                        <th mat-header-cell *matHeaderCellDef>Temperature</th>
+                        <td mat-cell *matCellDef="let element">{{element.temperature}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Pressure">
+                        <th mat-header-cell *matHeaderCellDef>Deviation</th>
+                        <td mat-cell *matCellDef="let element">{{element.pressure}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Open-Fluid-Weight">
+                        <th mat-header-cell *matHeaderCellDef>Open-Fluid-Weight</th>
+                        <td mat-cell *matCellDef="let element">{{element.openFluidWeight}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Failure-Incident">
+                        <th mat-header-cell *matHeaderCellDef>Failure-Incident</th>
+                        <td mat-cell *matCellDef="let element">{{element.failureIncident}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Action">
+                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                        <td style="width: 150px;" mat-cell *matCellDef="let element">
+                            <button mat-icon-button (click)="OnClickKeyComponentItem(element.id)">
+                                <mat-icon color="primary">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+                </table>
+            </mat-card>
+
+            <!-- ----------------------------------------FORM---------------------------------- -->
+
+            <mat-form-field appearance="outline" class="mat-form-field" style="margin-top: 5%;">
+                <mat-label>Part Number</mat-label>
+                <input matInput readonly [formControl]="equipmentPartNumberFormControl">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field" style="width: 431px;">
+                <mat-label>Catalog Node</mat-label>
+                <input matInput readonly [formControl]="equipmentNameFormControl">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field" style="width: 170px;">
+                <mat-label>Temperature</mat-label>
+                <input matInput [formControl]="temperatureFormControl" type="number">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field" style="width: 170px;">
+                <mat-label>Pressure</mat-label>
+                <input matInput [formControl]="pressureFormControl" type="number">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field" style="width: 170px;">
+                <mat-label>Open Fluid Weight</mat-label>
+                <input matInput [formControl]="openFluidWeightFormControl" type="number">
+            </mat-form-field>
+
+            <mat-label>Failure Incident </mat-label>
+            <mat-slide-toggle #slideToggleFailure [formControl]="failureIncidentFormControl">
+            </mat-slide-toggle>
+
+
+            <div style="margin-top: 2%;">
+                <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
+                <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,7 +1,8 @@
 <div style="margin-left: 2%;">
-    <mat-label>
-        {{message+": "}}{{trackRecordId}}
-    </mat-label>
+    <mat-card-subtitle>
+        {{message+": "}}{{trackRecord.id}}
+    </mat-card-subtitle>      
+    
 </div>
 <mat-horizontal-stepper>
     <mat-step label="Well Information">
@@ -23,11 +24,20 @@
         </app-equipment-workflow>
     </mat-step>
  
-    <mat-step label="Key Components">
-        <p>Key components</p>
+    <mat-step label="Key Components">       
+        <app-key-component-view [trackRecordFromParent]="trackRecord">
+            
+        </app-key-component-view>
     </mat-step>
+
+    <mat-step label="Isolation Valve Key Component">       
+    
+    </mat-step>
+
     <mat-step label="Attachments">
-        <app-file-management-view>
+        <app-file-management-view 
+        (fileManagementEvent)="ReceiveFileManagementEvent($event)"
+        [trackRecordFromParent]="trackRecord">
             
         </app-file-management-view>
     </mat-step>

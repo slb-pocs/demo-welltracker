@@ -37,6 +37,9 @@ import { TvdUnit } from '../models/tvd-unit';
 import { UppercompletionType } from '../models/uppercompletion-type';
 import { CatalogNode } from '../models/catalog-node';
 import { RockType } from '../models/rock-type';
+import { IsolationValveJobType } from '../models/isolation-valve-job-type';
+import { TriggerType } from '../models/trigger-type';
+import { ContingencyMechanicalAvailable } from '../models/contingency-mechanical-available';
 
 @Injectable({
   providedIn: 'root'
@@ -169,5 +172,14 @@ export class TypesService {
   }
   public GetCatalogNodes():Observable<CatalogNode[]>{
     return this.http.get<CatalogNode[]>(this.apiUrl+"CatalogNodes");   
+  }
+  public GetIsolationValveTypes():Observable<IsolationValveJobType[]>{
+    return this.http.get<CatalogNode[]>(this.apiUrl+"isolationValveTypes");   
+  }
+  public GetTriggerTypes():Observable<TriggerType[]>{
+    return this.http.get<TriggerType[]>(this.apiUrl+"triggerTypes");   
+  }
+  public GetContingencyMechanicalTypes():Observable<ContingencyMechanicalAvailable[]>{
+    return this.http.get<ContingencyMechanicalAvailable[]>(this.apiUrl+"contingencyMechanicalTypes");   
   }
 }

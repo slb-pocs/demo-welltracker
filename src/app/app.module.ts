@@ -51,6 +51,7 @@ import { MyRecordsViewComponent } from './my-records-view/my-records-view.compon
 import { MatPaginator } from '@angular/material/paginator';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { FileManagementViewComponent } from './file-management-view/file-management-view.component';
+import { KeyComponentViewComponent } from './key-component-view/key-component-view.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { FileManagementViewComponent } from './file-management-view/file-managem
     CustomerDataComponent,
     EquipmentWorkflowComponent,
     MyRecordsViewComponent,
-    FileManagementViewComponent
+    FileManagementViewComponent,
+    KeyComponentViewComponent
     
 
   ],

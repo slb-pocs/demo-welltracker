@@ -1,45 +1,48 @@
-  .mat-form-field{
-    margin-right: 1%;
+.small-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-right: 3%;
+    max-width: 1000px;
   }
-
+  .mat-form-field{
+    margin-right: 1%;     
+  }
   .primary-action-button{
     position: relative;
     color:blue;    
     margin-right: 1%;
   }
-
     .secondary-action-button{
     position: relative;
     color:dimgrey;   
     margin-right: 1%;
   }
-
   .title-panel{
     color: black;
     font-size: medium;    
   }
-
   .example-headers-align .mat-expansion-panel-header-description {
     justify-content: space-between;
-    align-items: center;
-    
+    align-items: center;    
   }
-
   .check-icon{  
     color:  #39CF6F;  
   }
-
   .progress-icon{
     color:  #F0CC18;    
-  }
-  
+  }  
   .example-h2 {
     margin: 10px;
-  }
-  
-
-  
+  }  
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }  
   .example-margin {
     margin: 0 10px;
   }
+
 

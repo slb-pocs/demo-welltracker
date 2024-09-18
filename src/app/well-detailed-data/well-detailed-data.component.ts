@@ -158,7 +158,7 @@ export class WellDetailedDataComponent implements OnChanges {
         console.log(updatedWell),
         this.wellService.UpdateWell(updatedWell)
         .subscribe(response=> {
-          this.trackRecordFromParent.well=response,
+          this.trackRecordFromParent.well=updatedWell,
           this.SendPopupNotification
               ('The Well with id: '+this.trackRecordFromParent.well.id+' has been updated '),
           this.welldDetailedDataEvent.emit(this.trackRecordFromParent)              
