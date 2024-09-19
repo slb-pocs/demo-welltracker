@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CompletionInitialDataService {
-  apiUrl='https://welltracker-backend.azurewebsites.net/api/completionInitialData';
+  apiUrl='https://localhost:7107/api/completionInitialData';
   
 
   constructor(private http: HttpClient) { }
@@ -45,6 +45,7 @@ export class CompletionInitialDataService {
   (completionInitialData:CompletionInitialData):CompletionInitialDto{
     
     let completionInitialDataDto:CompletionInitialDto=new CompletionInitialDto();
+    completionInitialDataDto.id=completionInitialData.id;
     completionInitialDataDto.isInitialCompletion=completionInitialData.isInitialCompletion; 
     completionInitialDataDto.isCompletionPulled=completionInitialData.isCompletionPulled;    
     completionInitialDataDto.hasIpmWell=completionInitialData.hasIpmWell;    

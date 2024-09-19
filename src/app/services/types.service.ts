@@ -46,7 +46,7 @@ import { ContingencyMechanicalAvailable } from '../models/contingency-mechanical
 })
 export class TypesService {
   
-  apiUrl:string="https://welltracker-backend.azurewebsites.net/api/types/";
+  apiUrl:string="https://localhost:7107/api/types/";
 
   constructor(private http:HttpClient) { }
 
@@ -173,7 +173,7 @@ export class TypesService {
   public GetCatalogNodes():Observable<CatalogNode[]>{
     return this.http.get<CatalogNode[]>(this.apiUrl+"CatalogNodes");   
   }
-  public GetIsolationValveTypes():Observable<IsolationValveJobType[]>{
+  public GetIsolationValveJobTypes():Observable<IsolationValveJobType[]>{
     return this.http.get<CatalogNode[]>(this.apiUrl+"isolationValveTypes");   
   }
   public GetTriggerTypes():Observable<TriggerType[]>{

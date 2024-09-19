@@ -7,7 +7,7 @@ import { CatalogPart } from '../models/catalog-part';
   providedIn: 'root'
 })
 export class CatalogPartService {
- apiUrl='https://welltracker-backend.azurewebsites.net/api/catalogpart/';
+ apiUrl='https://localhost:7107/api/catalogpart/';
 
   constructor(private htppClient:HttpClient) { }
 

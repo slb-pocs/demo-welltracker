@@ -1,0 +1,120 @@
+<div *ngIf="isolationValveJobList.length>0"></div>
+    <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+
+            <mat-card-title style="margin-bottom: 6%;">
+                Isolation Valve Job List
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+            <!-----------------------------------------TABLE------------------------------------------------------->
+            <mat-card style="margin-top: 2%;">
+                <table mat-table [dataSource]="isolationValveJobList" class="mat-elevation-z8 demo-table">
+
+                    <ng-container matColumnDef="Part-Number">
+                        <th mat-header-cell *matHeaderCellDef>Part Number</th>
+                        <td mat-cell *matCellDef="let element">{{element.isolationValveKeyComponent?.installedEquipment?.catalogPart?.partNumber}}
+                        </td>
+                    </ng-container>                   
+
+                    <ng-container matColumnDef="Job-Type">
+                        <th mat-header-cell *matHeaderCellDef>Job Type</th>
+                        <td mat-cell *matCellDef="let element">{{element.isolationValveJobType?.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Trigger-Type">
+                        <th mat-header-cell *matHeaderCellDef>Trigger Type</th>
+                        <td mat-cell *matCellDef="let element">{{element.triggerType?.name}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Pressure-Limit">
+                        <th mat-header-cell *matHeaderCellDef>Pressure Limit</th>
+                        <td mat-cell *matCellDef="let element">{{element.surfaceAppliedTubbingPressureLimit}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Temp-Changing">
+                        <th mat-header-cell *matHeaderCellDef>Temp Changing</th>
+                        <td mat-cell *matCellDef="let element">{{element.surfaceTempAtN2Changing}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Contingency-Mechanical">
+                        <th mat-header-cell *matHeaderCellDef>TContingency Mechanical</th>
+                        <td mat-cell *matCellDef="let element">{{element.contingencyMechanicalAvailable?.name}} </td>
+                    </ng-container>                   
+
+                    <ng-container matColumnDef="Action">
+                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                        <td style="width: 150px;" mat-cell *matCellDef="let element">
+                            <button mat-icon-button (click)="OnClickJobItem(element.id)">
+                                <mat-icon color="primary">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+                </table>
+            </mat-card>
+
+            <!-- ----------------------------------------FORM---------------------------------- -->
+           
+            <mat-form-field appearance="outline" class="mat-form-field" style="margin-top: 5%;">
+                <mat-label>Part Number</mat-label>
+                <input matInput readonly [formControl]="equipmentPartNumberFormControl">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field" style="width: 431px;">
+                <mat-label>Catalog Node</mat-label>
+                <input matInput readonly [formControl]="equipmentNameFormControl">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field">
+                <mat-label>Isolation Valve Job Type</mat-label>
+                <mat-select [formControl]="isolationValveJobTypeFormControl">
+                  <mat-option *ngFor="let jobTypeItem of jobTypeList" [value]="jobTypeItem.name"
+                    (onSelectionChange)="OnChangeJobTypeEvent($event,jobTypeItem)">
+                    {{jobTypeItem.name}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field">
+                <mat-label>Trigger Type</mat-label>
+                <mat-select [formControl]="triggerTypeFormControl">
+                  <mat-option *ngFor="let triggerTypeItem of triggerTypeList" [value]="triggerTypeItem.name"
+                    (onSelectionChange)="OnChangeTriggerTypeEvent($event,triggerTypeItem)">
+                    {{triggerTypeItem.name}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field">
+                <mat-label>Surface Applied Tubbing Pressure Limit</mat-label>
+                <input matInput [formControl]="surfaceAppliedTubbingPressureLimitFormControl">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field">
+                <mat-label>Surface Temp AtN2 Changing</mat-label>
+                <input matInput [formControl]="surfaceTempAtN2ChangingFormControl">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="mat-form-field">
+                <mat-label>Contingency Mechanical Available</mat-label>
+                <mat-select [formControl]="contingencyMechanicalAvailableFormControl">
+                  <mat-option *ngFor="let contingencyItem of contingencyMechanicalList" [value]="contingencyItem.name"
+                    (onSelectionChange)="OnChangeContingencyMechanicalEvent($event,contingencyItem)">
+                    {{contingencyItem.name}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <div style="margin-top: 2%;">
+                <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
+                <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+
+

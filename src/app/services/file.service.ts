@@ -7,7 +7,7 @@ import { RecordFile } from '../models/record-file';
   providedIn: 'root'
 })
 export class FileService {
- apiUrl:string='https://welltracker-backend.azurewebsites.net/api/file';
+ apiUrl:string='https://localhost:7107/api/file';
   constructor(private http: HttpClient) { }
 
   public UploadFile(formData:FormData, trackrecordId:number):Observable<RecordFile>{    

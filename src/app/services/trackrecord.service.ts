@@ -9,7 +9,7 @@ import { TrackRecordDto } from '../apiDtos/track-record-dto';
   providedIn: 'root'
 })
 export class TrackrecordService {
-  apiUrl:string='https://welltracker-backend.azurewebsites.net/api/trackrecord';
+  apiUrl:string='https://localhost:7107/api/trackrecord';
   trackRecord:TrackRecord=new TrackRecord();
 
   constructor(private httpClient:HttpClient) { }

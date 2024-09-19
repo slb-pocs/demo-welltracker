@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer, provideClientHydration } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,7 +11,7 @@ import { TrackrecordViewComponent } from './trackrecord-view/trackrecord-view.co
 import { WellViewComponent } from './well-view/well-view.component';
 
 import{MatButtonModule} from '@angular/material/button'
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule, MatIconRegistry} from '@angular/material/icon'
 import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatSidenavModule} from '@angular/material/sidenav'
 import {MatListModule} from '@angular/material/list';
@@ -52,6 +52,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { FileManagementViewComponent } from './file-management-view/file-management-view.component';
 import { KeyComponentViewComponent } from './key-component-view/key-component-view.component';
+import { IsolationValveJobViewComponent } from './isolation-valve-job-view/isolation-valve-job-view.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { KeyComponentViewComponent } from './key-component-view/key-component-vi
     EquipmentWorkflowComponent,
     MyRecordsViewComponent,
     FileManagementViewComponent,
-    KeyComponentViewComponent
+    KeyComponentViewComponent,
+    IsolationValveJobViewComponent
     
 
   ],
@@ -117,4 +119,36 @@ import { KeyComponentViewComponent } from './key-component-view/key-component-vi
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    // Register the custom icon (can be in assets folder or any URL)
+    this.matIconRegistry.addSvgIcon(
+      'well_icon',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/well-custom-blue.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'well-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/well-custom-white.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'engineering-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/engineering-white.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'repair-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/repair-circle-white.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'file-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/upload-file-white.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'valve-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/valve-white.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'question-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/question-white.svg')
+    );
+  }
+ }

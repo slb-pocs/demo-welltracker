@@ -3,22 +3,23 @@ import { Injectable } from '@angular/core';
 import { Well } from '../models/well';
 import { Observable } from 'rxjs';
 import { WellDto } from '../apiDtos/well-dto';
+import { CreateWellDto } from '../apiDtos/create-well-dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WellService {
 
-  apiUrl='https://welltracker-backend.azurewebsites.net/api/well';
+  apiUrl='https://localhost:7107/api/well';
 
   constructor(private http:HttpClient) { }
 
   public CreateWell(well:Well):Observable<Well>{
-    let wellDto:WellDto=this.GetWellDtoFromWell(well);    
-    return this.http.post<Well>(this.apiUrl,wellDto);
+    let createWellDto:CreateWellDto=this.GetCreateWellDtoFromWell(well);    
+    return this.http.post<Well>(this.apiUrl,createWellDto);
   }
   public UpdateWell(well:Well):Observable<Well>{
-    let wellDto:WellDto=this.GetWellDtoFromWell(well); 
+    let wellDto:WellDto=this.GetUpdateWellDtoFromWell(well); 
     return this.http.put<Well>(this.apiUrl,wellDto);
   }
   public GetAllWells():Observable<Well[]>{
@@ -28,7 +29,23 @@ export class WellService {
     return this.http.get<Well>(this.apiUrl+'/id?id='+id);;
   }
 
-  private GetWellDtoFromWell(well:Well):WellDto{
+  private GetCreateWellDtoFromWell(well:Well):CreateWellDto{
+    let createWellDto:WellDto=new WellDto();
+    createWellDto.id=well.id;
+    createWellDto.name=well.name;
+    createWellDto.field=well.field;
+    createWellDto.wellTypeId=well.wellType.id;
+    createWellDto.trackRecordId=well.trackRecordId;
+    createWellDto.customerId=well.customer.id;
+    createWellDto.countryId=well.country.id;
+    createWellDto.basinId=well.basin.id;
+    createWellDto.environmentId=well.environment.id;
+    createWellDto.geoUnitId=well.geoUnit.id;     
+
+    return createWellDto;
+  }
+
+  private GetUpdateWellDtoFromWell(well:Well):WellDto{
     let wellDto:WellDto=new WellDto();
     wellDto.id=well.id;
     wellDto.name=well.name;

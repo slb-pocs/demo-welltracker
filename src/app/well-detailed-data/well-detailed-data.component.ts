@@ -65,7 +65,7 @@ export class WellDetailedDataComponent implements OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.trackRecordFromParent.well?.id!=0 && this,this.trackRecordFromParent.well!=null){
+    if(this.trackRecordFromParent.well?.id!=0 && this.trackRecordFromParent.well!.artificialLiftType!=null){
       this.FillFields(this.trackRecordFromParent.well);
     }
   }
@@ -142,6 +142,7 @@ export class WellDetailedDataComponent implements OnChanges {
     this.wellService.GetWell(this.trackRecordFromParent.well.id).subscribe(
       response=> {
         updatedWell=response,
+        
         updatedWell.waterDepth=this.trackRecordFromParent.well.waterDepth,
         updatedWell.maxDeviation=this.trackRecordFromParent.well.maxDeviation,
         updatedWell.mdMeassuredFrom=this.trackRecordFromParent.well.mdMeassuredFrom,
@@ -155,6 +156,7 @@ export class WellDetailedDataComponent implements OnChanges {
         updatedWell.multiLateralType=this.trackRecordFromParent.well.multiLateralType,
         updatedWell.multiStageType=this.trackRecordFromParent.well.multiStageType,
         updatedWell.linerHangerSystem=this.trackRecordFromParent.well.linerHangerSystem,
+        
         console.log(updatedWell),
         this.wellService.UpdateWell(updatedWell)
         .subscribe(response=> {
@@ -252,7 +254,7 @@ export class WellDetailedDataComponent implements OnChanges {
   }
   public OnChangeMultiStageEvent(event: MatOptionSelectionChange, multiStage: MultistageSimulation) {
     if (event.source.selected == true)
-      this.trackRecordFromParent.well.multiLateralType = multiStage;
+      this.trackRecordFromParent.well.multiStageType = multiStage;
   }
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {

@@ -2,7 +2,7 @@ import { CompletionpulledReason } from "./completionpulled-reason";
 
 export class CompletionInitialData {
     id:number=0;
-    isInitialCompletion:boolean=false;
+    isInitialCompletion:boolean=true;
     isCompletionPulled:boolean=false
     completionPulledDate:Date=new Date();
     completionPulledReason:CompletionpulledReason=new CompletionpulledReason();

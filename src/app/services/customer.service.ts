@@ -8,7 +8,7 @@ import { Customer } from '../models/customer';
 })
 export class CustomerService {
 
-  apiUrl:string='https://welltracker-backend.azurewebsites.net/api/customer';
+  apiUrl:string='https://localhost:7107/api/customer';
   constructor(private http:HttpClient) { }
 
   public GetCustomers():Observable<Customer[]>{

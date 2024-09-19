@@ -197,6 +197,15 @@ export class StemDataComponent implements OnChanges{
     this.stem=this.stemList.find(p=>p.id===stemId)?? new Stem();
     this.FillFields(this.stem); 
   }
+  public OnClickDeleteItem(stemId:number){
+    this.stemService.DeleteStem(stemId).subscribe(response=>{
+      this.SendPopupNotification('The stem record has been deleted'),
+      this.ClearFields(),    
+      this.RefreshStemList()  
+    });
+   
+   
+  }
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {
       data: {

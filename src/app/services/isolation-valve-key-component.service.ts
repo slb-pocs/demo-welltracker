@@ -8,7 +8,7 @@ import { IsolationValveKeyComponentDto } from '../apiDtos/isolation-valve-key-co
   providedIn: 'root'
 })
 export class IsolationValveKeyComponentService {
-  apiUrl='https://welltracker-backend.azurewebsites.net/api/isolationvalvekeycomponent';
+  apiUrl='https://localhost:7107/api/isolationvalvekeycomponent';
 
   constructor(private http: HttpClient) { }
 

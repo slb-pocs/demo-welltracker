@@ -173,8 +173,7 @@ export class CustomerDataComponent implements OnInit, OnChanges {
     .subscribe(response=> {
       this.trackRecordFromParent.well=response,
       this.SendPopupNotification
-          ('The Well has been created with the id: '
-            +this.trackRecordFromParent.well.id),
+          ('The customer data has been saved in the Track Record'),
       this.customerInfoEvent.emit(this.trackRecordFromParent)              
     });
   }
@@ -183,7 +182,7 @@ export class CustomerDataComponent implements OnInit, OnChanges {
     .subscribe(response=> {
       this.trackRecordFromParent.well=response,
       this.SendPopupNotification
-          ('The Well with id: '+this.trackRecordFromParent.well.id+' has been updated '),
+          ('The customer data has been updated '),
       this.customerInfoEvent.emit(this.trackRecordFromParent)              
     });
   }

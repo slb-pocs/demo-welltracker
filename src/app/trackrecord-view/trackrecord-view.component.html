@@ -4,8 +4,12 @@
     </mat-card-subtitle>      
     
 </div>
-<mat-horizontal-stepper>
-    <mat-step label="Well Information">
+
+<mat-stepper >
+    <mat-step label="Well" state="well">
+       
+          <p>Well Information</p>
+       
        <app-well-information-workflow (wellInfoEvent)="ReceiveTrackRecordData($event)"     
        [trackRecord]="trackRecord">
         
@@ -15,7 +19,7 @@
         </div>
 
     </mat-step>
-    <mat-step label="Equipment">
+    <mat-step label="Equipment" state="tool">
         <app-equipment-workflow 
         (surfaceEquipmentEvent)="ReceiveSurfaceEquipmentEvent($event)"
          (installedEquipmentEvent)="ReceiveInstalledEquipmentEvent($event)"
@@ -24,24 +28,48 @@
         </app-equipment-workflow>
     </mat-step>
  
-    <mat-step label="Key Components">       
+    <mat-step label="Key Components" state="valve">       
         <app-key-component-view [trackRecordFromParent]="trackRecord">
             
         </app-key-component-view>
     </mat-step>
 
-    <mat-step label="Isolation Valve Key Component">       
-    
-    </mat-step>
+    <mat-step label="Isolation Valve Key Component" state="work">       
+        <app-isolation-valve-job-view [trackRecordFromParent]="trackRecord">
 
-    <mat-step label="Attachments">
+        </app-isolation-valve-job-view>
+    </mat-step>
+   
+
+    <mat-step label="Attachments" state="file">
         <app-file-management-view 
         (fileManagementEvent)="ReceiveFileManagementEvent($event)"
         [trackRecordFromParent]="trackRecord">
             
         </app-file-management-view>
     </mat-step>
-    <mat-step label="Questionnaire">
+    <mat-step label="Questionnaire" state="question">
         <p>Questionary</p>
     </mat-step>
-</mat-horizontal-stepper>
+
+
+    <ng-template matStepperIcon="well">
+        <mat-icon svgIcon="well-icon-white"></mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="tool">
+        <mat-icon svgIcon="repair-icon-white"></mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="valve">
+        <mat-icon svgIcon="valve-icon-white"></mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="work">
+        <mat-icon svgIcon="engineering-icon-white"></mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="file">
+        <mat-icon svgIcon="file-icon-white"></mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="question">
+        <mat-icon svgIcon="question-icon-white"></mat-icon>
+    </ng-template>
+    
+</mat-stepper>

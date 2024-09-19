@@ -9,7 +9,7 @@ import { IsolationValveJobDto } from '../apiDtos/isolation-valve-job-dto';
 })
 export class IsolationValveJobService {
 
-  apiUrl='https://welltracker-backend.azurewebsites.net/api/isolationvalvekeycomponent';
+  apiUrl='https://localhost:7107/api/isolationvalvejob';
 
   constructor(private http: HttpClient) { }
 
@@ -30,6 +30,15 @@ export class IsolationValveJobService {
   public GetAll():Observable<IsolationValveJob[]>{
     return this.http.get<IsolationValveJob[]>(this.apiUrl);
   }
+
+  public GetAllByTrackRecord(trackRecordId:number):Observable<IsolationValveJob[]>{
+    return this.http.get<IsolationValveJob[]>(this.apiUrl+'/trackRecordId?trackRecordId='+trackRecordId);
+  }
+
+  public GetByInstalledEquipment(installedEquipmentId:number):Observable<IsolationValveJob>{  
+    return this.http.get<IsolationValveJob>
+    (this.apiUrl+'/installedEquipmentId?installedEquipmentId='+installedEquipmentId);  
+  }
   
   public Get(id:number):Observable<IsolationValveJob>{  
     return this.http.get<IsolationValveJob>(this.apiUrl+'/id?id='+id);  }
@@ -38,13 +47,16 @@ export class IsolationValveJobService {
     (isolationValveJob:IsolationValveJob):IsolationValveJobDto{
     let isolationValveJobDto:IsolationValveJobDto=new IsolationValveJobDto();
     isolationValveJobDto.id=isolationValveJob.id;
+    isolationValveJobDto.trackRecordId=isolationValveJob.trackRecordId;
     isolationValveJobDto.isolationValveJobTypeId=isolationValveJob.isolationValveJobType.id;
     isolationValveJobDto.triggerTypeId=isolationValveJob.triggerType.id;
     isolationValveJobDto.surfaceAppliedTubbingPressureLimit=
           isolationValveJob.surfaceAppliedTubbingPressureLimit;
     isolationValveJobDto.surfaceTempAtN2Changing=
             isolationValveJob.surfaceTempAtN2Changing;
+    isolationValveJobDto.contingencyMechanicalAvailableId=isolationValveJob.contingencyMechanicalAvailable.id;
     isolationValveJobDto.isolationValveKeyComponentId=isolationValveJob.isolationValveKeyComponent.id;   
+   
     
     return isolationValveJobDto;
   }

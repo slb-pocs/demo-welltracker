@@ -7,7 +7,7 @@ import { Field } from '../models/field';
   providedIn: 'root'
 })
 export class FieldService {
-  apiUrl:string='https://welltracker-backend.azurewebsites.net/api/types/fields';
+  apiUrl:string='https://localhost:7107/api/types/fields';
 
   constructor(private http:HttpClient) { }
 

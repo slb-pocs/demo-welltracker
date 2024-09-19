@@ -109,12 +109,10 @@ export class EquipmentInstalledViewComponent implements OnChanges {
       this.installedEquipment=response,
       this.SendPopupNotification
           ('The installed equipment has been created with the id: '
-            +this.installedEquipment.id)
-            if(this.installedEquipment.isKeyComponent){
-              this.CreateKeyComponent(this.installedEquipment);     
-            } 
+            +this.installedEquipment.id),        
             this.ClearFields(),     
-            this.RefreshInstalledEquipmentList()                       
+            this.RefreshInstalledEquipmentList()   
+            this.NextStep();                            
     });
   }  
   Update(){
@@ -124,10 +122,11 @@ export class EquipmentInstalledViewComponent implements OnChanges {
       this.SendPopupNotification
           ('The Installed Equipment with id: '+this.installedEquipment.id+' has been updated '),   
       this.ClearFields(),
-      this.RefreshInstalledEquipmentList()                  
+      this.RefreshInstalledEquipmentList(),
+      this.NextStep();                  
     });
   }
-
+  /*
   CreateKeyComponent(installedEquipment:InstalledEquipment){     
     let isolationValveKeyComponent: IsolationValveKeyComponent=new IsolationValveKeyComponent();
     this.isolationValveKeyComponentService.GetByInstalledEquipment(this.installedEquipment.id)
@@ -145,9 +144,10 @@ export class EquipmentInstalledViewComponent implements OnChanges {
               this.NextStep();
       });
       }        
-    });    
+    });        
   }
-
+  */
+ 
   RefreshInstalledEquipmentList(){
     this.installedEquipmentService.GetInstalledEquipmentsByTrackRecord
       (this.installedEquipment.trackRecordId)

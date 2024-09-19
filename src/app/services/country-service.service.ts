@@ -7,7 +7,7 @@ import { Country } from '../models/country';
   providedIn: 'root'
 })
 export class CountryServiceService {
-  apiUrl:string="https://welltracker-backend.azurewebsites.net/api/country/";
+  apiUrl:string="https://localhost:7107/api/country/";
 
   constructor(private httpClient:HttpClient) { }
 

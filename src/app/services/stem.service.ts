@@ -8,7 +8,7 @@ import { StemDto } from '../apiDtos/stem-dto';
   providedIn: 'root'
 })
 export class StemService {
-  apiUrl='https://welltracker-backend.azurewebsites.net/api/stem';
+  apiUrl='https://localhost:7107/api/stem';
 
   constructor(private http: HttpClient) { }
 
@@ -28,6 +28,10 @@ export class StemService {
   }
   public GetStem(id:number):Observable<Stem>{  
     return this.http.get<Stem>(this.apiUrl+'/id?id='+id);
+  }
+
+  public DeleteStem(id:number):Observable<any>{  
+     return this.http.delete(this.apiUrl+'?id='+id);
   }
 
   private GetStemDtoFromStem(stem:Stem):StemDto{

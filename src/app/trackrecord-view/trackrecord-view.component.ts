@@ -4,14 +4,23 @@ import { ActivatedRoute } from '@angular/router';
 import { TrackrecordService } from '../services/trackrecord.service';
 import { response } from 'express';
 import { StemService } from '../services/stem.service';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-trackrecord-view',
   templateUrl: './trackrecord-view.component.html',
-  styleUrl: './trackrecord-view.component.css'
+  styleUrl: './trackrecord-view.component.css',
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: {displayDefaultIndicatorType: false},
+    },
+  ]
 })
 export class TrackrecordViewComponent implements OnInit{
   trackRecord:TrackRecord=new TrackRecord();
+
+  step1Completed=true;
   
   @Input() id:string='';
   

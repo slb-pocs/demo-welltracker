@@ -87,7 +87,7 @@ export class ManagementDataComponent implements OnChanges, OnInit{
           this.trackRecordFromParent=response,
           this.trackRecordFromParent.well=populatedWell,
           this.SendPopupNotification
-              ('The Trackrecord has been created with the id: '
+              ('A new Track Record has been created with ID: '
                 +this.trackRecordFromParent.id),
           this.trackRecordEvent.emit(this.trackRecordFromParent)
              
