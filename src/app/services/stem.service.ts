@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Stem } from '../models/stem';
 import { Observable } from 'rxjs';
 import { StemDto } from '../apiDtos/stem-dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StemService {
-  apiUrl='https://localhost:7107/api/stem';
+  apiUrl=environment.apiUrl+'stem';
 
   constructor(private http: HttpClient) { }
 

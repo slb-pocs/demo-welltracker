@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { IsolationValveKeyComponent } from '../models/isolation-valve-key-component';
 import { Observable } from 'rxjs';
 import { IsolationValveKeyComponentDto } from '../apiDtos/isolation-valve-key-component-dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IsolationValveKeyComponentService {
-  apiUrl='https://localhost:7107/api/isolationvalvekeycomponent';
+  apiUrl=environment.apiUrl+'isolationvalvekeycomponent';
 
   constructor(private http: HttpClient) { }
 

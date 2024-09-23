@@ -4,12 +4,13 @@ import { TrackRecord } from '../models/track-record';
 import { Observable } from 'rxjs';
 import { response } from 'express';
 import { TrackRecordDto } from '../apiDtos/track-record-dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrackrecordService {
-  apiUrl:string='https://localhost:7107/api/trackrecord';
+  apiUrl:string=environment.apiUrl+'trackrecord';
   trackRecord:TrackRecord=new TrackRecord();
 
   constructor(private httpClient:HttpClient) { }
@@ -25,6 +26,12 @@ export class TrackrecordService {
   public GetTrackRecords():Observable<TrackRecord[]>{
     return this.httpClient.get<TrackRecord[]>(this.apiUrl);
   }
+  public GetTrackRecordsPaginated(skipRecords:number, takeRecords:number)
+  :Observable<TrackRecord[]>{
+    return this.httpClient.get<TrackRecord[]>
+    (this.apiUrl+'/paginated?numSkipRecords='+skipRecords+'&numTakeRecords='+takeRecords);
+  }
+
   public UpdateTrackRecord(trackRecord:TrackRecord):Observable<TrackRecord>{
     return this.httpClient.put<TrackRecord>(this.apiUrl,trackRecord);
   }

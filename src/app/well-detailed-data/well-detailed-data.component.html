@@ -67,58 +67,6 @@
     </mat-form-field>
   </section>
 
-  <section>
-    <mat-form-field appearance="outline" class="mat-form-field">
-      <mat-label>Upper Completion</mat-label>
-      <mat-select [formControl]="upperCompletionFormControl">
-        <mat-option *ngFor="let upperItem of upperCompletionList" [value]="upperItem.name"
-          (onSelectionChange)="OnChangeUpperCompletionEvent($event,upperItem)">
-          {{upperItem.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="mat-form-field">
-      <mat-label>Artificial Lift</mat-label>
-      <mat-select [formControl]="artificalLiftFormControl">
-        <mat-option *ngFor="let liftItem of artificialLiftList" [value]="liftItem.name"
-          (onSelectionChange)="OnChangeArtificialLiftEvent($event,liftItem)">
-          {{liftItem.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" class="mat-form-field">
-      <mat-label>Multi-Lateral</mat-label>
-      <mat-select [formControl]="multiLateralFormControl">
-        <mat-option *ngFor="let lateralItem of multiLateralList" [value]="lateralItem.name"
-          (onSelectionChange)="OnChangeMultiLateralEvent($event,lateralItem)">
-          {{lateralItem.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </section>
-
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Liner Hanger System</mat-label>
-    <mat-select [formControl]="linerHangerFormControl">
-      <mat-option *ngFor="let linerItem of linerHangerSystemList" [value]="linerItem.name"
-        (onSelectionChange)="OnChangeLinerHangerEvent($event,linerItem)">
-        {{linerItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Multi-Stage Simulation</mat-label>
-    <mat-select [formControl]="multiStageFormControl">
-      <mat-option *ngFor="let simulationItem of multiStageSimulationList" [value]="simulationItem.name"
-        (onSelectionChange)="OnChangeMultiStageEvent($event,simulationItem)">
-        {{simulationItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
   <div>
     <button (click)="Save()" mat-stroked-button class="primary-action-button">Save</button>
     <button (click)="ClearFields()" mat-stroked-button class="secondary-action-button">Cancel</button>

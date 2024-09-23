@@ -1,4 +1,4 @@
-<div *ngIf="isolationValveJobList.length>0"></div>
+<div *ngIf="isolationValveJobList.length>0">
     <mat-card class="example-card" appearance="outlined">
         <mat-card-header>
 
@@ -57,9 +57,11 @@
                 </table>
             </mat-card>
 
-            <!-- ----------------------------------------FORM---------------------------------- -->
-           
-            <mat-form-field appearance="outline" class="mat-form-field" style="margin-top: 5%;">
+            <!-- ----------------------------------------JOB BASIC INFORMATION FORM---------------------------------- -->
+            <mat-card-title style="margin-top: 3%;">
+                IV Job Basic Information
+            </mat-card-title>
+            <mat-form-field appearance="outline" class="mat-form-field" style="margin-top: 3%;">
                 <mat-label>Part Number</mat-label>
                 <input matInput readonly [formControl]="equipmentPartNumberFormControl">
             </mat-form-field>
@@ -116,5 +118,65 @@
 
         </mat-card-content>
     </mat-card>
+        <!-- ----------------------------------------JOB OPERATION INFORMATION FORM---------------------------------- -->
+    <mat-card style="margin-top: 1%;">
+        <mat-card-title style="margin-top: 1%;">
+            IV Job Fluid Information
+        </mat-card-title>
+
+        <mat-card-content>
+    
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV RIH Fluid Type</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field"  >
+            <mat-label>IV RIH Fluid name</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV RIH Fluid Weight</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV Suspension Fluid Type</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV Suspension Fluid Name</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV Suspension Fluid Weight</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV Open Fluid Type</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field">
+            <mat-label>IV Open Fluid Name</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>IV Open Fluid Weight</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="mat-form-field" >
+            <mat-label>Suspension day</mat-label>
+            <input matInput readonly >
+        </mat-form-field>
+    </mat-card-content>
+    </mat-card>     
+</div>
 
 

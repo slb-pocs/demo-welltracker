@@ -58,11 +58,16 @@ export class TrackrecordViewComponent implements OnInit{
   ReceiveOperationtData(data:string){
     this.operationId=data;
   }
+ 
+
   ReceiveOperationActivityData(data:string){
     this.operationActivityId=data;
   }
   ReceiveTrackRecordData(trackRecord:TrackRecord){
     this.UpdateTrackRecord(trackRecord);    
+  }
+  ReceiveWellDataWorkflowEvent(trackRecord:TrackRecord){
+    this.UpdateTrackRecord(trackRecord);
   }
   ReceiveSurfaceEquipmentEvent(trackRecord:TrackRecord){
     this.trackRecord=trackRecord;
@@ -73,6 +78,9 @@ export class TrackrecordViewComponent implements OnInit{
     this.isInstalledEquipmentFinished=true;
   }
   ReceiveFileManagementEvent(trackRecord:TrackRecord){
+    this.trackRecord=trackRecord;    
+  }
+  ReceiveQuestionnaireEvent(trackRecord:TrackRecord){
     this.trackRecord=trackRecord;    
   }
 

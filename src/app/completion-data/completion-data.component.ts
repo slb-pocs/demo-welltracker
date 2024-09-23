@@ -34,16 +34,19 @@ export class CompletionDataComponent implements OnChanges {
 
   completion:Completion=new Completion();
 
-  completionNumberFormControl = new FormControl('');
-  completionTypeFormControl = new FormControl('');
-  producedFluidTypeFormControl = new FormControl('');
-  injectedFluidTypeFormControl = new FormControl('');
-  completionClassFormControl = new FormControl('');
-  sandControlFormControl = new FormControl('');
-  rockTypeFormControl = new FormControl('');
-  reservoirTempFormControl = new FormControl('');
-  corrosiveCCO2FormControl = new FormControl('');
-  corrosiveH25FormControl = new FormControl('');
+  completionNumberFormControl:FormControl = new FormControl(0);
+  completionTypeFormControl:FormControl = new FormControl('');
+  producedFluidTypeFormControl:FormControl = new FormControl('');
+  injectedFluidTypeFormControl:FormControl = new FormControl('');
+  completionClassFormControl:FormControl = new FormControl('');
+  sandControlFormControl:FormControl = new FormControl('');
+  rockTypeFormControl:FormControl = new FormControl('');
+  reservoirTempFormControl:FormControl = new FormControl(0);
+  corrosiveCCO2FormControl:FormControl = new FormControl(0);
+  corrosiveH25FormControl:FormControl = new FormControl(0);
+  includeReservoirDataFormControl:FormControl = new FormControl(false);
+  includeCorrosiveDataFormControl:FormControl= new FormControl(false);
+  includeCompletionDataFormControl:FormControl= new FormControl(true);
 
   completionList:Completion[]=[];
 
@@ -53,6 +56,10 @@ export class CompletionDataComponent implements OnChanges {
   completionClassList: CompletionClass[] = [];
   sandControlTypeList: SandControl[] = [];
   rockTypeList: RockType[] = [];
+
+  includeReservoirData:boolean=false;
+  includeCorrosiveComponents:boolean=false;
+  includeCompletionData:boolean=true;
 
   isCompletionInfoFinished:boolean=false;
 
@@ -105,10 +112,13 @@ export class CompletionDataComponent implements OnChanges {
   } 
  
   Save(){
-    this.completion.number=parseInt(this.completionNumberFormControl.value ?? '');
-    this.completion.reservoirTemperature=parseInt(this.reservoirTempFormControl.value ?? '');
-    this.completion.corrosiveCompCCO2=parseInt(this.corrosiveCCO2FormControl.value ?? '');
-    this.completion.corrosiveCompH25=parseInt(this.corrosiveH25FormControl.value ?? '');
+    this.completion.number=parseInt(this.completionNumberFormControl.value ?? 0);
+    this.completion.reservoirTemperature=parseInt(this.reservoirTempFormControl.value ?? 0);
+    this.completion.corrosiveCompCCO2=parseInt(this.corrosiveCCO2FormControl.value ?? 0);
+    this.completion.corrosiveCompH25=parseInt(this.corrosiveH25FormControl.value ?? 0);  
+    
+    if( this.completion.reservoirTemperature==null)
+      this.completion.reservoirTemperature=0;
 
     if(this.trackRecordFromParent.well.id==0)
       this.SendPopupNotification
@@ -130,8 +140,7 @@ export class CompletionDataComponent implements OnChanges {
     .subscribe(response=> {
       this.completion=response,
       this.SendPopupNotification
-          ('The completion has been created with the id: '
-            +this.completion.id),     
+          ('The completion has been created'),     
       this.completion=new Completion(),
       this.completion.wellId=this.trackRecordFromParent.well.id,
       this.ClearFields(),     
@@ -161,16 +170,22 @@ export class CompletionDataComponent implements OnChanges {
   ClearFields(){
     this.completion=new Completion();
     this.completion.wellId=this.trackRecordFromParent.well.id;
-    this.completionNumberFormControl = new FormControl('');
+    this.completionNumberFormControl = new FormControl(0);
     this.completionTypeFormControl = new FormControl('');
+
     this.producedFluidTypeFormControl = new FormControl('');
     this.injectedFluidTypeFormControl = new FormControl('');
     this.completionClassFormControl = new FormControl('');
     this.sandControlFormControl = new FormControl('');
+
     this.rockTypeFormControl = new FormControl('');
-    this.reservoirTempFormControl = new FormControl('');
-    this.corrosiveCCO2FormControl = new FormControl('');
-    this.corrosiveH25FormControl = new FormControl('');
+    this.reservoirTempFormControl = new FormControl(0);
+    this.corrosiveCCO2FormControl = new FormControl(0);
+    this.corrosiveH25FormControl = new FormControl(0);
+
+    this.includeReservoirDataFormControl= new FormControl(false);
+    this.includeCorrosiveDataFormControl= new FormControl(false);
+    this.includeCompletionDataFormControl= new FormControl(true);
   }
   FillFields(completion:Completion){
     this.completionNumberFormControl.setValue(completion.number.toString());
@@ -179,6 +194,18 @@ export class CompletionDataComponent implements OnChanges {
     this.injectedFluidTypeFormControl.setValue(completion.injectedFluidType.name);
     this.completionClassFormControl.setValue(completion.completionClass.name);
     this.sandControlFormControl.setValue(completion.sandControlType.name);
+
+    this.includeCompletionData=completion.producedFluidType.id!=0;
+    this.producedFluidTypeFormControl.setValue(completion.producedFluidType.name);
+    this.injectedFluidTypeFormControl.setValue(completion.injectedFluidType.name);
+    this.completionClassFormControl.setValue(completion.completionClass.name);
+    this.sandControlFormControl.setValue(completion.sandControlType.name);    
+
+    this.includeReservoirData=completion.reservoirTemperature!=0;
+    this.includeReservoirDataFormControl.setValue(this.includeReservoirData);
+    this.includeCorrosiveComponents=completion.corrosiveCompCCO2!=0;
+    this.includeCorrosiveDataFormControl.setValue(this.includeCorrosiveComponents);
+
     this.rockTypeFormControl.setValue(completion.reservoirRockType.name);
     this.reservoirTempFormControl.setValue(completion.reservoirTemperature.toString());
     this.corrosiveCCO2FormControl.setValue(completion.corrosiveCompCCO2.toString());
@@ -211,9 +238,29 @@ export class CompletionDataComponent implements OnChanges {
   }
   public OnClickCompletionItem(completionId:number){
     this.completion=this.completionList.find(p=>p.id===completionId)?? new Completion();
-    this.FillFields(this.completion);
- 
+    this.FillFields(this.completion); 
   }
+
+  public OnClickCompletionCheck(){
+    this.includeCompletionData=!this.includeCompletionData;
+    if(this.includeCompletionData==false){
+      this.includeCompletionDataFormControl=new FormControl('');
+    }
+  }
+
+  public OnClickReservoirData(){
+    this.includeReservoirData=!this.includeReservoirData;
+    if(this.includeReservoirData==false){
+      this.includeReservoirDataFormControl=new FormControl('');
+    }
+  }
+  public OnClickCorrosiveComponents(){
+    this.includeCorrosiveComponents=!this.includeCorrosiveComponents;
+    if(this.includeCorrosiveComponents==false){
+      this.includeCorrosiveDataFormControl=new FormControl('');
+    }
+  }
+
   private SendPopupNotification(message: string) {
     this.dialogWindow.open(PopupViewComponent, {
       data: {

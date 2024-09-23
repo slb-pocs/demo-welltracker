@@ -1,150 +1,196 @@
-<mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Completion #</mat-label>
-    <input matInput [formControl]="completionNumberFormControl">
-  </mat-form-field>
+<mat-card class="example-card" appearance="outlined" style="margin-top:1%;"> 
+  <mat-card-content>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Type</mat-label>
-    <mat-select [formControl]="completionTypeFormControl">
-      <mat-option *ngFor="let completionTypeItem of completionTypeList" [value]="completionTypeItem.name"
-        (onSelectionChange)="OnChangeCompletionTypeEvent($event,completionTypeItem)">
-        {{completionTypeItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <div style="margin-bottom: 1%;">
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Produced Fluid</mat-label>
-    <mat-select [formControl]="producedFluidTypeFormControl">
-      <mat-option *ngFor="let producedFluidItem of producedFluidList" [value]="producedFluidItem.name"
-        (onSelectionChange)="OnChangeProducedFluidEvent($event,producedFluidItem)">
-        {{producedFluidItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-checkbox [formControl]="includeCompletionDataFormControl" value="false"
+      (change)="OnClickCompletionCheck()">
+        Completion Data
+      </mat-checkbox>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Injected Fluid</mat-label>
-    <mat-select [formControl]="injectedFluidTypeFormControl">
-      <mat-option *ngFor="let injectedFluidItem of injectedFluidList" [value]="injectedFluidItem.name"
-        (onSelectionChange)="OnChangeInjectedFluidEvent($event,injectedFluidItem)">
-        {{injectedFluidItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-checkbox [formControl]="includeReservoirDataFormControl" value="false"
+      (change)="OnClickReservoirData()">
+        Reservoir Data
+      </mat-checkbox>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Completion Class</mat-label>
-    <mat-select [formControl]="completionClassFormControl">
-      <mat-option *ngFor="let completionClassItem of completionClassList" [value]="completionClassItem.name"
-        (onSelectionChange)="OnChangeCompletionClassEvent($event,completionClassItem)">
-        {{completionClassItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-checkbox class="example-margin" [formControl]="includeCorrosiveDataFormControl" value="false"
+      (change)="OnClickCorrosiveComponents()">
+        Corrosive Components
+      </mat-checkbox>     
+    </div>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Sand Control</mat-label>
-    <mat-select [formControl]="sandControlFormControl">
-      <mat-option *ngFor="let sandControlItem of sandControlTypeList" [value]="sandControlItem.name"
-        (onSelectionChange)="OnChangeSandControl($event,sandControlItem)">
-        {{sandControlItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+      <mat-label>Completion #</mat-label>
+      <input matInput [formControl]="completionNumberFormControl">
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Reservoir Rock Type</mat-label>
-    <mat-select [formControl]="rockTypeFormControl">
-      <mat-option *ngFor="let rockTypeItem of rockTypeList" [value]="rockTypeItem.name"
-        (onSelectionChange)="OnChangeRockTypeEvent($event,rockTypeItem)">
-        {{rockTypeItem.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+      <mat-label>Type</mat-label>
+      <mat-select [formControl]="completionTypeFormControl">
+        <mat-option *ngFor="let completionTypeItem of completionTypeList" [value]="completionTypeItem.name"
+          (onSelectionChange)="OnChangeCompletionTypeEvent($event,completionTypeItem)">
+          {{completionTypeItem.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Reservoir Temperature</mat-label>
-    <input matInput [formControl]="reservoirTempFormControl" type="number">
-  </mat-form-field>
+    <div *ngIf="includeCompletionData">
+      <mat-card-subtitle style="margin-bottom: 1%;color: black;">
+        Completion Data
+      </mat-card-subtitle>
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Corrosive Comp CCO2</mat-label>
-    <input matInput [formControl]="corrosiveCCO2FormControl" type="number">
-  </mat-form-field>
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Produced Fluid</mat-label>
+        <mat-select [formControl]="producedFluidTypeFormControl">
+          <mat-option *ngFor="let producedFluidItem of producedFluidList" [value]="producedFluidItem.name"
+            (onSelectionChange)="OnChangeProducedFluidEvent($event,producedFluidItem)">
+            {{producedFluidItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Injected Fluid</mat-label>
+        <mat-select [formControl]="injectedFluidTypeFormControl">
+          <mat-option *ngFor="let injectedFluidItem of injectedFluidList" [value]="injectedFluidItem.name"
+            (onSelectionChange)="OnChangeInjectedFluidEvent($event,injectedFluidItem)">
+            {{injectedFluidItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Completion Class</mat-label>
+        <mat-select [formControl]="completionClassFormControl">
+          <mat-option *ngFor="let completionClassItem of completionClassList" [value]="completionClassItem.name"
+            (onSelectionChange)="OnChangeCompletionClassEvent($event,completionClassItem)">
+            {{completionClassItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Sand Control</mat-label>
+        <mat-select [formControl]="sandControlFormControl">
+          <mat-option *ngFor="let sandControlItem of sandControlTypeList" [value]="sandControlItem.name"
+            (onSelectionChange)="OnChangeSandControl($event,sandControlItem)">
+            {{sandControlItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>    
 
-  <mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Corrosive Comp H25</mat-label>
-    <input matInput [formControl]="corrosiveH25FormControl" type="number">
-  </mat-form-field>
+   
 
-  <div>
-    <button (click)="Save()" mat-stroked-button class="primary-action-button">Save</button>
-    <button (click)="ClearFields()" mat-stroked-button class="secondary-action-button">Cancel</button>
-    <button (click)="NextStep()" mat-stroked-button class="primary-action-button">Next Step</button>
-  </div>
+    <div *ngIf="includeReservoirData">
+      <mat-card-subtitle style="margin-bottom: 1%;color: black;">
+        Reservoir Data
+      </mat-card-subtitle>
 
-  <!----------------------------------TABLE---------------------------------------------------->
-  <div *ngIf="completionList.length>0">
-    <mat-card style="margin-top: 2%;">
-      <table mat-table [dataSource]="completionList" class="mat-elevation-z8 demo-table">
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Reservoir Rock Type</mat-label>
+        <mat-select [formControl]="rockTypeFormControl">
+          <mat-option *ngFor="let rockTypeItem of rockTypeList" [value]="rockTypeItem.name"
+            (onSelectionChange)="OnChangeRockTypeEvent($event,rockTypeItem)">
+            {{rockTypeItem.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Reservoir Temperature</mat-label>
+        <input matInput [formControl]="reservoirTempFormControl" type="number">
+      </mat-form-field>
+  
+    </div>
 
-        <ng-container matColumnDef="Id">
-          <th mat-header-cell *matHeaderCellDef>Id</th>
-          <td mat-cell *matCellDef="let element" style="font-size: small;">
-            {{element.id}}
-          </td>
-        </ng-container>
+   <div *ngIf="includeCorrosiveComponents">
+    <mat-card-subtitle style="margin-bottom: 1%;color: black;">
+      Corrosive Components
+    </mat-card-subtitle>
 
-        <ng-container matColumnDef="Completion Number">
-          <th mat-header-cell *matHeaderCellDef>Completion Number</th>
-          <td mat-cell *matCellDef="let element" style="font-size: small;">
-            {{element.number}}
-          </td>
-        </ng-container>
+    <mat-form-field appearance="outline" class="mat-form-field">
+      <mat-label>Corrosive Comp CCO2</mat-label>
+      <input matInput [formControl]="corrosiveCCO2FormControl" type="number">
+    </mat-form-field>
 
-        <ng-container matColumnDef="Completion Type">
-          <th mat-header-cell *matHeaderCellDef>Completion Type</th>
-          <td mat-cell *matCellDef="let element" style="font-size: small;">
-            {{element.completionType.name}}
-          </td>
-        </ng-container>
+    <mat-form-field appearance="outline" class="mat-form-field">
+      <mat-label>Corrosive Comp H25</mat-label>
+      <input matInput [formControl]="corrosiveH25FormControl" type="number">
+    </mat-form-field>
 
-        <ng-container matColumnDef="Produced Fluid">
-          <th mat-header-cell *matHeaderCellDef>Produced Fluid</th>
-          <td mat-cell *matCellDef="let element" style="font-size: small;">
-            {{element.producedFluidType.name}}
-          </td>
-        </ng-container>
+   </div>
+   
+    <div style="margin-top: 1%;">
+      <button (click)="Save()" mat-stroked-button class="primary-action-button">Save</button>
+      <button (click)="ClearFields()" mat-stroked-button class="secondary-action-button">Cancel</button>
+      <button (click)="NextStep()" mat-stroked-button class="primary-action-button">Next Step</button>
+    </div>
+  </mat-card-content>
 
-        <ng-container matColumnDef="Injected Fluid">
-          <th mat-header-cell *matHeaderCellDef>Injected Fluid</th>
-          <td mat-cell *matCellDef="let element" style="font-size: small;">
-            {{element.injectedFluidType.name}}
-          </td>
-        </ng-container>
+</mat-card>
 
-        <ng-container matColumnDef="Completion Class">
-          <th mat-header-cell *matHeaderCellDef>Completion Class</th>
-          <td mat-cell *matCellDef="let element" style="font-size: small;">
-            {{element.completionClass.name}}
-          </td>
-        </ng-container>        
+<!----------------------------------TABLE---------------------------------------------------->
+<div *ngIf="completionList.length>0">
+  <mat-card style="margin-top: 2%;">
+    <table mat-table [dataSource]="completionList" class="mat-elevation-z8 demo-table">
 
-        <ng-container matColumnDef="Action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
-          <td style="width: 150px;" mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="OnClickCompletionItem(element.id)">
-              <mat-icon color="primary">edit</mat-icon>
-            </button>
-            <button mat-icon-button>
-              <mat-icon color="warn">delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
+      <ng-container matColumnDef="Id">
+        <th mat-header-cell *matHeaderCellDef>Id</th>
+        <td mat-cell *matCellDef="let element" style="font-size: small;">
+          {{element.id}}
+        </td>
+      </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns"></tr>
-      </table>
-    </mat-card>
-  </div>
+      <ng-container matColumnDef="Completion Number">
+        <th mat-header-cell *matHeaderCellDef>Completion Number</th>
+        <td mat-cell *matCellDef="let element" style="font-size: small;">
+          {{element.number}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Completion Type">
+        <th mat-header-cell *matHeaderCellDef>Completion Type</th>
+        <td mat-cell *matCellDef="let element" style="font-size: small;">
+          {{element.completionType.name}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Produced Fluid">
+        <th mat-header-cell *matHeaderCellDef>Produced Fluid</th>
+        <td mat-cell *matCellDef="let element" style="font-size: small;">
+          {{element.producedFluidType.name}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Injected Fluid">
+        <th mat-header-cell *matHeaderCellDef>Injected Fluid</th>
+        <td mat-cell *matCellDef="let element" style="font-size: small;">
+          {{element.injectedFluidType.name}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Completion Class">
+        <th mat-header-cell *matHeaderCellDef>Completion Class</th>
+        <td mat-cell *matCellDef="let element" style="font-size: small;">
+          {{element.completionClass.name}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td style="width: 150px;" mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="OnClickCompletionItem(element.id)">
+            <mat-icon color="primary">edit</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+  </mat-card>
+</div>

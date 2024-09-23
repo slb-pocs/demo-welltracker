@@ -5,4 +5,5 @@ export class RecordFile {
         name:string='';
         path:string='';
         extension:string='';
+        description:string='';
 }

@@ -1,118 +1,117 @@
-<mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Part Number</mat-label>
-    <input (keyup)="OnPartNumberKeyDown($event)" matInput [formControl]="partNumberFormControl">
-</mat-form-field>
+<div style="margin-top: 2%;">
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Part Number</mat-label>
+        <input (keyup)="OnPartNumberKeyDown($event)" matInput [formControl]="partNumberFormControl">
+    </mat-form-field>
 
-<mat-form-field appearance="outline" class="mat-form-field" style="width: 862px;">
-    <mat-label>Catalog Node</mat-label>
-    <input matInput [formControl]="catalogNodeFormControl"  >
-</mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Catalog Node</mat-label>
+        <input matInput [formControl]="catalogNodeFormControl">
+    </mat-form-field>
 
-<mat-form-field appearance="outline" class="mat-form-field" style="width: 862px;">
-    <mat-label>Description</mat-label>
-    <textarea matInput [formControl]="descriptionFormControl">
-    </textarea>
-</mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field" style="width: 461px;">
+        <mat-label>Description</mat-label>
+        <input matInput [formControl]="descriptionFormControl">    
+    </mat-form-field>
 
-<mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Serial</mat-label>
-    <input matInput [formControl]="serialFormControl">
-</mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Serial</mat-label>
+        <input matInput [formControl]="serialFormControl">
+    </mat-form-field>
 
-<mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>Deviation</mat-label>
-    <input matInput [formControl]="deviationFormControl" type="number">
-</mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>Deviation</mat-label>
+        <input matInput [formControl]="deviationFormControl" type="number">
+    </mat-form-field>
 
-<mat-form-field appearance="outline" class="mat-form-field">
-    <mat-label>MD</mat-label>
-    <input matInput [formControl]="mdFormControl" type="number">
-</mat-form-field>
+    <mat-form-field appearance="outline" class="mat-form-field">
+        <mat-label>MD</mat-label>
+        <input matInput [formControl]="mdFormControl" type="number">
+    </mat-form-field>
 
-<section>
     <mat-form-field appearance="outline" class="mat-form-field">
         <mat-label>TVD</mat-label>
         <input matInput [formControl]="tvdFormControl" type="number">
     </mat-form-field>
 
-    <mat-label style="margin-left: 3%;">Key Component </mat-label>
-    <mat-slide-toggle #slideToggleKeyComponnet [formControl]="isKeyComponentFormControl"
-        style="margin-left: 3%;">
-    </mat-slide-toggle>
+    <section>
+        <mat-label>Key Component </mat-label>
+        <mat-slide-toggle #slideToggleKeyComponnet [formControl]="isKeyComponentFormControl">
+        </mat-slide-toggle>
+    
+        <mat-label style="margin-left: 1%;"> Third Part </mat-label>
+        <mat-slide-toggle #slideToggleThirdComponnet [formControl]="isThirdPartComponentFormControl">
+        </mat-slide-toggle>
+    </section>
 
-    <mat-label style="margin: 3%;">Third Part </mat-label>
-    <mat-slide-toggle #slideToggleThirdComponnet [formControl]="isThirdPartComponentFormControl">
-    </mat-slide-toggle>
-</section>
+    <div style="margin-top: 3%;">
+        <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
+        <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
+     <!--   <button mat-stroked-button class="primary-action-button" (click)="NextStep()">Next Step</button> -->
 
-<div>
-    <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
-    <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
-    <button mat-stroked-button class="primary-action-button" (click)="NextStep()">Next Step</button>
+    </div>
 
-</div>
+    <!-----------------------------------------TABLE------------------------------------------------------->
 
-<!-----------------------------------------TABLE------------------------------------------------------->
+    <div *ngIf="installedEquipmentList.length>0">
+        <mat-card style="margin-top: 2%;">
+            <table mat-table [dataSource]="installedEquipmentList" class="mat-elevation-z8 demo-table">
 
-<div *ngIf="installedEquipmentList.length>0">
-    <mat-card style="margin-top: 2%;">
-        <table mat-table [dataSource]="installedEquipmentList" class="mat-elevation-z8 demo-table">
+                <ng-container matColumnDef="Product-Number">
+                    <th mat-header-cell *matHeaderCellDef>Part Number</th>
+                    <td mat-cell *matCellDef="let element">{{element.catalogPart?.partNumber}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Product-Number">
-                <th mat-header-cell *matHeaderCellDef>Part Number</th>
-                <td mat-cell *matCellDef="let element">{{element.catalogPart?.partNumber}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Catalog-Node">
+                    <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
+                    <td mat-cell *matCellDef="let element">{{element.catalogPart?.nodeLevel1.name}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Catalog-Node">
-                <th mat-header-cell *matHeaderCellDef>Catalog Node</th>
-                <td mat-cell *matCellDef="let element">{{element.catalogPart?.nodeLevel1.name}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Serial">
+                    <th mat-header-cell *matHeaderCellDef>Serial</th>
+                    <td mat-cell *matCellDef="let element">{{element.serial}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Serial">
-                <th mat-header-cell *matHeaderCellDef>Serial</th>
-                <td mat-cell *matCellDef="let element">{{element.serial}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Deviation">
+                    <th mat-header-cell *matHeaderCellDef>Deviation</th>
+                    <td mat-cell *matCellDef="let element">{{element.deviation}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Deviation">
-                <th mat-header-cell *matHeaderCellDef>Deviation</th>
-                <td mat-cell *matCellDef="let element">{{element.deviation}} </td>
-            </ng-container>
+                <ng-container matColumnDef="MD">
+                    <th mat-header-cell *matHeaderCellDef>MD</th>
+                    <td mat-cell *matCellDef="let element">{{element.md}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="MD">
-                <th mat-header-cell *matHeaderCellDef>MD</th>
-                <td mat-cell *matCellDef="let element">{{element.md}} </td>
-            </ng-container>
+                <ng-container matColumnDef="TVD">
+                    <th mat-header-cell *matHeaderCellDef>TVD</th>
+                    <td mat-cell *matCellDef="let element">{{element.tvd}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="TVD">
-                <th mat-header-cell *matHeaderCellDef>TVD</th>
-                <td mat-cell *matCellDef="let element">{{element.tvd}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Is-Key-Component">
+                    <th mat-header-cell *matHeaderCellDef>Is Key Component</th>
+                    <td mat-cell *matCellDef="let element">{{element.isKeyComponent}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Is-Key-Component">
-                <th mat-header-cell *matHeaderCellDef>Is Key Component</th>
-                <td mat-cell *matCellDef="let element">{{element.isKeyComponent}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Is-Third-Part">
+                    <th mat-header-cell *matHeaderCellDef>Is Third Part</th>
+                    <td mat-cell *matCellDef="let element">{{element.isThirdPart}} </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Is-Third-Part">
-                <th mat-header-cell *matHeaderCellDef>Is Third Part</th>
-                <td mat-cell *matCellDef="let element">{{element.isThirdPart}} </td>
-            </ng-container>
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td style="width: 150px;" mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="OnClickEquipmentItem(element.id)">
+                            <mat-icon color="primary">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button>
+                            <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
 
-            <ng-container matColumnDef="Action">
-                <th mat-header-cell *matHeaderCellDef>Action</th>
-                <td style="width: 150px;" mat-cell *matCellDef="let element">
-                    <button mat-icon-button
-                        (click)="OnClickEquipmentItem(element.id)">
-                        <mat-icon color="primary">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button>
-                        <mat-icon color="warn">delete</mat-icon>
-                    </button>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="columns"></tr>
-            <tr mat-row *matRowDef="let row; columns: columns"></tr>
-        </table>
-    </mat-card>
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns"></tr>
+            </table>
+        </mat-card>
+    </div>
 </div>

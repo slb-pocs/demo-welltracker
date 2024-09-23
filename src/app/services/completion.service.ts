@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Completion } from '../models/completion';
 import { CompletionDto } from '../apiDtos/completion-dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompletionService {
-  apiUrl='https://localhost:7107/api/completion';
+  apiUrl=environment.apiUrl+'completion';
 
   constructor(private http: HttpClient) { }
 

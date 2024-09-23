@@ -11,6 +11,7 @@ import { MatOptionSelectionChange } from '@angular/material/core';
 import { IsolationValveJobType } from '../models/isolation-valve-job-type';
 import { TriggerType } from '../models/trigger-type';
 import { ContingencyMechanicalAvailable } from '../models/contingency-mechanical-available';
+import { MatCard } from '@angular/material/card';
 
 @Component({
   selector: 'app-isolation-valve-job-view',

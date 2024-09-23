@@ -53,6 +53,12 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { FileManagementViewComponent } from './file-management-view/file-management-view.component';
 import { KeyComponentViewComponent } from './key-component-view/key-component-view.component';
 import { IsolationValveJobViewComponent } from './isolation-valve-job-view/isolation-valve-job-view.component';
+import { WellDataWorkflowViewComponent } from './well-data-workflow-view/well-data-workflow-view.component';
+import { WellOptionsViewComponent } from './well-options-view/well-options-view.component';
+import { QuestionnaireViewComponent } from './questionnaire-view/questionnaire-view.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -74,7 +80,13 @@ import { IsolationValveJobViewComponent } from './isolation-valve-job-view/isola
     MyRecordsViewComponent,
     FileManagementViewComponent,
     KeyComponentViewComponent,
-    IsolationValveJobViewComponent
+    IsolationValveJobViewComponent,
+    WellDataWorkflowViewComponent,
+    WellOptionsViewComponent,
+    QuestionnaireViewComponent
+
+
+
     
 
   ],
@@ -149,6 +161,10 @@ export class AppModule {
     this.matIconRegistry.addSvgIcon(
       'question-icon-white',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/question-white.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'person-icon-white',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/account-circle-white.svg')
     );
   }
  }

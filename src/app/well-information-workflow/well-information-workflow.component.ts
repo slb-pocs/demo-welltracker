@@ -47,6 +47,11 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
   SetStep(step:number){
     this.step=step;
   }
+  OnSearchingEvent(trackRecord:TrackRecord){
+    this.UpdateTrackRecord(trackRecord);  
+    this.wellInfoEvent.emit(this.trackRecord);       
+    this.step=1;
+  }
   OnManagementInfoEvent(trackRecord:TrackRecord){   
     this.UpdateTrackRecord(trackRecord);
     this.wellInfoEvent.emit(this.trackRecord);
@@ -65,30 +70,15 @@ export class WellInformationWorkflowComponent implements OnInit, OnChanges {
     this.isWellDataFinished=true;
     this.step=4;
   }
-  OnStemInfoEvent(trackRecord:TrackRecord){   
-    this.UpdateTrackRecord(trackRecord); 
-    this.wellInfoEvent.emit(this.trackRecord);
-    this.isStemDataFinished=true;
-    this.step=5;
-  }
+
   OnHistoryDataCompletion(trackRecord:TrackRecord){   
     this.UpdateTrackRecord(trackRecord); 
     this.wellInfoEvent.emit(this.trackRecord);
     this.isCompletionHistoryFinished=true;
-    this.step=6;
+    this.step=5;
   }
-  OnCompletionInfo(trackRecord:TrackRecord){   
-    this.UpdateTrackRecord(trackRecord);
-    this.wellInfoEvent.emit(this.trackRecord);
-    this.isCompletionDataFinished=true;
-    this.step=7;
-  }
-  OnSearchingEvent(trackRecord:TrackRecord){
-    this.UpdateTrackRecord(trackRecord);  
-    this.wellInfoEvent.emit(this.trackRecord);
-    console.log('OnSearchingEvent: '+ trackRecord.well.name);      
-    this.step=1;
-  }
+ 
+ 
  
   private UpdateTrackRecord(trackRecord:TrackRecord){
     this.trackRecord={

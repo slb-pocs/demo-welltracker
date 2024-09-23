@@ -1,0 +1,44 @@
+<app-well-options-view [trackRecordFromParent]="wellDataFlowTrackRecord"
+    (wellOptionsEvent)="OnManagementWellOptionsEvent($event)">
+</app-well-options-view>
+
+<div *ngIf="temporalUse==false">
+
+    <app-stem-data [trackRecordFromParent]="wellDataFlowTrackRecord" (stemInfoEvent)="OnStemEvent($event)">
+    </app-stem-data>
+
+    <app-completion-data [trackRecordFromParent]="wellDataFlowTrackRecord"
+        (completionDataEvent)="OnCompletionEvent($event)">
+    </app-completion-data>
+</div>
+
+<div>
+    <mat-expansion-panel [hideToggle]="false"  
+    style="margin-top: 2%;">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-card-title>Stem</mat-card-title>
+            </mat-panel-title>   
+        </mat-expansion-panel-header>
+
+        <app-stem-data [trackRecordFromParent]="wellDataFlowTrackRecord" (stemInfoEvent)="OnStemEvent($event)">
+        </app-stem-data>
+
+    </mat-expansion-panel>
+</div>
+
+<mat-expansion-panel hideToggle="false" 
+style="margin-top: 2%;">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <mat-panel-title>
+                <mat-card-title>Completion</mat-card-title>
+            </mat-panel-title>
+        </mat-panel-title>
+
+    </mat-expansion-panel-header>
+    <app-completion-data [trackRecordFromParent]="wellDataFlowTrackRecord"
+        (completionDataEvent)="OnCompletionEvent($event)">
+    </app-completion-data>
+
+</mat-expansion-panel>

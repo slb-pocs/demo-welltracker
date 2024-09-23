@@ -1,12 +1,9 @@
-<div style="margin-top: 10%;margin-left: 5%;">
-    <mat-card-title style="margin-bottom: 6%;">
-        My Records 2
+<mat-card style="margin: 2%;">
+    <mat-card-title style="margin-left: 3%;margin-top: 2%;">
+        My Records
     </mat-card-title>
-</div>
-
-<div *ngIf="trackRecordList.length>0">
-    <mat-card style="margin: 5%;">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
+    <div *ngIf="trackRecordList.length>0" style="height: 580px;margin: 3%;">
+        <table mat-table [dataSource]="trackRecordList" class="mat-elevation-z8 demo-table">
 
             <ng-container matColumnDef="Id">
                 <th mat-header-cell *matHeaderCellDef>Track Record Id</th>
@@ -26,11 +23,11 @@
             <ng-container matColumnDef="Field">
                 <th mat-header-cell *matHeaderCellDef>Field</th>
                 <td mat-cell *matCellDef="let element">{{element.well?.field}} </td>
-            </ng-container>  
+            </ng-container>
             <ng-container matColumnDef="Country">
                 <th mat-header-cell *matHeaderCellDef>Country</th>
                 <td mat-cell *matCellDef="let element">{{element.well?.country.name}} </td>
-            </ng-container>            
+            </ng-container>
 
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef>Action</th>
@@ -40,7 +37,7 @@
                         <mat-icon color="primary">search</mat-icon>
                     </button>
 
-                    <button mat-icon-button (click)="OnDeleteItem(element.id)" >
+                    <button mat-icon-button (click)="OnDeleteItem(element.id)">
                         <mat-icon color="warn">delete</mat-icon>
                     </button>
 
@@ -50,9 +47,19 @@
             <tr mat-header-row *matHeaderRowDef="columns"></tr>
             <tr mat-row *matRowDef="let row; columns: columns"></tr>
         </table>
+        <!--
         <mat-paginator [pageSizeOptions]="[5, 10, 20]"
         showFirstLastButtons
         aria-label="Select page of periodic elements">
-</mat-paginator>
-    </mat-card>
-</div>
+        </mat-paginator>
+        -->
+    </div>
+
+    <div style="margin-left:3%;margin-bottom: 3%;">
+        <button mat-stroked-button class="primary-action-button" (click)="OnClickPreviousRows()">Previous Page
+        </button>
+        <button mat-stroked-button class="primary-action-button" (click)="OnClickNextRows()">Next Page
+        </button>
+    </div>
+
+</mat-card>

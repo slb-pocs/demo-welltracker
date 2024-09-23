@@ -40,13 +40,14 @@ import { RockType } from '../models/rock-type';
 import { IsolationValveJobType } from '../models/isolation-valve-job-type';
 import { TriggerType } from '../models/trigger-type';
 import { ContingencyMechanicalAvailable } from '../models/contingency-mechanical-available';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TypesService {
   
-  apiUrl:string="https://localhost:7107/api/types/";
+  apiUrl:string=environment.apiUrl+"types/";
 
   constructor(private http:HttpClient) { }
 

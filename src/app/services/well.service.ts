@@ -4,13 +4,15 @@ import { Well } from '../models/well';
 import { Observable } from 'rxjs';
 import { WellDto } from '../apiDtos/well-dto';
 import { CreateWellDto } from '../apiDtos/create-well-dto';
+import { UpdateWellDetailsDto } from '../apiDtos/update-well-details-dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WellService {
 
-  apiUrl='https://localhost:7107/api/well';
+  apiUrl=environment.apiUrl+'well';
 
   constructor(private http:HttpClient) { }
 
@@ -27,6 +29,11 @@ export class WellService {
   }
   public GetWell(id:number):Observable<Well>{  
     return this.http.get<Well>(this.apiUrl+'/id?id='+id);;
+  }
+
+  public UpdateWellDetails(well:Well):Observable<Well>{
+    let wellDto:UpdateWellDetailsDto=this.GetUpdateWellDetailsDtoFromWell(well); 
+    return this.http.put<Well>(this.apiUrl,wellDto);
   }
 
   private GetCreateWellDtoFromWell(well:Well):CreateWellDto{
@@ -72,5 +79,31 @@ export class WellService {
     wellDto.multiStageTypeId=well.multiStageType.id;   
 
     return wellDto;
+  }
+
+  GetUpdateWellDetailsDtoFromWell(well:Well):UpdateWellDetailsDto{
+    let wellDto:UpdateWellDetailsDto=new UpdateWellDetailsDto();
+    wellDto.id=well.id;
+    wellDto.name=well.name;
+    wellDto.field=well.field;
+    wellDto.wellTypeId=well.wellType.id;
+    wellDto.trackRecordId=well.trackRecordId;
+    wellDto.customerId=well.customer.id;
+    wellDto.countryId=well.country.id;
+    wellDto.basinId=well.basin.id;
+    wellDto.environmentId=well.environment.id;
+    wellDto.geoUnitId=well.geoUnit.id;
+    
+    wellDto.waterDepth=well.waterDepth;
+    wellDto.maxDeviationId=well.maxDeviation.id;
+    wellDto.mdMeassuredFromId=well.mdMeassuredFrom.id;
+    wellDto.tvdMeassuredFromId=well.tvdMeassuredFrom.id;
+    wellDto.mdDistance=well.mdDistance;
+    wellDto.tvdDistance=well.tvdDistance;
+    wellDto.mdUnitId=well.mdUnit.id;
+    wellDto.tvdUnitId=well.tvdUnit.id;
+
+    return wellDto;
+
   }
 }

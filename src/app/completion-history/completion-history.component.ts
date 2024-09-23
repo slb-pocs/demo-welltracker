@@ -64,7 +64,10 @@ export class CompletionHistoryComponent implements OnChanges{
     if (this.trackRecordFromParent?.well!=null && 
       this.trackRecordFromParent.well?.completionInitialData!=null)
         this.trackRecordFromParent.well.completionInitialData.wellId
-                                =this.trackRecordFromParent.well.id;    
+                                =this.trackRecordFromParent.well.id;  
+                                
+    this.completionPulledDateFormControl=new FormControl('');
+    this.lastValidatedDateFormControl=new FormControl('');                            
 
     this.isCompletionPulledFormControl.setValue(false);
     this.isInitialCompletionFormControl.setValue(false);
@@ -87,8 +90,13 @@ export class CompletionHistoryComponent implements OnChanges{
     this.trackRecordFromParent.well.completionInitialData.isInitialCompletion=
                 this.form.value.selectedOption==this.INITIAL_COMPLETION_OPTION;
 
-    this.trackRecordFromParent.well.completionInitialData.completionPulledDate=
+    if(this.isCompletionPulledFormControl.value==true){
+      this.trackRecordFromParent.well.completionInitialData.completionPulledDate=
                                       this.completionPulledDateFormControl.value;
+      
+    }            
+
+    
     this.trackRecordFromParent.well.completionInitialData.equipmentLastValidated=
                                       this.lastValidatedDateFormControl.value;                                 
     this.trackRecordFromParent.well.completionInitialData.isCompletionPulled=
@@ -144,6 +152,8 @@ export class CompletionHistoryComponent implements OnChanges{
   FillFields(completionInitialData:CompletionInitialData){
     this.isCompletionPulledFormControl.setValue
             (this.trackRecordFromParent.well?.completionInitialData?.isCompletionPulled==true);
+    
+    this.isPulled=this.isCompletionPulledFormControl.value;
     
     if (completionInitialData.isInitialCompletion){
       this.form = new FormGroup({

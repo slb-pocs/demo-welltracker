@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { CompletionInitialData } from '../models/completion-initial-data';
 import { CompletionInitialDto } from '../apiDtos/completion-initial-dto';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompletionInitialDataService {
-  apiUrl='https://localhost:7107/api/completionInitialData';
+  apiUrl=environment.apiUrl+'completionInitialData';
   
 
   constructor(private http: HttpClient) { }

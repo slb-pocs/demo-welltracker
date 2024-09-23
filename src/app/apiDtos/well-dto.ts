@@ -18,6 +18,7 @@ export class WellDto {
     public tvdDistance:number=0;
     public mdUnitId:number=1;
     public tvdUnitId:number=1;
+
     public upperCompletionTypeId:number=1;
     public artificialLiftTypeId:number=1;
     public multiLateralTypeId:number=1;

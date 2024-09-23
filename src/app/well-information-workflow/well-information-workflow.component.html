@@ -1,127 +1,65 @@
 <mat-accordion class="example-headers-align" multi #accordion>
-<div *ngIf="trackRecord.id<=0">
-  <mat-expansion-panel [hideToggle]="true" [expanded]="step === 0" (opened)="SetStep(0)" >
+  <div *ngIf="trackRecord.id<=0">
+    <mat-expansion-panel [hideToggle]="true" [expanded]="step === 0" (opened)="SetStep(0)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-card-title>Searching by Operational Activity</mat-card-title>
+        </mat-panel-title>
+        <mat-icon>search</mat-icon>
+      </mat-expansion-panel-header>
+
+      <app-searching (operationActivityEvent)="OnSearchingEvent($event)">
+      </app-searching>
+
+    </mat-expansion-panel>
+  </div>
+
+  <mat-expansion-panel hideToggle="false" [expanded]="step === 1" (opened)="SetStep(1)">
     <mat-expansion-panel-header>
-        <mat-panel-title>Searching by Operational Activity</mat-panel-title>    
-            <mat-icon>search</mat-icon>   
+      <mat-card-title>1. Management Information</mat-card-title>
+   
     </mat-expansion-panel-header>
 
-    <app-searching (operationActivityEvent)="OnSearchingEvent($event)">            
-    </app-searching>
+    <app-management-data (trackRecordEvent)="OnManagementInfoEvent($event)" [trackRecordFromParent]="trackRecord">
+    </app-management-data>
 
   </mat-expansion-panel>
-</div>
 
+  <mat-expansion-panel hideToggle="false" [expanded]="step === 2" (opened)="SetStep(2)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-card-title>2. Customer Information</mat-card-title>
+      </mat-panel-title>     
+    </mat-expansion-panel-header>
 
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 1" (opened)="SetStep(1)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>1. Management Info</mat-panel-title>
-          <div *ngIf="isManagementInfoFinished">
-            <mat-icon class="check-icon">check_circle</mat-icon>
-          </div>
-          <div *ngIf="!isManagementInfoFinished">
-            <mat-icon class="progress-icon">pending</mat-icon>
-          </div>
-        </mat-expansion-panel-header>
+    <app-customer-data (customerInfoEvent)="OnCustomerInfoEvent($event)" [trackRecordFromParent]="trackRecord">
+    </app-customer-data>
 
-        <app-management-data (trackRecordEvent)="OnManagementInfoEvent($event)"     
-        [trackRecordFromParent]="trackRecord">    
-        </app-management-data>
+  </mat-expansion-panel>
 
-    </mat-expansion-panel>
+  <mat-expansion-panel hideToggle="false" [expanded]="step === 3" (opened)="SetStep(3)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-card-title>3. Well Details</mat-card-title>
+      </mat-panel-title>      
+    </mat-expansion-panel-header>
 
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 2" (opened)="SetStep(2)"    >
-        <mat-expansion-panel-header>
-          <mat-panel-title>2. Customer Information</mat-panel-title>
-          <div *ngIf="isCustomerDataFinished">
-            <mat-icon class="check-icon">check_circle</mat-icon>
-          </div>
-          <div *ngIf="!isCustomerDataFinished">
-            <mat-icon class="progress-icon">pending</mat-icon>
-          </div>
-        </mat-expansion-panel-header>
+    <app-well-detailed-data (welldDetailedDataEvent)="OnWellInfoEvent($event)" [trackRecordFromParent]="trackRecord">
+    </app-well-detailed-data>
 
-        <app-customer-data (customerInfoEvent)="OnCustomerInfoEvent($event)"
-       [trackRecordFromParent]="trackRecord">
-        </app-customer-data>        
+  </mat-expansion-panel>
 
-    </mat-expansion-panel>
+  <mat-expansion-panel hideToggle="false" [expanded]="step === 4" (opened)="SetStep(4)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-card-title>4. Completion History</mat-card-title>
+      </mat-panel-title>
+     
+    </mat-expansion-panel-header>
+    <app-completion-history (initialCompletionDataEvent)="OnHistoryDataCompletion($event)"
+      [trackRecordFromParent]="trackRecord">
+    </app-completion-history>
 
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 3" (opened)="SetStep(3)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>3. Well Details</mat-panel-title>
-          <div *ngIf="isWellDataFinished">
-            <mat-icon class="check-icon">check_circle</mat-icon>
-          </div>
-          <div *ngIf="!isWellDataFinished">
-            <mat-icon class="progress-icon">pending</mat-icon>
-          </div>
-        </mat-expansion-panel-header>
-
-        <app-well-detailed-data (welldDetailedDataEvent)="OnWellInfoEvent($event)"
-       [trackRecordFromParent]="trackRecord">
-        </app-well-detailed-data>
-
-    </mat-expansion-panel>
-
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 4" (opened)="SetStep(4)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>4. Stem Information</mat-panel-title>
-          <div *ngIf="isStemDataFinished">
-            <mat-icon class="check-icon">check_circle</mat-icon>
-          </div>
-          <div *ngIf="!isStemDataFinished">
-            <mat-icon class="progress-icon">pending</mat-icon>
-          </div>
-        </mat-expansion-panel-header>
-
-        <app-stem-data (stemInfoEvent)="OnStemInfoEvent($event)"
-        [trackRecordFromParent]="trackRecord">
-        </app-stem-data>
-
-    </mat-expansion-panel>
-
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 5" (opened)="SetStep(5)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>5. Completion History</mat-panel-title>
-          <div *ngIf="isCompletionHistoryFinished">
-            <mat-icon class="check-icon">check_circle</mat-icon>
-          </div>
-          <div *ngIf="!isCompletionHistoryFinished">
-            <mat-icon class="progress-icon">pending</mat-icon>
-          </div>
-        </mat-expansion-panel-header>
-
-        <app-completion-history (initialCompletionDataEvent)="OnHistoryDataCompletion($event)"
-        [trackRecordFromParent]="trackRecord">
-        </app-completion-history>
-
-    </mat-expansion-panel>
-
-    <mat-expansion-panel hideToggle="true" [expanded]="step === 6" (opened)="SetStep(6)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>6. Completion Information</mat-panel-title>
-          <div *ngIf="isCompletionDataFinished">
-            <mat-icon class="check-icon">check_circle</mat-icon>
-          </div>
-          <div *ngIf="!isCompletionDataFinished">
-            <mat-icon class="progress-icon">pending</mat-icon>
-          </div>
-        </mat-expansion-panel-header>
-
-        <app-completion-data (completionDataEvent)="OnCompletionInfo($event)"
-        [trackRecordFromParent]="trackRecord">    
-        </app-completion-data>       
-
-    </mat-expansion-panel>    
+  </mat-expansion-panel>
 
 </mat-accordion>
-
-
-
-
-
-
-
-
-

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { SurfaceEquipment } from '../models/surface-equipment';
 import { Observable } from 'rxjs';
 import { SurfaceEquipmentDto } from '../apiDtos/surface-equipment-dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurfaceEquipmentService {
-  apiUrl='https://localhost:7107/api/surfaceequipment';
+  apiUrl=environment.apiUrl+'surfaceequipment';
 
   constructor(private http: HttpClient) { }
 

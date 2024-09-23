@@ -1,55 +1,89 @@
 <div style="margin-left: 2%;">
-    <mat-card-subtitle>
+    <mat-card-subtitle style="align-items: center;">
         {{message+": "}}{{trackRecord.id}}
     </mat-card-subtitle>      
     
 </div>
 
 <mat-stepper >
-    <mat-step label="Well" state="well">
-       
-          <p>Well Information</p>
+    <mat-step label="Customer" state="customer">              
        
        <app-well-information-workflow (wellInfoEvent)="ReceiveTrackRecordData($event)"     
        [trackRecord]="trackRecord">
         
        </app-well-information-workflow >
         <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperNext>Well Data</button>
+        </div>
+    </mat-step>
+
+    <mat-step label="Well Data" state="well">
+        <app-well-data-workflow-view (wellDataEvent)="ReceiveWellDataWorkflowEvent($event)"
+        [wellDataFlowTrackRecord]="trackRecord">            
+        </app-well-data-workflow-view>
+
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperPrevious>Customer</button>
             <button mat-stroked-button class="action-button" matStepperNext>Equipment</button>
         </div>
-
     </mat-step>
+
     <mat-step label="Equipment" state="tool">
         <app-equipment-workflow 
         (surfaceEquipmentEvent)="ReceiveSurfaceEquipmentEvent($event)"
          (installedEquipmentEvent)="ReceiveInstalledEquipmentEvent($event)"
          [trackRecordFromParent]="trackRecord">
-
         </app-equipment-workflow>
+
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperPrevious>Well Data</button>
+            <button mat-stroked-button class="action-button" matStepperNext>Key Components</button>
+        </div>
+
     </mat-step>
  
     <mat-step label="Key Components" state="valve">       
-        <app-key-component-view [trackRecordFromParent]="trackRecord">
-            
+        <app-key-component-view [trackRecordFromParent]="trackRecord">            
         </app-key-component-view>
+
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperPrevious>Equipment</button>
+            <button mat-stroked-button class="action-button" matStepperNext>Isolation Valve Key C</button>
+        </div>
     </mat-step>
 
     <mat-step label="Isolation Valve Key Component" state="work">       
         <app-isolation-valve-job-view [trackRecordFromParent]="trackRecord">
-
         </app-isolation-valve-job-view>
+
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperPrevious>key Components</button>
+            <button mat-stroked-button class="action-button" matStepperNext>Attachments</button>
+        </div>
     </mat-step>
    
 
     <mat-step label="Attachments" state="file">
         <app-file-management-view 
         (fileManagementEvent)="ReceiveFileManagementEvent($event)"
-        [trackRecordFromParent]="trackRecord">
-            
+        [trackRecordFromParent]="trackRecord">            
         </app-file-management-view>
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperPrevious>Isolation Valve KC</button>
+            <button mat-stroked-button class="action-button" matStepperNext>Questionnaire</button>
+        </div>
     </mat-step>
+
     <mat-step label="Questionnaire" state="question">
-        <p>Questionary</p>
+       <app-questionnaire-view (keyComquestionnaireEvent)="ReceiveQuestionnaireEvent($event)"
+       [trackRecordFromParent]="trackRecord">
+
+       </app-questionnaire-view>
+
+        <div style="text-align: right; margin-top: 3%;">
+            <button mat-stroked-button class="action-button" matStepperPrevious>Attachments</button>
+           
+        </div>
     </mat-step>
 
 
@@ -70,6 +104,9 @@
     </ng-template>
     <ng-template matStepperIcon="question">
         <mat-icon svgIcon="question-icon-white"></mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="customer">
+        <mat-icon svgIcon="person-icon-white"></mat-icon>
     </ng-template>
     
 </mat-stepper>

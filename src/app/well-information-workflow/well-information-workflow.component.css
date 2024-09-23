@@ -44,5 +44,10 @@
   .example-margin {
     margin: 0 10px;
   }
+mat-card-title{
+  color:rgb(96, 88, 88);
+}
 
-
+mat-expansion-panel{
+  margin-top:1%;
+}

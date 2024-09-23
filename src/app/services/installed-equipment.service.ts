@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { InstalledEquipment } from '../models/installed-equipment';
 import { InstalledEquipmentDto } from '../apiDtos/installed-equipment-dto';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstalledEquipmentService {
-  apiUrl='https://localhost:7107/api/installedequipment';
+  apiUrl=environment.apiUrl+'installedequipment';
 
   constructor(private http: HttpClient) { }
 
