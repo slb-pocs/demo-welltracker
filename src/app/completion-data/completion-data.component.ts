@@ -183,9 +183,13 @@ export class CompletionDataComponent implements OnChanges {
     this.corrosiveCCO2FormControl = new FormControl(0);
     this.corrosiveH25FormControl = new FormControl(0);
 
-    this.includeReservoirDataFormControl= new FormControl(false);
-    this.includeCorrosiveDataFormControl= new FormControl(false);
-    this.includeCompletionDataFormControl= new FormControl(true);
+    this.includeReservoirDataFormControl.setValue(false);
+    this.includeCorrosiveDataFormControl.setValue(false);
+    this.includeCompletionDataFormControl.setValue(true);
+
+    this.includeCompletionData=true;
+    this.includeReservoirData=false;
+    this.includeCorrosiveComponents=false;
   }
   FillFields(completion:Completion){
     this.completionNumberFormControl.setValue(completion.number.toString());

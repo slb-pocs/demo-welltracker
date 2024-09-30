@@ -61,9 +61,13 @@
                     <tr mat-row *matRowDef="let row; columns: columns"></tr>
                 </table>
             </mat-card>
+        </mat-card-content>
+    </mat-card>
 
             <!-- ----------------------------------------FORM---------------------------------- -->
-
+<div *ngIf="isolationValveKeyComponent.id>0">
+ <mat-card>
+<mat-card-content>
             <mat-form-field appearance="outline" class="mat-form-field" style="margin-top: 5%;">
                 <mat-label>Part Number</mat-label>
                 <input matInput readonly [formControl]="equipmentPartNumberFormControl">
@@ -98,7 +102,9 @@
                 <button mat-stroked-button class="primary-action-button" (click)="Save()">Save</button>
                 <button mat-stroked-button class="secondary-action-button" (click)="ClearFields()">Cancel</button>
             </div>
-
-        </mat-card-content>
-    </mat-card>
+</mat-card-content>
+        </mat-card>
+</div>
+        
+ 
 </div>

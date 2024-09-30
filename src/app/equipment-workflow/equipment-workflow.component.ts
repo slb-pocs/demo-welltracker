@@ -24,13 +24,13 @@ export class EquipmentWorkflowComponent {
   ReceiveSurfaceEquipmentEvent(trackRecord:TrackRecord){
     this.UpdateTrackRecord(trackRecord);
     this.isSurfaceEquipmentFinished=true;    
-    this.step++;
+    //this.step++;
     this.surfaceEquipmentEvent.emit(this.trackRecordFromParent);
   }
   ReceiveInstalledEquipmentEvent(trackRecord:TrackRecord){
     this.UpdateTrackRecord(trackRecord);
     this.isInstalledEquipmentFinished=true;
-    this.step++;
+    //this.step++;
     this.installedEquipmentEvent.emit(this.trackRecordFromParent);
     
   }

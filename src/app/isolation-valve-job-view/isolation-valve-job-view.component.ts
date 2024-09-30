@@ -41,10 +41,13 @@ export class IsolationValveJobViewComponent {
   jobTypeList:IsolationValveJobType[]=[];
   triggerTypeList:TriggerType[]=[];
   contingencyMechanicalList:ContingencyMechanicalAvailable[]=[];
-
+   /*
   columns: string[] = ['Part-Number','Job-Type', 'Trigger-Type'
     , 'Pressure-Limit', 'Temp-Changing'
     ,'Contingency-Mechanical', 'Action'];
+    */
+    columns: string[] = ['Key-component','Part-Number','Serial', 'Description'    
+     , 'Action'];
 
     public constructor(private typesService: TypesService
       ,private isolationValveJobService: IsolationValveJobService                

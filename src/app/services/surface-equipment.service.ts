@@ -37,7 +37,8 @@ export class SurfaceEquipmentService {
   private GetSurfaceEquipmentDtoFromSurfaceEquipment(surfaceEquipment:SurfaceEquipment)
   :SurfaceEquipmentDto{
     let surfaceEquipmentDto:SurfaceEquipmentDto=new SurfaceEquipmentDto();
-    
+
+    surfaceEquipmentDto.id=surfaceEquipment.id
     surfaceEquipmentDto.trackRecordId=surfaceEquipment.trackRecordId;
     surfaceEquipmentDto.catalogPartNumber=surfaceEquipment.catalogPart.partNumber;    
     surfaceEquipmentDto.quantity=surfaceEquipment.quantity;
